@@ -13,6 +13,7 @@
 
 #include "update.h"
 #include "render.h"
+#include "ColisionSuelo.h"
 using namespace std;
 
 /*
@@ -21,6 +22,12 @@ using namespace std;
 #define kUpdateTime 1000/15
 #define kRenderTime 1000/60
 int main(int argc, char** argv) {
+    
+    //Estos bool son para poder ejecutar nuestras nuevas funciones y q no nos salga lo q han hecho los demas
+    bool pruebaPablo =false;
+    bool pruebaLet =true;
+    
+    if(pruebaPablo){
     cout<< "jurrrrrrrrrrrrrrrrr";
     //probandooooooo
     sf::Clock tiempoUp; //Reloj de update
@@ -88,6 +95,18 @@ int main(int argc, char** argv) {
     /* Liberamos memoria */
     delete miUpdate;
     delete miRender;
+    
+    }else if(pruebaLet){
+        ColisionSuelo* miMatriz;
+        miMatriz= new ColisionSuelo();
+        miMatriz->creoMatriz();
+        
+        
+    
+    
+    }
+    
+    
     
     return 0;
 }
