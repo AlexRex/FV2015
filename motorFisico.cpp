@@ -7,7 +7,7 @@
 
 #include "motorFisico.h"
 /* No se por que, hay que incluir de nuevo estas librerias que ya estan en el
- * main.
+  main.
  */
 #include <math.h>
 #include <iostream>
