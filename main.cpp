@@ -1,12 +1,13 @@
 /* 
  * File:   main.cpp
  * Author: Pablo
- *
+
  * Created on 11 de abril de 2015, 8:40
  */
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include <math.h>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -28,8 +29,6 @@ int main(int argc, char** argv) {
     bool pruebaLet =true;
     
     if(pruebaPablo){
-    cout<< "jurrrrrrrrrrrrrrrrr";
-    //probandooooooo
     sf::Clock tiempoUp; //Reloj de update
     sf::Clock tiempoRen; //Reloj de render
     sf::Clock segundos; //Reloj para contar segundos
@@ -99,11 +98,7 @@ int main(int argc, char** argv) {
     }else if(pruebaLet){
         ColisionSuelo* miMatriz;
         miMatriz= new ColisionSuelo();
-        miMatriz->creoMatriz();
-        
-        
-    
-    
+        miMatriz->creoMatriz();   
     }
     
     
