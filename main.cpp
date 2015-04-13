@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include <math.h>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -14,14 +15,14 @@
 #include "update.h"
 #include "render.h"
 using namespace std;
-//FuncionSaltar2
+
 /*
  * 
  */
 #define kUpdateTime 1000/15
 #define kRenderTime 1000/60
 int main(int argc, char** argv) {
-    cout<< "jurrrrrrrrrrrrrrrrr";
+
     sf::Clock tiempoUp; //Reloj de update
     sf::Clock tiempoRen; //Reloj de render
     sf::Clock segundos; //Reloj para contar segundos
