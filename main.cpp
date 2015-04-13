@@ -21,7 +21,7 @@ using namespace std;
 #define kUpdateTime 1000/15
 #define kRenderTime 1000/60
 int main(int argc, char** argv) {
-
+    cout<< "jurrrrrrrrrrrrrrrrr";
     sf::Clock tiempoUp; //Reloj de update
     sf::Clock tiempoRen; //Reloj de render
     sf::Clock segundos; //Reloj para contar segundos
