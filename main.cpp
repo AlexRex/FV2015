@@ -14,7 +14,7 @@
 #include "update.h"
 #include "render.h"
 using namespace std;
-
+//FuncionSaltar
 /*
  * 
  */
