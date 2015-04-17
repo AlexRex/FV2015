@@ -32,3 +32,9 @@ void Robot::Update(sf::Vector2f vel, sf::Time elapsedTime){
 void Robot::Draw(sf::RenderWindow& window, float interpolacion){
     render.Draw(window, playerPhysics.getLastPos(), playerPhysics.getPos(), interpolacion);
 }
+
+
+int Robot::salta(int y, sf::Clock tiempoDesdeSalto){
+    return playerPhysics.saltar(y, tiempoDesdeSalto);
+
+}

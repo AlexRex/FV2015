@@ -9,6 +9,9 @@
 #define	PLAYERPHYSICS_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <math.h>
+
 
 class PlayerPhysics {
 public:
@@ -26,11 +29,16 @@ public:
     void setPos(float pos_x, float pos_y);
     void Update(sf::Time elapsedTime);
     
+    int saltar(int y, sf::Clock tiempoDesdeSalto);
+    
 private:
     
     sf::Vector2f lastPos;
     sf::Vector2f pos;
     sf::Vector2f velocidad;
+    
+    float acel;
+    float velIniSalto;
 
 };
 

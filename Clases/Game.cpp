@@ -9,7 +9,7 @@
 
 const sf::Time Game::timePerFrame = sf::seconds(1.f/15.f);
 const int ancho = 1024, alto = 560; 
-
+sf::Clock saltoTime = sf::Clock();
 
 Game::Game()
 : window(sf::VideoMode(ancho, alto), "Interpol", sf::Style::Close)
@@ -18,6 +18,7 @@ Game::Game()
 , robot()
 , mIzq(false)
 , mDcha(false)
+, saltando(false)
 {
     window.setVerticalSyncEnabled(true);
    // window.setFramerateLimit(125);
@@ -28,6 +29,7 @@ Game::Game()
     }
     
     robot.Init(200.f, 250.f);
+    
     
     debugText.setFont(debugFont);
     debugText.setPosition(5.f, 5.f);
@@ -72,15 +74,21 @@ void Game::update(sf::Time elapsedTime){
     float vel_x = 0.f, vel_y=0.f;
     
     sf::Vector2f velocidad;
-    
+ 
     if(mIzq)
         vel_x = -300.f;
     if(mDcha)
         vel_x = 300.f;
-    
+    if(saltando){
+        
+       // std::cout<<robot.getPos().y<<std::endl;
+        robot.salta(250.f, saltoTime);
+        if(robot.getPos().y > 250.f)
+            saltando = false;
+    }
     velocidad = sf::Vector2f(vel_x, vel_y);
-    
     robot.Update(velocidad, elapsedTime);
+
 }
 
 void Game::render(float interpolacion){
@@ -118,6 +126,13 @@ void Game::processEvents(){
 
 
 void Game::controlarRobot(sf::Keyboard::Key key, bool presionada){
-    if(key == sf::Keyboard::Left) mIzq = presionada;
-    else if (key==sf::Keyboard::Right) mDcha = presionada;
+    
+    if(key == sf::Keyboard::Left) 
+        mIzq = presionada;
+    else if (key==sf::Keyboard::Right) 
+        mDcha = presionada;
+    else if (key==sf::Keyboard::Up){
+        saltando = true;
+        saltoTime.restart();
+    }
 }

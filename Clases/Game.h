@@ -37,6 +37,7 @@ private:
     
     bool                  mDcha;
     bool                  mIzq;
+    bool                  saltando;
 
 };
 
