@@ -38,7 +38,7 @@ private:
     bool                  mDcha;
     bool                  mIzq;
     bool                  saltando;
-
+    bool                  primeraVez;
 };
 
 #endif	/* GAME_H */

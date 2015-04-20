@@ -19,6 +19,7 @@ Game::Game()
 , mIzq(false)
 , mDcha(false)
 , saltando(false)
+, primeraVez(true)
 {
     window.setVerticalSyncEnabled(true);
    // window.setFramerateLimit(125);
@@ -74,20 +75,24 @@ void Game::update(sf::Time elapsedTime){
     float vel_x = 0.f, vel_y=0.f;
     
     sf::Vector2f velocidad;
- 
-    if(mIzq)
-        vel_x = -300.f;
-    if(mDcha)
-        vel_x = 300.f;
-    if(saltando){
+    if(!primeraVez){
+        if(mIzq)
+            vel_x = -300.f;
+        if(mDcha)
+            vel_x = 300.f;
+
         
-       // std::cout<<robot.getPos().y<<std::endl;
-        robot.salta(250.f, saltoTime);
-        if(robot.getPos().y > 250.f)
-            saltando = false;
+
+        if(saltando){
+           // std::cout<<robot.getPos().y<<std::endl;
+            vel_y = robot.salta(250.f, saltoTime, elapsedTime);
+            if(robot.getPos().y > 250.f)
+                saltando = false;
+        }
+        velocidad = sf::Vector2f(vel_x, vel_y);
+        robot.Update(velocidad, elapsedTime);
     }
-    velocidad = sf::Vector2f(vel_x, vel_y);
-    robot.Update(velocidad, elapsedTime);
+    primeraVez = false;
 
 }
 

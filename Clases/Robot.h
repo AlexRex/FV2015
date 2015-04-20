@@ -17,13 +17,14 @@ public:
     Robot(const Robot& orig);
     virtual ~Robot();
     
-    sf::Vector2f getPos() const {return playerPhysics.getLastPos();};
+    sf::Vector2f getLastPos() const {return playerPhysics.getLastPos();};
+    sf::Vector2f getPos() const {return playerPhysics.getPos();};
     
     void Init(float pos_x, float pos_y, float vel_x=0.f, float vel_y=0.f);
     void Update(sf::Vector2f vel, sf::Time elapsedTime);
     void Draw(sf::RenderWindow& window, float interpolacion);
     
-    int salta(int y, sf::Clock tiempoDesdeSalto);
+    float salta(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
     
     
     

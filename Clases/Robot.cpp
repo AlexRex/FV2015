@@ -34,7 +34,7 @@ void Robot::Draw(sf::RenderWindow& window, float interpolacion){
 }
 
 
-int Robot::salta(int y, sf::Clock tiempoDesdeSalto){
-    return playerPhysics.saltar(y, tiempoDesdeSalto);
+float Robot::salta(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
+    return playerPhysics.saltar(y, tiempoDesdeSalto, elapsedTime);
 
 }

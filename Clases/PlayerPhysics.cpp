@@ -34,29 +34,36 @@ void PlayerPhysics::setVel(float vel_x, float vel_y){
 void PlayerPhysics::Update(sf::Time elapsedTime){
     
     lastPos = pos;
+    //std::cout<<"ElapsedTime: "<<elapsedTime.asSeconds()<<std::endl;
     pos.x += velocidad.x * elapsedTime.asSeconds();
     pos.y += velocidad.y * elapsedTime.asSeconds();
 }
 
-int PlayerPhysics::saltar(int y, sf::Clock tiempoDesdeSalto){
+float PlayerPhysics::saltar(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
     
     float altF = y; //altura con decimales
     int altI = 0; //altura en pixeles
     altF = y - velIniSalto * tiempoDesdeSalto.getElapsedTime().asSeconds() - 0.5 * acel * pow(tiempoDesdeSalto.getElapsedTime().asSeconds(),2); //ecuacion de altura
     altI = int(altF);
+    
+    float vel = -velIniSalto - acel*tiempoDesdeSalto.getElapsedTime().asSeconds();
     /* Esto es lo mismo que los couts de toda la vida. Lo he puesto asi para
      evitar el uso de "using namespace std" que parece ser que es una mala
      practica
      */
-    std::cout<<"Timpo: "<<tiempoDesdeSalto.getElapsedTime().asSeconds()<<std::endl;
+    std::cout<<"--------"<<std::endl;
+    std::cout<<"Tiempo: "<<tiempoDesdeSalto.getElapsedTime().asSeconds()<<std::endl;
     std::cout<<"Y: "<<y<<std::endl;
     std::cout<<"altF: "<<altF<<std::endl; 
-    //std::cout<<"altI: "<<altI<<std::endl;
+    std::cout<<"velocidad: "<<vel<<std::endl;
+    if(altF>251){
+        pos.y = 251.f;
+            }
     
-    
-    pos.y = altF;
+    //lastPos.y = pos.y;
+    //pos.y = altF;
     
     std::cout<<"Pos Pel: "<<pos.y<<std::endl;
     
-    return altI;
+    return vel;
 }

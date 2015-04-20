@@ -29,7 +29,7 @@ public:
     void setPos(float pos_x, float pos_y);
     void Update(sf::Time elapsedTime);
     
-    int saltar(int y, sf::Clock tiempoDesdeSalto);
+    float saltar(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
     
 private:
     
