@@ -9,6 +9,8 @@
 
 Render::Render() :
 renderPos()
+, walkingAnimationRight()
+, walkingAnimationLeft()
 {
 }
 
@@ -18,18 +20,31 @@ Render::Render(const Render& orig) {
 Render::~Render() {
 }
 
-void Render::Draw(sf::RenderWindow& window, const sf::Vector2f& lastPos, const sf::Vector2f& pos, float interpolacion){
+void Render::SetTextura(sf::Texture &tex){
+    walkingAnimationRight.setSpriteSheet(tex);
+    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
+    walkingAnimationRight.addFrame(sf::IntRect(64, 64, 32, 32));
+    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
+    walkingAnimationRight.addFrame(sf::IntRect( 0, 64, 32, 32));
     
-    sf::CircleShape shape(50);
+    walkingAnimationLeft.setSpriteSheet(tex);
+    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(sf::IntRect(64, 32, 32, 32));
+    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(sf::IntRect( 0, 32, 32, 32));
+    
+}
 
-    // set the shape color to green
-    shape.setFillColor(sf::Color(100, 250, 50));    
+void Render::Draw(sf::RenderWindow& window, const sf::Vector2f& lastPos, const sf::Vector2f& pos, float interpolacion, AnimatedSprite& animatedSprite){
+    
+
     
     renderPos = sf::Vector2f(
             lastPos.x + ((pos.x - lastPos.x) * interpolacion),
             lastPos.y + ((pos.y - lastPos.y) * interpolacion));
     
-    shape.setPosition(renderPos.x, renderPos.y);
-    window.draw(shape);
+    
+    animatedSprite.setPosition(renderPos.x, renderPos.y);
+    window.draw(animatedSprite);
     
 }

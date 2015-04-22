@@ -9,6 +9,7 @@
 #define	RENDER_H
 
 #include <SFML/Graphics.hpp>
+#include "../Includes/AnimatedSprite.hpp"
 
 class Render {
 public:
@@ -16,12 +17,21 @@ public:
     Render(const Render& orig);
     virtual ~Render();
     
-    void Draw(sf::RenderWindow &window, const sf::Vector2f &lastPos, const sf::Vector2f &pos, float interpolacion);
+    void Draw(sf::RenderWindow &window, const sf::Vector2f &lastPos, const sf::Vector2f &pos, float interpolacion, AnimatedSprite& animatedSprite);
+    void SetTextura(sf::Texture &tex);
+    
+    Animation getWalkingAnimationRight() const { return walkingAnimationRight; }
+    Animation getWalkingAnimationLeft() const { return walkingAnimationLeft; }
+
+    
     
     sf::Vector2f getRenderPos() const { return renderPos; }
 private:
     
-    sf::Vector2f renderPos;
+    sf::Vector2f        renderPos;
+    Animation           walkingAnimationRight;
+    Animation           walkingAnimationLeft;
+
 
 };
 

@@ -12,7 +12,7 @@ lastPos(sf::Vector2f(0.f, 0.f))
 ,pos(sf::Vector2f(0.f, 0.f))
 ,velocidad(sf::Vector2f(0.f, 0.f))
 ,acel(-686.89)
-,velIniSalto(608)
+,velIniSalto(300)
 {
 }
 
@@ -38,6 +38,8 @@ void PlayerPhysics::Update(sf::Time elapsedTime){
     pos.x += velocidad.x * elapsedTime.asSeconds();
     pos.y += velocidad.y * elapsedTime.asSeconds();
 }
+
+
 
 float PlayerPhysics::saltar(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
     

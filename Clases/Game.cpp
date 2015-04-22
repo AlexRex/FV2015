@@ -15,6 +15,7 @@ Game::Game()
 : window(sf::VideoMode(ancho, alto), "Interpol", sf::Style::Close)
 , debugText()
 , debugFont()
+, texturaRobot()
 , robot()
 , mIzq(false)
 , mDcha(false)
@@ -26,10 +27,15 @@ Game::Game()
 
     
     if(!debugFont.loadFromFile("Resources/OpenSans.ttf")){
-        std::cout<<"Error al cargar la fuente";
+        std::cout<<"Error al cargar la fuente"<<std::endl;
     }
     
-    robot.Init(200.f, 250.f);
+    //Cargamos la textura del robot
+    if(!texturaRobot.loadFromFile("Resources/spritesheet.png")){
+        std::cout<<"Error al cargar la textura"<<std::endl;
+    }
+        
+    robot.Init(texturaRobot, 200.f, 250.f);
     
     
     debugText.setFont(debugFont);
