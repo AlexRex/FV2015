@@ -32,11 +32,7 @@ private:
     sf::Text              debugText;
     
     sf::Texture           texturaRobot; //REND
-    Animation             walkingAnimationRight; //REND
-    Animation             walkingAnimationLeft; //REND
-    Animation*            currentAnimation; //UPD
-    
-    AnimatedSprite        animatedSprite; //REND
+
     
     
     
