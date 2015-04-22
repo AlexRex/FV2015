@@ -11,7 +11,7 @@ Robot::Robot() :
 render()
 , playerPhysics() 
 , currentAnimation()
-, animatedSprite(sf::seconds(0.2), true, false)
+, animatedSprite(sf::seconds(0.05), true, false)
 , walkingAnimationRight()
 , walkingAnimationLeft()
 
@@ -30,7 +30,7 @@ void Robot::Init(sf::Texture &tex, float pos_x, float pos_y, float vel_x, float 
     render.SetTextura(tex);
     
     walkingAnimationRight = render.getWalkingAnimationRight();
-    walkingAnimationLeft = render.getWalkingAnimationLeft();
+   // walkingAnimationLeft = render.getWalkingAnimationLeft();
     
     currentAnimation = &walkingAnimationRight;
     animatedSprite.setPosition(pos_x, pos_y);
@@ -49,8 +49,8 @@ void Robot::Update(sf::Vector2f vel, sf::Time elapsedTime){
     if(vel.x>0 || vel.x==0){
         currentAnimation = &walkingAnimationRight;
     }
-    else
-        currentAnimation = &walkingAnimationLeft;
+    /*else
+        currentAnimation = &walkingAnimationLeft;*/
     
     animatedSprite.play(*currentAnimation);
     animatedSprite.update(elapsedTime);

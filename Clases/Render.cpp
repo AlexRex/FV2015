@@ -22,16 +22,24 @@ Render::~Render() {
 
 void Render::SetTextura(sf::Texture &tex){
     walkingAnimationRight.setSpriteSheet(tex);
-    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect(64, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect( 0, 64, 32, 32));
+    walkingAnimationRight.addFrame(sf::IntRect(0, 0, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(64, 0, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(128, 0, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(192, 0, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(256, 0, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(320, 0, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(384, 0, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(448, 0, 64, 146));
     
-    walkingAnimationLeft.setSpriteSheet(tex);
-    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect(64, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect( 0, 32, 32, 32));
+    walkingAnimationRight.addFrame(sf::IntRect(0, 146, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(64, 146, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(128, 146, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(192, 146, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(256, 146, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(320, 146, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(384, 146, 64, 146));
+    walkingAnimationRight.addFrame(sf::IntRect(448, 146, 64, 146));
+
     
 }
 
