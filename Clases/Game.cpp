@@ -12,7 +12,7 @@ const int ancho = 1024, alto = 560;
 sf::Clock saltoTime = sf::Clock();
 
 Game::Game()
-: window(sf::VideoMode(ancho, alto), "Interpol", sf::Style::Close)
+: gInter()
 , debugText()
 , debugFont()
 , texturaRobot()
@@ -22,9 +22,16 @@ Game::Game()
 , saltando(false)
 , primeraVez(true)
 {
-    window.setVerticalSyncEnabled(true);
+    
    // window.setFramerateLimit(125);
-
+    
+    window = new sf::RenderWindow(*gInter->varVideomode(ancho, alto), "Titulo", sf::Style::Close);
+    window->setVerticalSyncEnabled(true);
+    //window = *gInter->varRenderWindow(gInter->varVideomode(ancho, alto), "Titulo");
+    Mapa* miMatriz;
+    miMatriz = new Mapa();
+    miMatriz->crearMapa();
+    delete miMatriz;
     
     if(!debugFont.loadFromFile("Resources/OpenSans.ttf")){
         std::cout<<"Error al cargar la fuente"<<std::endl;
@@ -51,7 +58,7 @@ void Game::run() {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero; 
     
-    while (window.isOpen()){
+    while (window->isOpen()){
         
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
@@ -70,6 +77,7 @@ void Game::run() {
         //Render
         render(interpolacion);
     }
+    
 }
 
 /**Update y Render**/
@@ -104,24 +112,23 @@ void Game::update(sf::Time elapsedTime){
 
 void Game::render(float interpolacion){
     //std::cout<<"Render"<<std::endl;
-    window.clear(sf::Color::White);
+    window->clear(sf::Color::White);
     
     //Dibujamos desde player
     
-    robot.Draw(window, interpolacion);
-    
-    window.draw(debugText);
-    window.display();
+    robot.Draw(*window, interpolacion);
+    window->draw(debugText);
+    window->display();
 }
 
 /** Eventos **/
 
 void Game::processEvents(){
     sf::Event event;
-    while(window.pollEvent(event)){
+    while(window->pollEvent(event)){
         switch (event.type){
             case sf::Event::Closed:
-                window.close();
+                window->close();
                 break;
             
             case sf::Event::KeyPressed:

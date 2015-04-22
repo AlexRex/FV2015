@@ -8,7 +8,13 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Robot.h"
+#include "Mapa.h"
 #include "../Includes/AnimatedSprite.hpp"
+#include "GInter.h"
+#include <ctime>
+#include <stdlib.h>
+#include <sstream>
+#include "../Includes/tinyxml2.h"
 
 #ifndef GAME_H
 #define	GAME_H
@@ -24,16 +30,17 @@ public:
     void    controlarRobot(sf::Keyboard::Key key, bool presionada);
     
 private:
+    GInter*               gInter;
     static const sf::Time timePerFrame;
     
-    sf::RenderWindow      window;
+    sf::RenderWindow*     window;
     
     sf::Font              debugFont;
     sf::Text              debugText;
     
     sf::Texture           texturaRobot; //REND
 
-    
+    Mapa*                  mapa;
     
     
     Robot                 robot;
