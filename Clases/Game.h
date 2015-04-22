@@ -8,6 +8,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Robot.h"
+#include "../Includes/AnimatedSprite.hpp"
 
 #ifndef GAME_H
 #define	GAME_H
@@ -29,6 +30,14 @@ private:
     
     sf::Font              debugFont;
     sf::Text              debugText;
+    
+    sf::Texture           texturaRobot; //REND
+    Animation             walkingAnimationRight; //REND
+    Animation             walkingAnimationLeft; //REND
+    Animation*            currentAnimation; //UPD
+    
+    AnimatedSprite        animatedSprite; //REND
+    
     
     
     Robot                 robot;

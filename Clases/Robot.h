@@ -10,6 +10,7 @@
 
 #include "PlayerPhysics.h"
 #include "Render.h"
+#include "../Includes/AnimatedSprite.hpp"
 
 class Robot {
 public:
@@ -20,20 +21,27 @@ public:
     sf::Vector2f getLastPos() const {return playerPhysics.getLastPos();};
     sf::Vector2f getPos() const {return playerPhysics.getPos();};
     
-    void Init(float pos_x, float pos_y, float vel_x=0.f, float vel_y=0.f);
+    void Init(sf::Texture& tex, float pos_x, float pos_y, float vel_x=0.f, float vel_y=0.f);
     void Update(sf::Vector2f vel, sf::Time elapsedTime);
     void Draw(sf::RenderWindow& window, float interpolacion);
+    
     
     float salta(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
     
     
     
     
+    
 private:
     
-    Render render;
-    PlayerPhysics playerPhysics;
-
+    Render              render;
+    PlayerPhysics       playerPhysics;
+    
+    AnimatedSprite      animatedSprite;
+    Animation           walkingAnimationRight;
+    Animation           walkingAnimationLeft;
+    Animation*          currentAnimation;
+    
 };
 
 #endif	/* ROBOT_H */

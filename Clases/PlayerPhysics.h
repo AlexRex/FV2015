@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include "../Includes/AnimatedSprite.hpp"
 
 
 class PlayerPhysics {
@@ -25,20 +26,24 @@ public:
     sf::Vector2f getVel() const { return velocidad; }
     
     
+    
     void setVel(float vel_x, float vel_y);
     void setPos(float pos_x, float pos_y);
     void Update(sf::Time elapsedTime);
+    
+   
     
     float saltar(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
     
 private:
     
-    sf::Vector2f lastPos;
-    sf::Vector2f pos;
-    sf::Vector2f velocidad;
+    sf::Vector2f    lastPos;
+    sf::Vector2f    pos;
+    sf::Vector2f    velocidad;
     
-    float acel;
-    float velIniSalto;
+    float           acel;
+    float           velIniSalto;
+    
 
 };
 
