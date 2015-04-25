@@ -12,38 +12,66 @@ const int ancho = 1024, alto = 560;
 sf::Clock saltoTime = sf::Clock();
 
 Game::Game()
-: window(sf::VideoMode(ancho, alto), "Interpol", sf::Style::Close)
-, debugText()
-, debugFont()
-, texturaRobot()
-, robot()
+: gInter()
+, posIniSalto(-1)
 , mIzq(false)
 , mDcha(false)
 , saltando(false)
 , primeraVez(true)
+, windowHeight(20)
+, windowWidth(20)
 {
-    window.setVerticalSyncEnabled(true);
-   // window.setFramerateLimit(125);
-
-    
-    if(!debugFont.loadFromFile("Resources/OpenSans.ttf")){
-        std::cout<<"Error al cargar la fuente"<<std::endl;
+    sprites = new sf::Sprite*[windowHeight];
+    for(int i = 0; i < windowHeight; i++){
+        sprites[i] = new sf::Sprite[windowWidth];
     }
+    /*Inicializar variables*/
     
+    robot = new Robot();
+    mapa = new Mapa();
+    
+    texturaRobot = new sf::Texture();
+    
+    debugFont = new sf::Font();
+    debugText = new sf::Text();
+    
+   
+    window = new sf::RenderWindow(*gInter->varVideomode(ancho, alto), "Titulo", sf::Style::Close);
+    window->setVerticalSyncEnabled(true);
+    window->setFramerateLimit(125);
+    
+    
+    if(!debugFont->loadFromFile("Resources/OpenSans.ttf")){
+        std::cout<<"Error al cargar la fuente"<<std::endl;
+    }   
     //Cargamos la textura del robot
-    if(!texturaRobot.loadFromFile("Resources/spritesheet.png")){
+    if(!texturaRobot->loadFromFile("Resources/spritesheet.png")){
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
-        
-    robot.Init(texturaRobot, 200.f, 250.f);
     
     
-    debugText.setFont(debugFont);
-    debugText.setPosition(5.f, 5.f);
-    debugText.setCharacterSize(13);
-    debugText.setColor(sf::Color::Black);
-    debugText.setString("Interp");
+    
+    sprites = mapa->crearMapa();
+    
+    
+    robot->Init(*texturaRobot, 200.f, 250.f);
+    
+    
+    debugText->setFont(*debugFont);
+    debugText->setPosition(5.f, 5.f);
+    debugText->setCharacterSize(13);
+    debugText->setColor(sf::Color::Black);
+    debugText->setString("Interp");
 
+}
+
+Game::~Game(){
+    std::cout<<"Liberar memoria"<<std::endl;
+    delete robot;
+    delete texturaRobot;
+    delete debugFont;
+    delete debugText;
+    delete window;
 }
 
 void Game::run() {
@@ -51,7 +79,7 @@ void Game::run() {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero; 
     
-    while (window.isOpen()){
+    while (window->isOpen()){
         
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
@@ -70,6 +98,9 @@ void Game::run() {
         //Render
         render(interpolacion);
     }
+    
+    
+    
 }
 
 /**Update y Render**/
@@ -91,12 +122,12 @@ void Game::update(sf::Time elapsedTime){
 
         if(saltando){
            // std::cout<<robot.getPos().y<<std::endl;
-            vel_y = robot.salta(250.f, saltoTime, elapsedTime);
-            if(robot.getPos().y > 250.f)
+            vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);
+            if(robot->getPos().y > posIniSalto && saltoTime.getElapsedTime().asSeconds()>0.5)
                 saltando = false;
         }
         velocidad = sf::Vector2f(vel_x, vel_y);
-        robot.Update(velocidad, elapsedTime);
+        robot->Update(velocidad, elapsedTime);
     }
     primeraVez = false;
 
@@ -104,24 +135,31 @@ void Game::update(sf::Time elapsedTime){
 
 void Game::render(float interpolacion){
     //std::cout<<"Render"<<std::endl;
-    window.clear(sf::Color::White);
+    window->clear(sf::Color::White);
     
     //Dibujamos desde player
     
-    robot.Draw(window, interpolacion);
+    robot->Draw(*window, interpolacion);
+    window->draw(*debugText);
     
-    window.draw(debugText);
-    window.display();
+    for (int i = 0; i < windowHeight; i++) {
+        for(int j = 0; j < windowWidth; j++){
+            //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
+            window->draw(sprites[i][j]);
+        }
+    }
+    
+    window->display();
 }
 
 /** Eventos **/
 
 void Game::processEvents(){
     sf::Event event;
-    while(window.pollEvent(event)){
+    while(window->pollEvent(event)){
         switch (event.type){
             case sf::Event::Closed:
-                window.close();
+                window->close();
                 break;
             
             case sf::Event::KeyPressed:
@@ -143,7 +181,17 @@ void Game::controlarRobot(sf::Keyboard::Key key, bool presionada){
     else if (key==sf::Keyboard::Right) 
         mDcha = presionada;
     else if (key==sf::Keyboard::Up){
-        saltando = true;
-        saltoTime.restart();
+        if(!saltando){
+            saltando = true;
+            posIniSalto=robot->getLastPos().y;
+            saltoTime.restart();
+        }
     }
+    else if (key==sf::Keyboard::R){
+        robot->mueveA(250.f,50.f);
+    }
+    else if (key==sf::Keyboard::Escape){
+        window->close();
+    }
+    
 }

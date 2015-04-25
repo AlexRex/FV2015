@@ -58,12 +58,7 @@ float PlayerPhysics::saltar(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedT
     std::cout<<"Y: "<<y<<std::endl;
     std::cout<<"altF: "<<altF<<std::endl; 
     std::cout<<"velocidad: "<<vel<<std::endl;
-    if(altF>251){
-        pos.y = 251.f;
-            }
     
-    //lastPos.y = pos.y;
-    //pos.y = altF;
     
     std::cout<<"Pos Pel: "<<pos.y<<std::endl;
     
