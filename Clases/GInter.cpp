@@ -17,24 +17,6 @@ GInter::GInter(const GInter& orig) {
 GInter::~GInter() {
     std::cout<<"Liberamos memoria de interfaz gráfica"<<std::endl;
 }
-sf::VideoMode* GInter::varVideomode(int ancho, int alto){
-    sf::VideoMode* videomode = new sf::VideoMode(ancho, alto);
-    return videomode;
-}
-
-
-sf::RenderWindow* GInter::varRenderWindow(sf::VideoMode* videomode, char titulo[]){
-    sf::RenderWindow* renderwindow = new sf::RenderWindow(*videomode, titulo, sf::Style::Close);
-    return renderwindow;
-}   
-
-sf::Text* GInter::varText(){}
-
-sf::Time* GInter::varTime(){
-    sf::Time* tiempo = new sf::Time();
-    return tiempo;
-}
-
 
 sf::Color* GInter::varColor(int a, int b, int c, int d){
     sf::Color* color = new sf::Color(a,b,c,d);
@@ -55,6 +37,11 @@ sf::Sprite* GInter::varSprite(sf::Texture* texture, int ox, int oy){
     sprite->setTexture(*texture);
     sprite->setTextureRect(sf::IntRect(ox, oy, 32, 32));
     return sprite;
+}
+
+sf::VideoMode* GInter::varVideomode(int ancho, int alto){
+    sf::VideoMode* videomode = new sf::VideoMode(ancho, alto);
+    return videomode;
 }
 
 sf::Sprite* GInter::setScale(sf::Sprite* sprite, int x, int y){

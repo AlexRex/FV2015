@@ -16,15 +16,10 @@ public:
     GInter();
     GInter(const GInter& orig);
     virtual ~GInter();
-    sf::VideoMode* varVideomode(int, int);
-    sf::Font* varFont();
-
-    sf::RenderWindow* varRenderWindow(sf::VideoMode*, char[]);
-
-    sf::Text* varText();
-    sf::Time* varTime();
     sf::Sprite* varSprite(sf::Texture*, int, int);
     sf::Texture* varTexture(char[]);
+    sf::VideoMode* varVideomode(int, int);
+    sf::Color* varColor(char*[]);
     sf::Color* varColor(int, int, int, int);
     sf::Sprite* crearSprites();
     sf::Sprite* setScale(sf::Sprite*, int, int);
