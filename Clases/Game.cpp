@@ -8,7 +8,7 @@
 #include "Game.h"
 
 const sf::Time Game::timePerFrame = sf::seconds(1.f/15.f);
-const int ancho = 800, alto = 800; 
+const int ancho = 640, alto = 640; 
 sf::Clock saltoTime = sf::Clock();
 
 Game::Game() :
@@ -55,7 +55,7 @@ Game::Game() :
     //mapa->createColisiones();
         
     //AQUI
-    robot->Init(*texturaRobot, 200.f, 256.f);
+    robot->Init(*texturaRobot, (16*32), (8*32));
     colision->recibirRobot(robot);
     
     debugText->setFont(*debugFont);
@@ -126,15 +126,12 @@ void Game::update(sf::Time elapsedTime){
             vel_y = robot->salta(250.f, saltoTime, elapsedTime);
             if(hayColision)
                 saltando = false;
-        }  
-        
-
-        
+        }     
     }
-
-        
         if(!hayColision){
+            std::cout<<"ME CAIGOOOOOOO";
             vel_y = 300.f;
+            //caer
         }  
  
     

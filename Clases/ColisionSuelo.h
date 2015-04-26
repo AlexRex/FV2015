@@ -25,8 +25,8 @@ private:
     Mapa* mapa;
     int** mapaColision;
     int posActualMatriz;
-    int cont;
-    int contY;
+    int fila;
+    int columna;
     int posRobotAnteriorX;
     int posRobotAnteriorY;
     
