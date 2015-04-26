@@ -22,8 +22,8 @@ ColisionSuelo::ColisionSuelo() {
         mapaColision[i]= new int[sizeY];
     }
    posActualMatriz = 0;
-   cont =6;
-   contY =10;
+   cont =9;
+   contY =16;
 }
 
 ColisionSuelo::ColisionSuelo(const ColisionSuelo& orig) {
@@ -40,7 +40,8 @@ void ColisionSuelo::recibirRobot(Robot* roby){
 }
 void ColisionSuelo::getMapa(){
     mapaColision = mapa->createColisiones();
-    posActualMatriz = mapaColision[10][12];
+    posActualMatriz = mapaColision[cont][contY];
+    std::cout<<endl<<endl<<"PosInicial["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
     for(int j=0; j<20;j++){
         std::cout<<"Fila "<<j<<" : ";
         for(int i=0; i<20; i++){
@@ -61,31 +62,38 @@ bool ColisionSuelo::comprobarColision(){
     float posRobotActualY = robot->getPos().y;
     //std::cout<<"posRobotActual: "<<posRobotActual<<std::endl;
      //cambiamos de casilla en la matriz
-    if(posRobotActualX - posRobotAnteriorX >= cambioTiled){
+    if(posRobotActualX - posRobotAnteriorX >= cambioTiled && posRobotActualY ==posRobotAnteriorY){
         posRobotAnteriorX = posRobotActualX;
-        cont++;
-        posActualMatriz = mapaColision[contY][cont];
-        std::cout<<endl<<endl<<"PosColisionMatriz["<<contY<<"]["<<cont<<"]: "<<posActualMatriz<<endl;
+        //cambiamos de columna
+        contY++;
+        posActualMatriz = mapaColision[cont][contY];
+        std::cout<<endl<<endl<<"PosXMatriz["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
     }
-    if(posRobotAnteriorX- posRobotActualX >= cambioTiled){
+    /*if(posRobotAnteriorX- posRobotActualX >= cambioTiled){
         posRobotAnteriorX = posRobotActualX;
         cont--;
         posActualMatriz = mapaColision[contY][cont];
         std::cout<<endl<<endl<<"PosColisionMatriz["<<contY<<"]["<<cont<<"]: "<<posActualMatriz<<endl;
-    }
+    }*/
     //std::cout<<"posRobotActualY: "<<posRobotActualY<<std::endl;
-    if(posRobotActualY - posRobotAnteriorY >= cambioTiled){
-        posRobotAnteriorY = posRobotActualY;
-        contY++;
-        posActualMatriz = mapaColision[contY][cont];
-        std::cout<<endl<<endl<<"PosColisionMatriz["<<contY<<"]["<<cont<<"]: "<<posActualMatriz<<endl;
-    }
-    if(posRobotAnteriorY - posRobotActualY  >= cambioTiled){
-        posRobotAnteriorY = posRobotActualY;
-        contY--;
-        posActualMatriz = mapaColision[contY][cont];
-        std::cout<<endl<<endl<<"PosColisionMatriz["<<contY<<"]["<<cont<<"]: "<<posActualMatriz<<endl;
-    }
+    
+        if( posRobotActualY - posRobotAnteriorY>= cambioTiled){//baja
+            posRobotAnteriorY = posRobotActualY;
+            contY++;
+            cont--;
+            posActualMatriz = mapaColision[cont][contY];
+            std::cout<<endl<<endl<<"PosBajaMatriz["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
+        }
+   
+
+        if(posRobotAnteriorY - posRobotActualY  >= cambioTiled){//sube
+            posRobotAnteriorY = posRobotActualY;
+            contY++;
+            cont++;
+            posActualMatriz = mapaColision[cont][contY];
+            std::cout<<endl<<endl<<"PosSubenMatriz["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
+        }
+   
     
     if(posActualMatriz != 0){
         hayColision = true;
