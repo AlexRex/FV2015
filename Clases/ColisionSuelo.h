@@ -7,16 +7,29 @@
 
 #ifndef COLISIONSUELO_H
 #define	COLISIONSUELO_H
+#include "Robot.h"
+#include "Mapa.h"
 
 class ColisionSuelo {
 public:
     ColisionSuelo();
     ColisionSuelo(const ColisionSuelo& orig);
     virtual ~ColisionSuelo();
+    void recibirRobot(Robot*);
+    void getMapa();
+    bool comprobarColision();
     void creoMatriz();
     void eliminarMatriz(int**a[]);
 private:
-
+    Robot* robot;
+    Mapa* mapa;
+    int** mapaColision;
+    int posActualMatriz;
+    int cont;
+    int contY;
+    int posRobotAnteriorX;
+    int posRobotAnteriorY;
+    
 };
 
 #endif	/* COLISIONSUELO_H */

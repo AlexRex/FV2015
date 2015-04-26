@@ -23,7 +23,7 @@ Render::~Render() {
 
 void Render::SetTextura(sf::Texture &tex){
     walkingAnimation->setSpriteSheet(tex);
-    walkingAnimation->addFrame(sf::IntRect(0, 0, 64, 146));
+   /* walkingAnimation->addFrame(sf::IntRect(0, 0, 64, 146));
     walkingAnimation->addFrame(sf::IntRect(64, 0, 64, 146));
     walkingAnimation->addFrame(sf::IntRect(128, 0, 64, 146));
     walkingAnimation->addFrame(sf::IntRect(192, 0, 64, 146));
@@ -39,7 +39,9 @@ void Render::SetTextura(sf::Texture &tex){
     walkingAnimation->addFrame(sf::IntRect(256, 146, 64, 146));
     walkingAnimation->addFrame(sf::IntRect(320, 146, 64, 146));
     walkingAnimation->addFrame(sf::IntRect(384, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(448, 146, 64, 146));
+    walkingAnimation->addFrame(sf::IntRect(448, 146, 64, 146));*/
+    
+    walkingAnimation->addFrame(sf::IntRect(0,0,32,64));
 
     
 }

@@ -10,16 +10,67 @@
 #include <iostream>
 
 using namespace std;
-#define sizeX 4
-#define sizeY 10
+#define sizeX 20
+#define sizeY 20
+#define cambioTiled 32
 
 ColisionSuelo::ColisionSuelo() {
+    //robot = new Robot();
+    //mapa = new Mapa();
+    mapaColision = new int*[sizeX];    
+    for(int i =0; i< sizeX; i++){
+        mapaColision[i]= new int[sizeY];
+    }
+   posActualMatriz = 0;
+   cont =4;
+   contY =9;
 }
 
 ColisionSuelo::ColisionSuelo(const ColisionSuelo& orig) {
 }
 
 ColisionSuelo::~ColisionSuelo() {
+}
+
+void ColisionSuelo::recibirRobot(Robot* roby){
+    robot = roby;
+    posRobotAnteriorX  = robot->getPos().x;
+    posRobotAnteriorY  = robot->getPos().y;
+    getMapa();
+}
+void ColisionSuelo::getMapa(){
+    mapaColision = mapa->createColisiones();
+    posActualMatriz = mapaColision[9][4];
+}
+
+//DA ERROR AQUÍ, voy a debuggear
+bool ColisionSuelo::comprobarColision(){
+    bool hayColision = false;
+    //recogemos la posicion del robot
+
+    float posRobotActualX = robot->getPos().x;
+    float posRobotActualY = robot->getPos().y;
+    //std::cout<<"posRobotActual: "<<posRobotActual<<std::endl;
+     //cambiamos de casilla en la matriz
+    if(posRobotActualX - posRobotAnteriorX >= cambioTiled){
+        posRobotAnteriorX = posRobotActualX;
+        cont++;
+        posActualMatriz = mapaColision[contY][cont];        
+    }
+    std::cout<<"posRobotActualY: "<<posRobotActualY<<std::endl;
+    if(posRobotActualY - posRobotAnteriorY >= cambioTiled){
+        posRobotAnteriorY = posRobotActualY;
+        contY++;
+        posActualMatriz = mapaColision[contY][cont];        
+    }
+    if(posActualMatriz != 0){
+        hayColision = true;
+    }else{
+        hayColision = false;
+    }
+    return hayColision;
+
+
 }
 
 void ColisionSuelo::creoMatriz(){
