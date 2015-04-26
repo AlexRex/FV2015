@@ -55,7 +55,7 @@ Game::Game() :
     //mapa->createColisiones();
         
     //AQUI
-    robot->Init(*texturaRobot, 200.f, 224.f);
+    robot->Init(*texturaRobot, 200.f, 256.f);
     colision->recibirRobot(robot);
     
     debugText->setFont(*debugFont);
@@ -124,16 +124,23 @@ void Game::update(sf::Time elapsedTime){
             vel_y = robot->salta(250.f, saltoTime, elapsedTime);
             if(robot->getPos().y > 250.f)
                 saltando = false;
-        }
+        }  
         
         hayColision = colision->comprobarColision();
         if(!hayColision){
             vel_y = 300.f;
-        }
-        
+        } 
         velocidad = sf::Vector2f(vel_x, vel_y);
         robot->Update(velocidad, elapsedTime);
     }
+    else{
+        hayColision = colision->comprobarColision();
+        if(!hayColision){
+            vel_y = 300.f;
+        }  
+    }
+    
+    
     primeraVez = false;
 
 }
