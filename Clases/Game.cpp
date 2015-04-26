@@ -8,7 +8,7 @@
 #include "Game.h"
 
 const sf::Time Game::timePerFrame = sf::seconds(1.f/15.f);
-const int ancho = 640, alto = 640; 
+const int ancho = 800, alto = 800; 
 sf::Clock saltoTime = sf::Clock();
 
 Game::Game() :
@@ -113,6 +113,8 @@ void Game::update(sf::Time elapsedTime){
     float vel_x = 0.f, vel_y=0.f;
     
     sf::Vector2f velocidad;
+    
+    hayColision = colision->comprobarColision();
     if(!primeraVez){
         if(mIzq)
             vel_x = -300.f;
@@ -122,25 +124,22 @@ void Game::update(sf::Time elapsedTime){
         if(saltando){
            // std::cout<<robot.getPos().y<<std::endl;
             vel_y = robot->salta(250.f, saltoTime, elapsedTime);
-            if(robot->getPos().y > 250.f)
+            if(hayColision)
                 saltando = false;
         }  
         
-        hayColision = colision->comprobarColision();
-        if(!hayColision){
-            vel_y = 300.f;
-        } 
-        velocidad = sf::Vector2f(vel_x, vel_y);
-        robot->Update(velocidad, elapsedTime);
+
+        
     }
-    else{
-        hayColision = colision->comprobarColision();
+
+        
         if(!hayColision){
             vel_y = 300.f;
         }  
-    }
+ 
     
-    
+    velocidad = sf::Vector2f(vel_x, vel_y);
+        robot->Update(velocidad, elapsedTime);
     primeraVez = false;
 
 }
