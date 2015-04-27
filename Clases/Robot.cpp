@@ -40,6 +40,8 @@ void Robot::Init(sf::Texture &tex, float pos_x, float pos_y, float vel_x, float 
     render->SetTextura(tex);
     
     walkingAnimation = render->getWalkingAnimation();
+    jumpingAnimation = render->getJumpingAnimation();
+    fallingAnimation = render->getFallingAnimation();
    // walkingAnimationLeft = render.getWalkingAnimationLeft();
     
     currentAnimation = walkingAnimation;
@@ -56,9 +58,18 @@ void Robot::Update(sf::Vector2f vel, sf::Time elapsedTime){
     playerPhysics->Update(elapsedTime);
     
     //Actualizamos las animaciones
-    if(vel.x>0 || vel.x==0){
+    if(vel.x==0 && vel.y==0){
         currentAnimation = walkingAnimation;
     }
+    else if(vel.y<0){
+        currentAnimation = jumpingAnimation;
+    }
+    else if(vel.y>0)
+        currentAnimation = fallingAnimation;
+    else
+        currentAnimation = walkingAnimation;
+    
+    
 
     
     animatedSprite->play(*currentAnimation);

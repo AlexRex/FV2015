@@ -10,6 +10,8 @@
 Render::Render(){
     renderPos = new sf::Vector2f();
     walkingAnimation = new Animation();
+    jumpingAnimation = new Animation();
+    fallingAnimation = new Animation();
 }
 
 Render::Render(const Render& orig) {
@@ -23,25 +25,34 @@ Render::~Render() {
 
 void Render::SetTextura(sf::Texture &tex){
     walkingAnimation->setSpriteSheet(tex);
-   /* walkingAnimation->addFrame(sf::IntRect(0, 0, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(64, 0, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(128, 0, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(192, 0, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(256, 0, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(320, 0, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(384, 0, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(448, 0, 64, 146));
+    walkingAnimation->addFrame(sf::IntRect(0, 0, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(32, 0, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(64, 0, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(96, 0, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(128, 0, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(160, 0, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(192, 0, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(224, 0, 32, 64));
     
-    walkingAnimation->addFrame(sf::IntRect(0, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(64, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(128, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(192, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(256, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(320, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(384, 146, 64, 146));
-    walkingAnimation->addFrame(sf::IntRect(448, 146, 64, 146));*/
+    walkingAnimation->addFrame(sf::IntRect(0, 64, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(32, 64, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(64, 64, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(96, 64, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(128, 64, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(160, 64, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(192, 64, 32, 64));
+    walkingAnimation->addFrame(sf::IntRect(224, 64, 32, 64));
+   
+    fallingAnimation->setSpriteSheet(tex);
+    fallingAnimation->addFrame(sf::IntRect(32, 192, 32, 64));
+
     
-    walkingAnimation->addFrame(sf::IntRect(0,0,32,64));
+    jumpingAnimation->setSpriteSheet(tex);
+    jumpingAnimation->addFrame(sf::IntRect(160, 128, 32, 64));
+
+    
+    
+    //walkingAnimation->addFrame(sf::IntRect(0,0,32,64));
 
     
 }
