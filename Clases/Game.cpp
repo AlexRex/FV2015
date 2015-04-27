@@ -132,8 +132,7 @@ void Game::update(sf::Time elapsedTime){
         }     
     }
         if(!hayColision){
-            std::cout<<"ME CAIGOOOOOOO";
-            vel_y = 300.f;
+            caiendo=true;
             //caer
         }  
  

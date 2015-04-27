@@ -62,8 +62,7 @@ bool ColisionSuelo::comprobarColision(){
     bool hayColision = false;
     //recogemos la posicion del robot
     int filaAnterior,columnaAnterior;
-    filaAnterior=0;
-    columnaAnterior=0;
+
     float posRobotActualX = robot->getPos().x;
     float posRobotActualY = robot->getPos().y;
     //std::cout<<"posRobotActual: "<<posRobotActual<<std::endl;
@@ -71,8 +70,8 @@ bool ColisionSuelo::comprobarColision(){
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile) ;
     posActualMatriz = mapaColision[fila+2][columna];
-    if(filaAnterior != fila || columnaAnterior != columna){
-        //std::cout<<endl<<endl<<"MatrizColision["<<(fila+1)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
+    if(filaAnterior != fila && columnaAnterior != columna){
+        std::cout<<endl<<endl<<"MatrizColision["<<(fila+1)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
     }
     
     /*
