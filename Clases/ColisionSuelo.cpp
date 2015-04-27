@@ -74,8 +74,7 @@ bool ColisionSuelo::comprobarColision(){
     if(filaAnterior != fila || columnaAnterior != columna){
         std::cout<<endl<<endl<<"MatrizColision["<<(fila+1)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
     }
-    filaAnterior = fila;
-    columnaAnterior = columna;
+    
     /*
     if(posRobotActualX - posRobotAnteriorX >= tamTile){
         posRobotAnteriorX = posRobotActualX;
@@ -110,9 +109,15 @@ bool ColisionSuelo::comprobarColision(){
     
     if(posActualMatriz != 0){
         hayColision = true;
+        //recolocamos al robot justo encima de la casilla para que no se quede entre medias
+        if(fila != filaAnterior){
+            robot->mueveA(robot->getPos().x,fila*tamTile);
+        }
     }else{
         hayColision = false;
     }
+    filaAnterior = fila;
+    columnaAnterior = columna;
     return hayColision;
 
 

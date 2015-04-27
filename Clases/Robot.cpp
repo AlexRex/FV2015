@@ -71,11 +71,18 @@ void Robot::Draw(sf::RenderWindow& window, float interpolacion){
 }
 
 
-float Robot::salta(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
-    return playerPhysics->saltar(y, tiempoDesdeSalto, elapsedTime);
+float Robot::getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
+    return playerPhysics->getPosSalto(y, tiempoDesdeSalto, elapsedTime);
 }
 
-void Robot::mueveA(int y, int x){
+void Robot::mueveA(int x, int y){
     playerPhysics->setPos(x, y);
 }
+float Robot::saltar(){
+    return playerPhysics->saltar();
+}
+float Robot::caer(sf::Time tiempoCaida, sf::Time elapsedTime){
+    return playerPhysics->caer(tiempoCaida, elapsedTime);
+}
+
 

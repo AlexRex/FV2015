@@ -15,7 +15,7 @@ Game::Game() :
  posIniSalto(-1)
 , mIzq(false)
 , mDcha(false)
-, saltando(false)
+, caiendo(false)
 , primeraVez(true)
 , windowHeight(20)
 , windowWidth(20)
@@ -121,11 +121,13 @@ void Game::update(sf::Time elapsedTime){
         if(mDcha){
             vel_x = 300.f;
         }
-        if(saltando){
+        if(caiendo){
            // std::cout<<robot.getPos().y<<std::endl;
-            vel_y = robot->salta(250.f, saltoTime, elapsedTime);
-            if(hayColision)
-                saltando = false;
+            //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);
+            
+            vel_y = robot->caer(saltoTime.getElapsedTime(),elapsedTime);
+            if(hayColision && robot->getVel().y > 0)
+                caiendo = false;
         }     
     }
         if(!hayColision){
@@ -190,14 +192,15 @@ void Game::controlarRobot(sf::Keyboard::Key key, bool presionada){
     else if (key==sf::Keyboard::Right) 
         mDcha = presionada;
     else if (key==sf::Keyboard::Up){
-        if(!saltando){
-            saltando = true;
+        if(!caiendo){
+            caiendo = true;
             posIniSalto=robot->getLastPos().y;
             saltoTime.restart();
+            robot->saltar();
         }
     }
     else if (key==sf::Keyboard::R){
-        robot->mueveA(250.f,50.f);
+        robot->mueveA(16*32,8*32);
     }
     else if (key==sf::Keyboard::Escape){
         window->close();

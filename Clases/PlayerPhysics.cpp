@@ -11,8 +11,8 @@ PlayerPhysics::PlayerPhysics() :
 lastPos(sf::Vector2f(0.f, 0.f))
 ,pos(sf::Vector2f(0.f, 0.f))
 ,velocidad(sf::Vector2f(0.f, 0.f))
-,acel(-686.89)
-,velIniSalto(300)
+,acel(-200)
+,velIniSalto(800)
 {
 }
 
@@ -39,9 +39,22 @@ void PlayerPhysics::Update(sf::Time elapsedTime){
     pos.y += velocidad.y * elapsedTime.asSeconds();
 }
 
+float PlayerPhysics::saltar(){
+    float velY,velX;
+    //obtenemos el vector V actual y le anyadimos la velocidad de salto inicial (negativo porque va hacia arriba)
+    velY = this->getVel().y - velIniSalto;
+    velX = this->getVel().x;
+    
+    this->setVel(velX, velY);
+    return velY;
+}
+float PlayerPhysics::caer(sf::Time tiempoCaida, sf::Time elapsedTime){
+    float vel = this->getVel().y;
+    vel -= acel *elapsedTime.asSeconds();
+    return vel;
+}
 
-
-float PlayerPhysics::saltar(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
+float PlayerPhysics::getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
     
     float altF = y; //altura con decimales
     int altI = 0; //altura en pixeles
