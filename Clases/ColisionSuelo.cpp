@@ -115,7 +115,7 @@ bool ColisionSuelo::comprobarColision(){
     columna = ((robot->getPos().x+16) / tamTile) ;
     posActualMatriz = mapaColision[fila+2][columna];
     if(filaAnterior != fila && columnaAnterior != columna){
-        std::cout<<endl<<endl<<"MatrizColision["<<(fila+2)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
+        //std::cout<<endl<<endl<<"MatrizColision["<<(fila+2)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
     }
     
     /*
