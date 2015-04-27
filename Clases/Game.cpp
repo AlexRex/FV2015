@@ -24,6 +24,11 @@ Game::Game() :
     for(int i = 0; i < windowHeight; i++){
         sprites[i] = new sf::Sprite[windowWidth];
     }
+    
+    spritesMonedas = new sf::Sprite*[windowHeight];
+    for(int i = 0; i < windowHeight; i++){
+        spritesMonedas[i] = new sf::Sprite[windowWidth];
+    }
     /*Inicializar variables*/
     
     robot = new Robot();
@@ -51,10 +56,8 @@ Game::Game() :
     }
     
     
-    //mapa->PruebasTinyxml();
     sprites = mapa->crearMapa();
-    //mapa->createColisiones();
-        
+    spritesMonedas = mapa->sitiosMonedas();
     //AQUI
     sf::Vector2i posInicial;
     posInicial.x = 16*32;
@@ -164,6 +167,7 @@ void Game::render(float interpolacion){
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
             window->draw(sprites[i][j]);
+            window->draw(spritesMonedas[i][j]);
         }
     }
     window->setView(*camara->getView());

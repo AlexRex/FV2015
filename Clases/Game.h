@@ -45,6 +45,7 @@ private:
     sf::Text*               debugText;
     
     sf::Sprite**            sprites;
+    sf::Sprite**            spritesMonedas;
     sf::Texture*            texturaRobot; //REND
     
     Mapa*                   mapa;

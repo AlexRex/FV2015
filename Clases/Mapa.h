@@ -24,9 +24,10 @@ public:
     sf::Sprite* createSprite(sf::Sprite*, int, int, int);
     int** createColisiones();
     sf::Sprite** crearMapa();
-    int** sitiosMonedas();
+    sf::Sprite** sitiosMonedas();
 private:
     sf::Texture* texture;
+    sf::Texture* texturaMoneda;
     
 };
 
