@@ -137,7 +137,7 @@ sf::Sprite** Mapa::crearMapa(){
                     //sp.setColor(sf::Color::Transparent);
                     break;
             }
-            std::cout << "tilepos[" << k << "] = " << tilePos[k] << std::endl;
+            //std::cout << "tilepos[" << k << "] = " << tilePos[k] << std::endl;
             ++k;
             
             sp.setOrigin(0,0);
@@ -236,8 +236,11 @@ int** Mapa::createColisiones(){
         xmlNode = xmlNode->NextSiblingElement();
         int tilePos;
         s >> tilePos;
+       // std::cout<<"I: "<<i;
+       // std::cout<<" J: "<<j<<std::endl;
+
         if(i<windowHeight){
-            if(j<windowWidth){
+            if(j<windowWidth-1){
                 lista[i][j] = tilePos;
                 std::cout<<lista[i][j];
                 j++;

@@ -11,8 +11,8 @@ PlayerPhysics::PlayerPhysics() :
 lastPos(sf::Vector2f(0.f, 0.f))
 ,pos(sf::Vector2f(0.f, 0.f))
 ,velocidad(sf::Vector2f(0.f, 0.f))
-,acel(-200)
-,velIniSalto(800)
+,acel(-1200)
+,velIniSalto(608)
 {
 }
 

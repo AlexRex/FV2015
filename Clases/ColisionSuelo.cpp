@@ -10,7 +10,7 @@
 #include <iostream>
 
 using namespace std;
-#define sizeX 20
+#define sizeX 19
 #define sizeY 20
 #define tamTile 32
 
@@ -45,15 +45,15 @@ void ColisionSuelo::getMapa(){
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
     posActualMatriz = mapaColision[fila][columna];
-    std::cout<<endl<<endl<<"PosInicial["<<fila<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
-    for(int j=0; j<20;j++){
+    //std::cout<<endl<<endl<<"PosInicial["<<fila<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
+    /*for(int j=0; j<20;j++){
         std::cout<<"Fila "<<j<<" : ";
         for(int i=0; i<20; i++){
             std::cout<<mapaColision[j][i];
         }
         std::cout<<endl;
         
-    }
+    }*/
     
 }
 
@@ -70,9 +70,9 @@ bool ColisionSuelo::comprobarColision(){
      //cambiamos de casilla en la matriz
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile) ;
-    posActualMatriz = mapaColision[fila+1][columna];
+    posActualMatriz = mapaColision[fila+2][columna];
     if(filaAnterior != fila || columnaAnterior != columna){
-        std::cout<<endl<<endl<<"MatrizColision["<<(fila+1)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
+        //std::cout<<endl<<endl<<"MatrizColision["<<(fila+1)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
     }
     
     /*

@@ -123,11 +123,12 @@ void Game::update(sf::Time elapsedTime){
         }
         if(caiendo){
            // std::cout<<robot.getPos().y<<std::endl;
-            //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);
+            //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);    
             
-            vel_y = robot->caer(saltoTime.getElapsedTime(),elapsedTime);
             if(hayColision && robot->getVel().y > 0)
                 caiendo = false;
+            else
+                vel_y = robot->caer(saltoTime.getElapsedTime(),elapsedTime);
         }     
     }
         if(!hayColision){
