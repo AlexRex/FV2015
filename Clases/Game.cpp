@@ -61,7 +61,7 @@ Game::Game() :
     posInicial.y = 8*32;
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
     colision->recibirRobot(robot);
-    camara->creaCamara(posInicial.x,posInicial.y-64,640,480);
+    camara->creaCamara(posInicial.x,posInicial.y-64,960,640);
     robot->recibirCamara(camara);
 
     debugText->setFont(*debugFont);

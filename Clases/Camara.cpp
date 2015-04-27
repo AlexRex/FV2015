@@ -20,7 +20,7 @@ void Camara::creaCamara(int c1, int c2, int tamx, int tamy) {
 }
 
 void Camara::setPos(sf::Vector2f pos){
-    vistaCamara->setCenter(pos);
+    vistaCamara->setCenter(pos.x+300.f, 320.f);
 }
 Camara::Camara(const Camara& orig) {
 }
