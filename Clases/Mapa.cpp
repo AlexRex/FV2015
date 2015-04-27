@@ -33,6 +33,12 @@ Mapa::Mapa() {
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
+    
+    texturaEsquema = new sf::Texture();
+    if(!texturaEsquema->loadFromFile("Resources/piezas.png")){
+        std::cerr << "Error cargando las texturas";
+        exit(0);
+    }
 }
 
 Mapa::Mapa(const Mapa& orig) {
@@ -309,5 +315,28 @@ sf::Sprite** Mapa::objetosAleatorios(){
         }
     }
    
+    return scene;
+}
+
+
+sf::Sprite* Mapa::crearEsquema(){
+    sf::Sprite* scene = new sf::Sprite[5];
+    sf::Sprite sp(*texturaEsquema);
+    sp.setTextureRect(sf::IntRect(0*tileDim, 0*tileDim, 2*tileDim, 2*tileDim));
+    scene[0]=sp;
+    scene[0].setPosition(95,4*tileDim-4);
+    sp.setTextureRect(sf::IntRect(2*tileDim, 0*tileDim, 2*tileDim, 2*tileDim));
+    scene[1]=sp;
+    scene[1].setPosition(100,tileDim);
+    scene[1].setScale(1,1.5);
+    sp.setTextureRect(sf::IntRect(4*tileDim, 0*tileDim, 2*tileDim, 2*tileDim));
+    scene[2]=sp;
+    scene[2].setPosition(106,4*tileDim-5);
+    sp.setTextureRect(sf::IntRect(6*tileDim, 0*tileDim, 2*tileDim, 2*tileDim));
+    scene[3]=sp;
+    scene[3].setPosition(117,2*tileDim+18);
+    sp.setTextureRect(sf::IntRect(8*tileDim, 0*tileDim, 2*tileDim, 2*tileDim));
+    scene[4]=sp;
+    scene[4].setPosition(75,2*tileDim+18);
     return scene;
 }

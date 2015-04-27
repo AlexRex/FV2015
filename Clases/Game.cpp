@@ -43,6 +43,9 @@ Game::Game() :
     
     texturaRobot = new sf::Texture();
     
+    piezas = new sf::Sprite[5];
+    
+    
     debugFont = new sf::Font();
     debugText = new sf::Text();
     
@@ -64,6 +67,26 @@ Game::Game() :
     sprites = mapa->crearMapa();
     spritesMonedas = mapa->sitiosMonedas();
     spritesObjetosAleatorios = mapa->objetosAleatorios();
+    piezas = mapa->crearEsquema();
+    
+    vida1 = new sf::RectangleShape(sf::Vector2f(60, 10));
+    vida2 = new sf::RectangleShape(sf::Vector2f(60, 10));
+    vida3 = new sf::RectangleShape(sf::Vector2f(60, 10));
+    vida4 = new sf::RectangleShape(sf::Vector2f(60, 10));
+    
+    vida1->setFillColor(sf::Color(150, 50, 250));
+    vida1->setPosition(40,90);
+    
+    vida2->setFillColor(sf::Color(150, 50, 250));
+    vida2->setPosition(165,90);
+    
+    vida3->setFillColor(sf::Color(150, 50, 250));
+    vida3->setPosition(40,120);
+    
+    vida4->setFillColor(sf::Color(150, 50, 250));
+    vida4->setPosition(165,120);
+    
+    
     //AQUI
     sf::Vector2i posInicial;
     posInicial.x = 16*32;
@@ -74,7 +97,7 @@ Game::Game() :
     robot->recibirCamara(camara);
 
     debugText->setFont(*debugFont);
-    debugText->setPosition(5.f, 5.f);
+    debugText->setPosition(400.f, 5.f);
     debugText->setCharacterSize(13);
     debugText->setColor(sf::Color::Black);
     debugText->setString("Arriba: Saltar\nDerecha: Andar Decha\nIzq: Andar Izq\nR: Volver a la pos inicial\nEsc: Salir");
@@ -177,6 +200,15 @@ void Game::render(float interpolacion){
             window->draw(spritesMonedas[i][j]);
         }
     }
+    
+    for (int i = 0; i < 5; i++){
+        window->draw(piezas[i]);
+    }
+    window->draw(*vida1);
+    window->draw(*vida2);
+    window->draw(*vida3);
+    window->draw(*vida4);
+    
     window->setView(*camara->getView());
     robot->Draw(*window, interpolacion);
     window->draw(*debugText);

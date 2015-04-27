@@ -26,10 +26,12 @@ public:
     sf::Sprite** crearMapa();
     sf::Sprite** sitiosMonedas();
     sf::Sprite** objetosAleatorios();
+    sf::Sprite* crearEsquema();
 private:
     sf::Texture* texture;
     sf::Texture* texturaMoneda;
     sf::Texture* texturaObjAleatorio;
+    sf::Texture* texturaEsquema;
     
 };
 
