@@ -22,6 +22,7 @@ public:
     
     sf::Vector2f getLastPos() const { return lastPos; }
     sf::Vector2f getPos() const { return pos; }
+    sf::Vector2f getVel()  {return velocidad;}
     sf::Vector2f getNextPos(sf::Time elapsedTime) const;
     sf::Vector2f getVel() const { return velocidad; }
     
@@ -31,9 +32,9 @@ public:
     void setPos(float pos_x, float pos_y);
     void Update(sf::Time elapsedTime);
     
-   
-    
-    float saltar(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
+    float caer(sf::Time tiempoCaida, sf::Time elapsedTime);
+    float saltar();
+    float getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
     
 private:
     

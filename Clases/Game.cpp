@@ -7,19 +7,18 @@
 
 #include "Game.h"
 
-const sf::Time Game::timePerFrame = sf::seconds(1.f/15.f);
-const int ancho = 1024, alto = 560; 
+const sf::Time Game::timePerFrame = sf::seconds(1.f/20.f);
+const int ancho = 960, alto = 640; 
 sf::Clock saltoTime = sf::Clock();
 
-Game::Game()
-: gInter()
-, posIniSalto(-1)
+Game::Game() :
+ posIniSalto(-1)
 , mIzq(false)
 , mDcha(false)
-, saltando(false)
+, caiendo(false)
 , primeraVez(true)
 , windowHeight(20)
-, windowWidth(20)
+, windowWidth(30)
 {
     sprites = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
@@ -29,6 +28,7 @@ Game::Game()
     
     robot = new Robot();
     mapa = new Mapa();
+    colision = new ColisionSuelo();
     
     texturaRobot = new sf::Texture();
     
@@ -36,7 +36,7 @@ Game::Game()
     debugText = new sf::Text();
     
    
-    window = new sf::RenderWindow(*gInter->varVideomode(ancho, alto), "Titulo", sf::Style::Close);
+    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Titulo", sf::Style::Close);
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(125);
     
@@ -45,17 +45,18 @@ Game::Game()
         std::cout<<"Error al cargar la fuente"<<std::endl;
     }   
     //Cargamos la textura del robot
-    if(!texturaRobot->loadFromFile("Resources/spritesheet.png")){
+    if(!texturaRobot->loadFromFile("Resources/robotFake.png")){
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
     
     
-    
+    //mapa->PruebasTinyxml();
     sprites = mapa->crearMapa();
-    
-    
-    robot->Init(*texturaRobot, 200.f, 250.f);
-    
+    //mapa->createColisiones();
+        
+    //AQUI
+    robot->Init(*texturaRobot, (16*32), (8*32));
+    colision->recibirRobot(robot);
     
     debugText->setFont(*debugFont);
     debugText->setPosition(5.f, 5.f);
@@ -108,46 +109,59 @@ void Game::run() {
 void Game::update(sf::Time elapsedTime){
     //Actualizamos fisica de los pj
     //std::cout<<"Update"<<std::endl;
-    
+    bool hayColision = false;
+    bool hayColisionDcha = false;
     float vel_x = 0.f, vel_y=0.f;
     
     sf::Vector2f velocidad;
+    
+    hayColision = colision->comprobarColision();
+    hayColisionDcha = colision->comprobarColisionDcha();
+
     if(!primeraVez){
         if(mIzq)
             vel_x = -300.f;
-        if(mDcha)
+        if(mDcha && !hayColisionDcha){
             vel_x = 300.f;
-
-        
-
-        if(saltando){
-           // std::cout<<robot.getPos().y<<std::endl;
-            vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);
-            if(robot->getPos().y > posIniSalto && saltoTime.getElapsedTime().asSeconds()>0.5)
-                saltando = false;
         }
-        velocidad = sf::Vector2f(vel_x, vel_y);
-        robot->Update(velocidad, elapsedTime);
+        if(caiendo){
+           // std::cout<<robot.getPos().y<<std::endl;
+            //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);    
+            
+            if(hayColision && robot->getVel().y > 0)
+                caiendo = false;
+            else
+                vel_y = robot->caer(saltoTime.getElapsedTime(),elapsedTime);
+        }     
     }
+        if(!hayColision){
+            caiendo=true;
+            //caer
+        }  
+ 
+    
+    velocidad = sf::Vector2f(vel_x, vel_y);
+    robot->Update(velocidad, elapsedTime);
     primeraVez = false;
 
 }
+
 
 void Game::render(float interpolacion){
     //std::cout<<"Render"<<std::endl;
     window->clear(sf::Color::White);
     
     //Dibujamos desde player
-    
-    robot->Draw(*window, interpolacion);
-    window->draw(*debugText);
-    
-    for (int i = 0; i < windowHeight; i++) {
+   for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
             window->draw(sprites[i][j]);
         }
     }
+    robot->Draw(*window, interpolacion);
+    window->draw(*debugText);
+    
+    
     
     window->display();
 }
@@ -181,14 +195,15 @@ void Game::controlarRobot(sf::Keyboard::Key key, bool presionada){
     else if (key==sf::Keyboard::Right) 
         mDcha = presionada;
     else if (key==sf::Keyboard::Up){
-        if(!saltando){
-            saltando = true;
+        if(!caiendo){
+            caiendo = true;
             posIniSalto=robot->getLastPos().y;
             saltoTime.restart();
+            robot->saltar();
         }
     }
     else if (key==sf::Keyboard::R){
-        robot->mueveA(250.f,50.f);
+        robot->mueveA(16*32,8*32);
     }
     else if (key==sf::Keyboard::Escape){
         window->close();

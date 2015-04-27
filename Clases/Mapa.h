@@ -26,10 +26,6 @@ public:
     sf::Sprite** crearMapa();
     int** sitiosMonedas();
 private:
-    const int tileDim = 32; // in pixel: 32x32px
-    const int windowHeight = 20; // height of the window in number of tiles
-    const int windowWidth = 20; // width of the window in number of tiles
-    const int windowArea = windowWidth * windowHeight; // total number of tiles in the whole window area
     sf::Texture* texture;
     
 };

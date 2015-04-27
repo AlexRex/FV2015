@@ -14,10 +14,9 @@
 
 #include "Robot.h"
 #include "Mapa.h"
-#include "GInter.h"
+#include "ColisionSuelo.h"
 
 #include "../Includes/AnimatedSprite.hpp"
-#include "../Includes/tinyxml2.h"
 
 #ifndef GAME_H
 #define	GAME_H
@@ -34,7 +33,6 @@ public:
     void    controlarRobot(sf::Keyboard::Key key, bool presionada);
     
 private:
-    GInter*                 gInter;
     static const sf::Time   timePerFrame;
     
     sf::RenderWindow*       window;
@@ -49,13 +47,14 @@ private:
     
     Mapa*                   mapa;
     Robot*                  robot;
+    ColisionSuelo*          colision;
     
     float                   interpolacion;
     int                     posIniSalto;
     
     bool                    mDcha;
     bool                    mIzq;
-    bool                    saltando;
+    bool                    caiendo;
     bool                    primeraVez;
 };
 
