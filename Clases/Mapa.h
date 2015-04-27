@@ -25,9 +25,11 @@ public:
     int** createColisiones();
     sf::Sprite** crearMapa();
     sf::Sprite** sitiosMonedas();
+    sf::Sprite** objetosAleatorios();
 private:
     sf::Texture* texture;
     sf::Texture* texturaMoneda;
+    sf::Texture* texturaObjAleatorio;
     
 };
 

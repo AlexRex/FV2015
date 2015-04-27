@@ -44,9 +44,11 @@ private:
     sf::Font*               debugFont;
     sf::Text*               debugText;
     
+    sf::Sprite**            spritesObjetosAleatorios;
     sf::Sprite**            sprites;
     sf::Sprite**            spritesMonedas;
     sf::Texture*            texturaRobot; //REND
+    
     
     Mapa*                   mapa;
     Robot*                  robot;

@@ -6,6 +6,7 @@
  */
 
 #include "Mapa.h"
+#include <stdlib.h>
 
 const int tileDim = 32; // in pixel: 32x32px
     const int windowHeight = 20; // height of the window in number of tiles
@@ -23,6 +24,12 @@ Mapa::Mapa() {
     
     texturaMoneda = new sf::Texture();
     if (!texturaMoneda->loadFromFile("Resources/moneda64x32.png")){
+        std::cerr << "Error cargando las texturas";
+        exit(0);
+    }
+    
+    texturaObjAleatorio = new sf::Texture();
+    if (!texturaObjAleatorio->loadFromFile("Resources/barril64x32.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
@@ -185,11 +192,11 @@ int** Mapa::createColisiones(){
         if(i<windowHeight){
             if(j<windowWidth-1){
                 lista[i][j] = tilePos;
-                std::cout<<lista[i][j];
+                //std::cout<<lista[i][j];
                 j++;
             }
             else{
-                std::cout<<std::endl;
+                //std::cout<<std::endl;
                 j=0;
                 i++;
             }
@@ -223,16 +230,73 @@ sf::Sprite** Mapa::sitiosMonedas(){
         tilePos.push_back(tp);
     }
     
+    
     sf::Sprite sp(*texturaMoneda);
-        
+    
     int k = 0;
     for(int i = 0; i < windowHeight; ++i) {
         scene[i] = new sf::Sprite[windowWidth];
         for (int j = 0; j < windowWidth; ++j) {
-            if(tilePos[k]==0){
+            if(tilePos[k]==0 ){
                 sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
             }
             else{
+                sp.setTextureRect(sf::IntRect(0*tileDim, 0*tileDim, tileDim, tileDim));
+            }
+
+            ++k;
+            
+            sp.setOrigin(0,0);
+            sp.setPosition(j * tileDim, i * tileDim);
+            sp.setScale(1,1);
+            scene[i][j] = sp;
+        }
+    }
+   
+    return scene;
+}
+
+sf::Sprite** Mapa::objetosAleatorios(){
+    txml2::XMLDocument map;
+    map.LoadFile("prueba2.tmx");
+    
+    txml2::XMLElement* xmlNode = map.FirstChildElement("map")
+                                ->FirstChildElement("layer");
+    while(strcmp(xmlNode->Attribute("name"), "objAleatorios") != 0){
+          xmlNode = xmlNode->NextSiblingElement();
+    }
+    xmlNode = xmlNode->FirstChildElement("data")
+                     ->FirstChildElement("tile");
+    
+   
+    
+    sf::Sprite** scene = new sf::Sprite*[windowHeight];
+    
+    std::vector<int> tilePos;
+    while (xmlNode) {
+        std::stringstream s(xmlNode->Attribute("gid"));
+        xmlNode = xmlNode->NextSiblingElement();
+        int tp;
+        s >> tp;
+        tilePos.push_back(tp);
+    }
+    
+    
+    srand (time(NULL));
+
+    
+    sf::Sprite sp(*texturaObjAleatorio);
+    
+    int k = 0;
+    for(int i = 0; i < windowHeight; ++i) {
+        scene[i] = new sf::Sprite[windowWidth];
+        for (int j = 0; j < windowWidth; ++j) {
+            int visible = rand() % 4;
+            std::cout<<"visible: "<<visible<<std::endl;
+            if(tilePos[k]==0){
+                sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
+            }
+            else if(visible==0){
                 sp.setTextureRect(sf::IntRect(0*tileDim, 0*tileDim, tileDim, tileDim));
             }
 
