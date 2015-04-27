@@ -292,7 +292,7 @@ sf::Sprite** Mapa::objetosAleatorios(){
         scene[i] = new sf::Sprite[windowWidth];
         for (int j = 0; j < windowWidth; ++j) {
             int visible = rand() % 4;
-            std::cout<<"visible: "<<visible<<std::endl;
+           // std::cout<<"visible: "<<visible<<std::endl;
             if(tilePos[k]==0){
                 sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
             }
