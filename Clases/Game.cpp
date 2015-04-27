@@ -36,7 +36,7 @@ Game::Game() :
     debugText = new sf::Text();
     
    
-    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Titulo", sf::Style::Close);
+    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Close);
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(125);
     
@@ -62,7 +62,7 @@ Game::Game() :
     debugText->setPosition(5.f, 5.f);
     debugText->setCharacterSize(13);
     debugText->setColor(sf::Color::Black);
-    debugText->setString("Interp");
+    debugText->setString("Arriba: Saltar\nDerecha: Andar Decha\nIzq: Andar Izq\nR: Volver a la pos inicial\nEsc: Salir");
 
 }
 
