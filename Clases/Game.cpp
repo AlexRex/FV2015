@@ -62,8 +62,8 @@ Game::Game() :
     
     
     sprites = mapa->crearMapa();
-    spritesMonedas = mapa->sitiosMonedas();
-    spritesObjetosAleatorios = mapa->objetosAleatorios();
+  //  spritesMonedas = mapa->sitiosMonedas();
+   // spritesObjetosAleatorios = mapa->objetosAleatorios();
     //AQUI
     sf::Vector2i posInicial;
     posInicial.x = 16*32;
@@ -173,8 +173,8 @@ void Game::render(float interpolacion){
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
             window->draw(sprites[i][j]);
-            window->draw(spritesObjetosAleatorios[i][j]);
-            window->draw(spritesMonedas[i][j]);
+           // window->draw(spritesObjetosAleatorios[i][j]);
+           // window->draw(spritesMonedas[i][j]);
         }
     }
     window->setView(*camara->getView());
