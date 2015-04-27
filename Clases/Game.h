@@ -6,6 +6,7 @@
  */
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 #include <iostream>
 #include <ctime>
@@ -15,6 +16,7 @@
 #include "Robot.h"
 #include "Mapa.h"
 #include "ColisionSuelo.h"
+#include "Camara.h"
 
 #include "../Includes/AnimatedSprite.hpp"
 
@@ -48,6 +50,7 @@ private:
     Mapa*                   mapa;
     Robot*                  robot;
     ColisionSuelo*          colision;
+    Camara*                 camara;
     
     float                   interpolacion;
     int                     posIniSalto;

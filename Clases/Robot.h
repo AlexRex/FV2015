@@ -26,7 +26,7 @@ public:
     void Update(sf::Vector2f vel, sf::Time elapsedTime);
     void Draw(sf::RenderWindow& window, float interpolacion);
     void mueveA(int y, int x);
-    
+    void recibirCamara(Camara*);
     
     
     float saltar();
@@ -42,6 +42,7 @@ private:
     
     Render*                 render;
     PlayerPhysics*          playerPhysics;
+    Camara*                 camara;
     
     AnimatedSprite*         animatedSprite;
     Animation*              walkingAnimation;

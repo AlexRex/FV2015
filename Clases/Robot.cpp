@@ -6,6 +6,7 @@
  */
 
 #include "Robot.h"
+#include "Camara.h"
 
 Robot::Robot()
 {
@@ -17,6 +18,7 @@ Robot::Robot()
     currentAnimation = new Animation();
     walkingAnimation = new Animation();
     animatedSprite = new AnimatedSprite(sf::seconds(0.05), true, false);
+    camara = new Camara();
     
 
 }
@@ -31,6 +33,7 @@ Robot::~Robot() {
     delete animatedSprite;
     delete currentAnimation;
     delete walkingAnimation;
+    delete camara;
 }
 
 
@@ -84,5 +87,7 @@ float Robot::saltar(){
 float Robot::caer(sf::Time tiempoCaida, sf::Time elapsedTime){
     return playerPhysics->caer(tiempoCaida, elapsedTime);
 }
-
+void Robot::recibirCamara (Camara* micam){
+    render->recibirCamara(micam);
+}
 

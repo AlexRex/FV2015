@@ -29,6 +29,7 @@ Game::Game() :
     robot = new Robot();
     mapa = new Mapa();
     colision = new ColisionSuelo();
+    camara = new Camara();
     
     texturaRobot = new sf::Texture();
     
@@ -55,9 +56,14 @@ Game::Game() :
     //mapa->createColisiones();
         
     //AQUI
-    robot->Init(*texturaRobot, (16*32), (8*32));
+    sf::Vector2i posInicial;
+    posInicial.x = 16*32;
+    posInicial.y = 8*32;
+    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
     colision->recibirRobot(robot);
-    
+    camara->creaCamara(posInicial.x,posInicial.y-64,640,480);
+    robot->recibirCamara(camara);
+
     debugText->setFont(*debugFont);
     debugText->setPosition(5.f, 5.f);
     debugText->setCharacterSize(13);
@@ -65,7 +71,6 @@ Game::Game() :
     debugText->setString("Interp");
 
 }
-
 Game::~Game(){
     std::cout<<"Liberar memoria"<<std::endl;
     delete robot;
@@ -112,8 +117,10 @@ void Game::update(sf::Time elapsedTime){
     bool hayColision = false;
     bool hayColisionDcha = false;
     float vel_x = 0.f, vel_y=0.f;
+    float vel_xCam = 0.f, vel_yCam=0.f;
     
     sf::Vector2f velocidad;
+    sf::Vector2f velCam;
     
     hayColision = colision->comprobarColision();
     hayColisionDcha = colision->comprobarColisionDcha();
@@ -141,6 +148,7 @@ void Game::update(sf::Time elapsedTime){
  
     
     velocidad = sf::Vector2f(vel_x, vel_y);
+    //velCam = sf::Vector2f(vel_xCam, vel_yCam);
     robot->Update(velocidad, elapsedTime);
     primeraVez = false;
 
@@ -158,6 +166,7 @@ void Game::render(float interpolacion){
             window->draw(sprites[i][j]);
         }
     }
+    window->setView(*camara->getView());
     robot->Draw(*window, interpolacion);
     window->draw(*debugText);
     
