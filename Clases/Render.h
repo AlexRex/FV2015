@@ -23,6 +23,9 @@ public:
     void SetTextura(sf::Texture &tex);
     
     Animation* getWalkingAnimation() const { return walkingAnimation; }
+    Animation* getJumpingAnimation() const { return jumpingAnimation; }
+    Animation* getFallingAnimation() const { return fallingAnimation; }
+
 
 
     
@@ -32,7 +35,8 @@ private:
     
     sf::Vector2f*        renderPos;
     Animation*           walkingAnimation;
-
+    Animation*           jumpingAnimation;
+    Animation*           fallingAnimation;
 
 
 };

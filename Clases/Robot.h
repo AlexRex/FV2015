@@ -45,6 +45,8 @@ private:
     
     AnimatedSprite*         animatedSprite;
     Animation*              walkingAnimation;
+    Animation*              jumpingAnimation;
+    Animation*              fallingAnimation;
     Animation*              currentAnimation;
     
 };
