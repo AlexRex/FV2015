@@ -7,8 +7,8 @@
 
 #include "Game.h"
 
-const sf::Time Game::timePerFrame = sf::seconds(1.f/15.f);
-const int ancho = 640, alto = 640; 
+const sf::Time Game::timePerFrame = sf::seconds(1.f/20.f);
+const int ancho = 960, alto = 640; 
 sf::Clock saltoTime = sf::Clock();
 
 Game::Game() :
@@ -18,7 +18,7 @@ Game::Game() :
 , caiendo(false)
 , primeraVez(true)
 , windowHeight(20)
-, windowWidth(20)
+, windowWidth(30)
 {
     sprites = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
@@ -109,16 +109,19 @@ void Game::run() {
 void Game::update(sf::Time elapsedTime){
     //Actualizamos fisica de los pj
     //std::cout<<"Update"<<std::endl;
-    bool hayColision =false;
+    bool hayColision = false;
+    bool hayColisionDcha = false;
     float vel_x = 0.f, vel_y=0.f;
     
     sf::Vector2f velocidad;
     
     hayColision = colision->comprobarColision();
+    hayColisionDcha = colision->comprobarColisionDcha();
+
     if(!primeraVez){
         if(mIzq)
             vel_x = -300.f;
-        if(mDcha){
+        if(mDcha && !hayColisionDcha){
             vel_x = 300.f;
         }
         if(caiendo){
@@ -138,7 +141,7 @@ void Game::update(sf::Time elapsedTime){
  
     
     velocidad = sf::Vector2f(vel_x, vel_y);
-        robot->Update(velocidad, elapsedTime);
+    robot->Update(velocidad, elapsedTime);
     primeraVez = false;
 
 }

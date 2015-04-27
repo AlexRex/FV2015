@@ -18,6 +18,8 @@ public:
     void recibirRobot(Robot*);
     void getMapa();
     bool comprobarColision();
+    bool comprobarColisionDcha();
+    
     void creoMatriz();
     void eliminarMatriz(int**a[]);
 private:
