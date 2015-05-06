@@ -340,3 +340,29 @@ sf::Sprite* Mapa::crearEsquema(){
     scene[4].setPosition(75,2*tileDim+18);
     return scene;
 }
+
+
+
+char** Mapa::generarMapa(){
+    int caract = 12;
+    
+    char nombDef[7] = "bloque";
+    char extension[5] = ".tmx";
+    
+    
+    srand (time(NULL));
+
+    
+    
+    char** nombreMapas = new char*[3];
+    
+    
+    for(int x=0; x<3; x++){
+        nombreMapas[x] = new char[caract];
+    }
+    
+    for(int a=0; a<4; a++){
+        int numMapa = rand() % 4;
+        
+    }
+}
