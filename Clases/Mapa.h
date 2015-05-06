@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <string.h>
 #include <SFML/Graphics.hpp>
 #include "../Includes/tinyxml2.h"
 
@@ -27,6 +28,9 @@ public:
     sf::Sprite** sitiosMonedas();
     sf::Sprite** objetosAleatorios();
     sf::Sprite* crearEsquema();
+    
+    char** generarMapa();
+    
 private:
     sf::Texture* texture;
     sf::Texture* texturaMoneda;
