@@ -69,6 +69,7 @@ Game::Game() :
     spritesObjetosAleatorios = mapa->objetosAleatorios();
     piezas = mapa->crearEsquema();
     
+    /*PRUEBA GEN MAPA*/
     mapa->generarMapa();
     vida1 = new sf::RectangleShape(sf::Vector2f(60, 10));
     vida2 = new sf::RectangleShape(sf::Vector2f(60, 10));

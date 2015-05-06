@@ -7,6 +7,8 @@
 
 #include "Mapa.h"
 #include <stdlib.h>
+#include <sstream>
+
 
 const int tileDim = 32; // in pixel: 32x32px
     const int windowHeight = 20; // height of the window in number of tiles
@@ -344,25 +346,36 @@ sf::Sprite* Mapa::crearEsquema(){
 
 
 char** Mapa::generarMapa(){
-    int caract = 12;
-    
-    char nombDef[7] = "bloque";
-    char extension[5] = ".tmx";
-    
-    
+    int caract = 13; // Caracteres en cada nombre
+    int cantBloques = 3; // Cantidad de mapas
+    int numMapa; // Numero aleatorio para cada mapa
     srand (time(NULL));
 
+    char** nombreBloques = new char*[3]; //array de nombres de los mapas
+    const char* unBloque = new char[cantBloques]; //nombre de un mapa 13 caract. 
     
-    
-    char** nombreMapas = new char*[3];
-    
-    
-    for(int x=0; x<3; x++){
-        nombreMapas[x] = new char[caract];
+    for(int x=0; x<cantBloques; x++){ //inicializamos el array de nombres
+        nombreBloques[x] = new char[caract];
     }
     
-    for(int a=0; a<4; a++){
-        int numMapa = rand() % 4;
+    std::stringstream stm; //Para unir los strings
+    
+    
+    
+    for(int i=0; i<cantBloques; i++){
+        numMapa = rand() % 3;
+        stm<<"bloque"<<numMapa<<".tmx"; //Unimos los nombres de los mapas
+        //std::cout<<stm.str()<<std::endl;
+
+        unBloque = stm.str().c_str(); // Obtenemos el string de la cadena unida y lo guardamos en unMapa
+
+        strcpy(nombreBloques[i], unBloque); // copiamos el string de unMapa (el mapa) dentro del array de mapas
+
+        std::cout<<nombreBloques[i]<<std::endl;
+
+        stm.str(""); // Vaciamos el stringstream para el siguiente mapa
+    }
+    
+    
         
-    }
 }
