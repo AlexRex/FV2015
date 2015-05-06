@@ -47,7 +47,13 @@ private:
     sf::Sprite**            spritesObjetosAleatorios;
     sf::Sprite**            sprites;
     sf::Sprite**            spritesMonedas;
+    sf::Sprite*             piezas;
     sf::Texture*            texturaRobot; //REND
+    
+    sf::RectangleShape*     vida1;
+    sf::RectangleShape*     vida2;
+    sf::RectangleShape*     vida3;
+    sf::RectangleShape*     vida4;
     
     
     Mapa*                   mapa;
