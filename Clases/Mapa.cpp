@@ -19,7 +19,7 @@ const int tileDim = 32; // in pixel: 32x32px
 Mapa::Mapa() {
     std::cout<<"Se crea el mapa"<<std::endl;
     texture = new sf::Texture();
-    if (!texture->loadFromFile("Resources/tileset.png")){
+    if (!texture->loadFromFile("Resources/tilesetFinal.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
@@ -93,7 +93,7 @@ Mapa::~Mapa() {
 
 sf::Sprite** Mapa::crearMapa(){
     txml2::XMLDocument map;
-    map.LoadFile("prueba2.tmx");
+    map.LoadFile("bloques/bloque5.tmx");
     
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
@@ -126,37 +126,401 @@ sf::Sprite** Mapa::crearMapa(){
     for(int i = 0; i < windowHeight; ++i) {
         scene[i] = new sf::Sprite[windowWidth];
         for (int j = 0; j < windowWidth; ++j) {
-            sf::Color blanco;
-            switch (tilePos[k]){
-                case 22:
-                    sp.setTextureRect(sf::IntRect(0, tileDim, tileDim, tileDim));
-                    //std::cout<<"22"<<std::endl;
-                    break;
-                case 65:
-                    sp.setTextureRect(sf::IntRect(tileDim, 3*tileDim, tileDim, tileDim));
-                    //std::cout<<"65"<<std::endl;
-                    break;
-                case 23:
-                    sp.setTextureRect(sf::IntRect(tileDim, tileDim, tileDim, tileDim));
-                    //std::cout<<"23"<<std::endl;
-                    break;
-                case 24:
-                    sp.setTextureRect(sf::IntRect(2*tileDim, tileDim, tileDim, tileDim));
-                    //std::cout<<"24"<<std::endl;
-                    break;
-                case 25:
-                    sp.setTextureRect(sf::IntRect(3*tileDim, tileDim, tileDim, tileDim));
-                    //std::cout<<"25"<<std::endl;
-                    break;
-                case 86:
-                    sp.setTextureRect(sf::IntRect(tileDim, 4*tileDim, tileDim, tileDim));
-                    //std::cout<<"86"<<std::endl;
-                    break;
-                default:
-                    //std::cout<<"WHITE"<<std::endl;
-                    sp.setTextureRect(sf::IntRect(11*tileDim, tileDim, tileDim, tileDim));
-                    //sp.setColor(sf::Color::Transparent);
-                    break;
+
+       switch (tilePos[k]){
+            case 1:
+            sp.setTextureRect(sf::IntRect(0, 0, tileDim, tileDim));
+            break;
+            case 2: 
+            sp.setTextureRect(sf::IntRect(tileDim, 0, tileDim, tileDim));
+            break;
+            case 3: 
+            sp.setTextureRect(sf::IntRect(2*tileDim, 0, tileDim, tileDim));
+            break;
+            case 4: 
+            sp.setTextureRect(sf::IntRect(3*tileDim, 0, tileDim, tileDim));
+            break;
+            case 13: 
+            sp.setTextureRect(sf::IntRect(0, tileDim, tileDim, tileDim));
+            break;
+            case 14: 
+            sp.setTextureRect(sf::IntRect(tileDim,tileDim , tileDim, tileDim));
+            break;
+            case 15: 
+            sp.setTextureRect(sf::IntRect(2*tileDim, tileDim, tileDim, tileDim));
+            break;
+            case 16: 
+            sp.setTextureRect(sf::IntRect(3*tileDim, tileDim, tileDim, tileDim));
+            break;
+            case 36: 
+            sp.setTextureRect(sf::IntRect(0, 2*tileDim, tileDim, tileDim));
+            break;
+            case 37: 
+            sp.setTextureRect(sf::IntRect(0, 2*tileDim, tileDim, tileDim));
+            break;
+            case 38: 
+            sp.setTextureRect(sf::IntRect(2*tileDim, 2*tileDim, tileDim, tileDim));
+            break;
+            case 39: 
+            sp.setTextureRect(sf::IntRect(3*tileDim, 2*tileDim, tileDim, tileDim));
+            break;
+            case 40: 
+            sp.setTextureRect(sf::IntRect(3*tileDim, 3*tileDim, tileDim, tileDim));
+            break;
+            case 49: 
+            sp.setTextureRect(sf::IntRect(0, 4*tileDim, tileDim, tileDim));
+            break;
+            case 50: 
+            sp.setTextureRect(sf::IntRect(tileDim, 4*tileDim, tileDim, tileDim));
+            break;
+            case 51: 
+            sp.setTextureRect(sf::IntRect(2*tileDim, 4*tileDim, tileDim, tileDim));
+            break; 
+            case 52: 
+            sp.setTextureRect(sf::IntRect(3*tileDim, 4*tileDim, tileDim, tileDim));
+            break;
+            //bloque de una fila 1*4
+            case 7:
+            sp.setTextureRect(sf::IntRect(6*tileDim, 0, tileDim, tileDim));
+            break;
+            case 8:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 0, tileDim, tileDim));
+            break;
+            case 9:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 0, tileDim, tileDim));
+            break;
+            case 10:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 0, tileDim, tileDim));
+            break;
+            //objeto de 3*3 con huecos en medio
+            case 19:
+            sp.setTextureRect(sf::IntRect(6*tileDim, tileDim, tileDim, tileDim));
+            break;
+
+            case 20:
+            sp.setTextureRect(sf::IntRect(7*tileDim, tileDim, tileDim, tileDim));
+            break;
+            case 21:
+            sp.setTextureRect(sf::IntRect(8*tileDim, tileDim, tileDim, tileDim));
+            break;
+            case 31:
+            sp.setTextureRect(sf::IntRect(6*tileDim, 2*tileDim, tileDim, tileDim));
+            break;
+            case 32:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 2*tileDim, tileDim, tileDim));
+            break;
+            case 33:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 2*tileDim, tileDim, tileDim));
+            break;
+            case 43:
+            sp.setTextureRect(sf::IntRect(6*tileDim, 3*tileDim, tileDim, tileDim));
+            break;
+            case 44:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 3*tileDim, tileDim, tileDim));
+            break;
+            case 45:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 3*tileDim, tileDim, tileDim));
+            break;
+        //objeto unico 1*1
+         case 55:
+            sp.setTextureRect(sf::IntRect(6*tileDim, 4*tileDim, tileDim, tileDim));
+            break;
+        //grieta grande***********
+            case 58:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 4*tileDim, tileDim, tileDim));
+            break;
+            case 59:
+            sp.setTextureRect(sf::IntRect(10*tileDim, 4*tileDim, tileDim, tileDim));
+            break;
+            case 46:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 3*tileDim, tileDim, tileDim));
+            break;
+            case 47:
+            sp.setTextureRect(sf::IntRect(10*tileDim, 3*tileDim, tileDim, tileDim));
+            break;
+            //fila1
+         case 68:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 5*tileDim, tileDim, tileDim));
+            break;
+         case 69:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 5*tileDim, tileDim, tileDim));
+            break;
+        case 70:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 5*tileDim, tileDim, tileDim));
+            break;
+        case 71:
+            sp.setTextureRect(sf::IntRect(10*tileDim, 5*tileDim, tileDim, tileDim));
+            break;
+        case 72:
+            sp.setTextureRect(sf::IntRect(11*tileDim, 5*tileDim, tileDim, tileDim));
+            break;
+        case 80:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 6*tileDim, tileDim, tileDim));
+            break;
+        case 81:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 6*tileDim, tileDim, tileDim));
+            break;
+        case 82:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 6*tileDim, tileDim, tileDim));
+            break;
+        case 83:
+            sp.setTextureRect(sf::IntRect(10*tileDim, 6*tileDim, tileDim, tileDim));
+            break;
+        case 84:
+            sp.setTextureRect(sf::IntRect(11*tileDim, 6*tileDim, tileDim, tileDim));
+            break;
+
+        case 92:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 7*tileDim, tileDim, tileDim));
+            break;
+        case 93:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 7*tileDim, tileDim, tileDim));
+            break;
+        case 94:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 7*tileDim, tileDim, tileDim));
+            break;
+        case 95:
+            sp.setTextureRect(sf::IntRect(10*tileDim, 7*tileDim, tileDim, tileDim));
+            break;
+        //cosa larga de 1*5
+            case 12:
+                sp.setTextureRect(sf::IntRect(11*tileDim, 0, tileDim, tileDim));
+                break;
+            case 24:
+                sp.setTextureRect(sf::IntRect(11*tileDim, tileDim, tileDim, tileDim));
+                break;
+            case 25:
+               sp.setTextureRect(sf::IntRect(0, 2*tileDim, tileDim, tileDim));
+               break;
+            case 26:
+                sp.setTextureRect(sf::IntRect(tileDim, 2*tileDim, tileDim, tileDim));
+                break;
+           case 27:
+                sp.setTextureRect(sf::IntRect(2*tileDim, 2*tileDim, tileDim, tileDim));
+                break;
+           case 28:
+                sp.setTextureRect(sf::IntRect(3*tileDim, 2*tileDim, tileDim, tileDim));
+                break;
+           /* case 36:
+            sp.setTextureRect(sf::IntRect(11*tileDim, 2*tileDim, tileDim, tileDim));
+            break;*/
+            case 48:
+            sp.setTextureRect(sf::IntRect(12*tileDim, 2*tileDim, tileDim, tileDim));
+            break;
+            case 60:
+            sp.setTextureRect(sf::IntRect(13*tileDim, 2*tileDim, tileDim, tileDim));
+            break;
+            //bloque primero color morado
+            case 361:
+            sp.setTextureRect(sf::IntRect(0, 30*tileDim, tileDim, tileDim));
+            break;
+            case 362:
+            sp.setTextureRect(sf::IntRect(tileDim, 30*tileDim, tileDim, tileDim));
+            break;
+            case 363:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 30*tileDim, tileDim, tileDim));
+            break;
+            case 364:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 30*tileDim, tileDim, tileDim));
+            break;
+            case 373:
+            sp.setTextureRect(sf::IntRect(0, 31*tileDim, tileDim, tileDim));
+            break;
+            case 374:
+            sp.setTextureRect(sf::IntRect(tileDim, 31*tileDim, tileDim, tileDim));
+            break;
+            case 375:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 31*tileDim, tileDim, tileDim));
+            break;
+            case 376:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 31*tileDim, tileDim, tileDim));
+            break;
+            case 385:
+            sp.setTextureRect(sf::IntRect(0, 32*tileDim, tileDim, tileDim));
+            break;
+            case 386:
+            sp.setTextureRect(sf::IntRect(tileDim, 32*tileDim, tileDim, tileDim));
+            break;
+            case 387:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 32*tileDim, tileDim, tileDim));
+            break;
+            case 388:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 32*tileDim, tileDim, tileDim));
+            break;
+            case 397:
+            sp.setTextureRect(sf::IntRect(0, 33*tileDim, tileDim, tileDim));
+            break;
+            case 398:
+            sp.setTextureRect(sf::IntRect(tileDim, 33*tileDim, tileDim, tileDim));
+            break;
+            case 399:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 33*tileDim, tileDim, tileDim));
+            break;
+            case 400:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 33*tileDim, tileDim, tileDim));
+            break;
+            case 409:
+            sp.setTextureRect(sf::IntRect(0, 34*tileDim, tileDim, tileDim));
+            break;
+            case 410:
+            sp.setTextureRect(sf::IntRect(tileDim, 34*tileDim, tileDim, tileDim));
+            break;
+            case 411:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 34*tileDim, tileDim, tileDim));
+            break;
+            case 412:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 34*tileDim, tileDim, tileDim));
+            break;
+            //cuestas moradas
+            case 459:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 460:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 461:
+            sp.setTextureRect(sf::IntRect(4*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 462:
+            sp.setTextureRect(sf::IntRect(5*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 447:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 36*tileDim, tileDim, tileDim));
+            break;
+            case 448:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 36*tileDim, tileDim, tileDim));
+            break;
+            case 449:
+            sp.setTextureRect(sf::IntRect(4*tileDim, 36*tileDim, tileDim, tileDim));
+            break;
+            case 450:
+            sp.setTextureRect(sf::IntRect(5*tileDim, 36*tileDim, tileDim, tileDim));
+            break;
+            case 471:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 472:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 473:
+            sp.setTextureRect(sf::IntRect(4*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 474:
+            sp.setTextureRect(sf::IntRect(5*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+
+            //mini grieta morada
+            case 428:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 35*tileDim, tileDim, tileDim));
+            break;
+            case 440:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 36*tileDim, tileDim, tileDim));
+            break;
+            case 452:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 453:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 37*tileDim, tileDim, tileDim));
+            break;
+            case 432:
+            sp.setTextureRect(sf::IntRect(11*tileDim, 35*tileDim, tileDim, tileDim));
+            break;
+            case 444:
+            sp.setTextureRect(sf::IntRect(11*tileDim, 36*tileDim, tileDim, tileDim));
+            break;
+
+            //piedra marron
+            case 241:
+            sp.setTextureRect(sf::IntRect(0, 20*tileDim, tileDim, tileDim));
+            break;
+            case 242:
+            sp.setTextureRect(sf::IntRect(tileDim, 20*tileDim, tileDim, tileDim));
+            break;
+            case 243:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 20*tileDim, tileDim, tileDim));
+            break;
+            case 244:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 20*tileDim, tileDim, tileDim));
+            break;
+            case 247:
+            sp.setTextureRect(sf::IntRect(6*tileDim, 20*tileDim, tileDim, tileDim));
+            break;
+            case 248:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 20*tileDim, tileDim, tileDim));
+            break;
+            case 250:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 20*tileDim, tileDim, tileDim));
+            break;
+            /*case 247:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 20*tileDim, tileDim, tileDim));
+            break;*/
+            //colorines
+            case 517:
+            sp.setTextureRect(sf::IntRect(0, 43*tileDim, tileDim, tileDim));
+            break;
+            case 518:
+            sp.setTextureRect(sf::IntRect(tileDim, 43*tileDim, tileDim, tileDim));
+            break;
+             case 519:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 43*tileDim, tileDim, tileDim));
+            break;
+            case 520:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 43*tileDim, tileDim, tileDim));
+            break;
+           //piedras y flores
+            case 493:
+            sp.setTextureRect(sf::IntRect(0, 41*tileDim, tileDim, tileDim));
+            break;
+            case 494:
+            sp.setTextureRect(sf::IntRect(tileDim, 41*tileDim, tileDim, tileDim));
+            break;
+            case 495:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 41*tileDim, tileDim, tileDim));
+            break;
+            case 496:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 41*tileDim, tileDim, tileDim));
+            break;
+            case 497:
+            sp.setTextureRect(sf::IntRect(4*tileDim, 41*tileDim, tileDim, tileDim));
+            break;
+            case 498:
+            sp.setTextureRect(sf::IntRect(5*tileDim, 41*tileDim, tileDim, tileDim));
+            break;
+            case 505:
+            sp.setTextureRect(sf::IntRect(0, 42*tileDim, tileDim, tileDim));
+            break;
+            case 506:
+            sp.setTextureRect(sf::IntRect(tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+             case 507:
+            sp.setTextureRect(sf::IntRect(2*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+             case 508:
+            sp.setTextureRect(sf::IntRect(3*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+             case 509:
+            sp.setTextureRect(sf::IntRect(4*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+             case 510:
+            sp.setTextureRect(sf::IntRect(5*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+             case 511:
+            sp.setTextureRect(sf::IntRect(6*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+             case 512:
+            sp.setTextureRect(sf::IntRect(7*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+            case 513:
+            sp.setTextureRect(sf::IntRect(8*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+            case 514:
+            sp.setTextureRect(sf::IntRect(9*tileDim, 42*tileDim, tileDim, tileDim));
+            break;
+            default:
+                //std::cout<<"WHITE"<<std::endl;
+                sp.setTextureRect(sf::IntRect(10*tileDim, tileDim, tileDim, tileDim));
+                //sp.setColor(sf::Color::Transparent);
+                break;
             }
             //std::cout << "tilepos[" << k << "] = " << tilePos[k] << std::endl;
             ++k;
@@ -173,7 +537,7 @@ sf::Sprite** Mapa::crearMapa(){
 
 int** Mapa::createColisiones(){
     txml2::XMLDocument map;
-    map.LoadFile("prueba2.tmx");
+    map.LoadFile("bloques/bloque5.tmx");
     
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
@@ -345,14 +709,15 @@ sf::Sprite* Mapa::crearEsquema(){
 
 
 
-char** Mapa::generarMapa(){
+char** Mapa::generarMapa(int cantB, int posibles){
     int caract = 13; // Caracteres en cada nombre
-    int cantBloques = 3; // Cantidad de mapas
+    int cantBloques = cantB; // Cantidad de mapas
     int numMapa; // Numero aleatorio para cada mapa
+    int anterior=10; // Para no repetir bloque
     srand (time(NULL));
 
-    char** nombreBloques = new char*[3]; //array de nombres de los mapas
-    const char* unBloque = new char[cantBloques]; //nombre de un mapa 13 caract. 
+    char** nombreBloques = new char*[cantBloques]; //array de nombres de los mapas
+    const char* unBloque = new char[caract]; //nombre de un mapa 13 caract. 
     
     for(int x=0; x<cantBloques; x++){ //inicializamos el array de nombres
         nombreBloques[x] = new char[caract];
@@ -363,7 +728,11 @@ char** Mapa::generarMapa(){
     
     
     for(int i=0; i<cantBloques; i++){
-        numMapa = rand() % 3;
+        do{
+        numMapa = rand() % (posibles+1);
+        } while(anterior == numMapa);
+        
+        anterior = numMapa;
         stm<<"bloque"<<numMapa<<".tmx"; //Unimos los nombres de los mapas
         //std::cout<<stm.str()<<std::endl;
 

@@ -29,7 +29,7 @@ public:
     sf::Sprite** objetosAleatorios();
     sf::Sprite* crearEsquema();
     
-    char** generarMapa();
+    char** generarMapa(int, int);
     
 private:
     sf::Texture* texture;
