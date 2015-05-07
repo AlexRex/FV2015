@@ -63,14 +63,17 @@ Game::Game() :
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
     
+    /*PRUEBA GEN MAPA*/
+    mapa->generarMapa(5, 10);
+    
     
     sprites = mapa->crearMapa();
     spritesMonedas = mapa->sitiosMonedas();
     spritesObjetosAleatorios = mapa->objetosAleatorios();
     piezas = mapa->crearEsquema();
     
-    /*PRUEBA GEN MAPA*/
-    mapa->generarMapa();
+    
+    
     vida1 = new sf::RectangleShape(sf::Vector2f(60, 10));
     vida2 = new sf::RectangleShape(sf::Vector2f(60, 10));
     vida3 = new sf::RectangleShape(sf::Vector2f(60, 10));
@@ -95,6 +98,7 @@ Game::Game() :
     posInicial.y = 8*32;
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
     colision->recibirRobot(robot);
+    
     camara->creaCamara(posInicial.x,posInicial.y-64,960,640);
     robot->recibirCamara(camara);
 
@@ -151,10 +155,8 @@ void Game::update(sf::Time elapsedTime){
     bool hayColision = false;
     bool hayColisionDcha = false;
     float vel_x = 0.f, vel_y=0.f;
-    float vel_xCam = 0.f, vel_yCam=0.f;
     
     sf::Vector2f velocidad;
-    sf::Vector2f velCam;
     
     hayColision = colision->comprobarColision();
     hayColisionDcha = colision->comprobarColisionDcha();
@@ -198,8 +200,8 @@ void Game::render(float interpolacion){
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
             window->draw(sprites[i][j]);
-            window->draw(spritesObjetosAleatorios[i][j]);
-            window->draw(spritesMonedas[i][j]);
+            //window->draw(spritesObjetosAleatorios[i][j]);
+            //window->draw(spritesMonedas[i][j]);
         }
     }
     
