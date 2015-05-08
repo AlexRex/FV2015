@@ -32,16 +32,23 @@ ColisionSuelo::ColisionSuelo(const ColisionSuelo& orig) {
 ColisionSuelo::~ColisionSuelo() {
 }
 
-void ColisionSuelo::recibirRobot(Robot* roby){
+void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
     //Robot nuevo = roby;
     robot = roby;
     //prueba = roby;
     posRobotAnteriorX  = robot->getPos().x;
     posRobotAnteriorY  = robot->getPos().y;
-    getMapa();
+    getMapa(bloques, nombreBloques);
 }
-void ColisionSuelo::getMapa(){
-    mapaColision = mapa->createColisiones();
+void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
+    
+    for(int i=0; i<bloques; i++){
+        std::cout<<nombreBloques[i]<<std::endl;
+    }
+    
+    char nomb[] = "bloque0.tmx";
+    
+    mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
     posActualMatriz = mapaColision[fila][columna];

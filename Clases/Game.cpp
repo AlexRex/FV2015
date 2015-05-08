@@ -19,13 +19,9 @@ Game::Game() :
 , primeraVez(true)
 , windowHeight(20)
 , windowWidth(30)
-, cantidadBloques(4)
-, posiblesBloques(4)
-{
-    
-    
-    
-    
+, cantidadBloques(10)
+, posiblesBloques(6)
+{   
     spritesMonedas = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
         spritesMonedas[i] = new sf::Sprite[windowWidth];
@@ -50,7 +46,6 @@ Game::Game() :
     debugFont = new sf::Font();
     debugText = new sf::Text();
     
-    this->construirMapas();
    
     window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Default);
     window->setVerticalSyncEnabled(true);
@@ -64,12 +59,8 @@ Game::Game() :
     if(!texturaRobot->loadFromFile("Resources/spriteSheetTotal.png")){
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
-    
-   
-    
-        
-    
-    //spritesMapa = mapa->crearMapa();
+
+    this->construirMapas();
     spritesMonedas = mapa->sitiosMonedas();
     spritesObjetosAleatorios = mapa->objetosAleatorios();
     piezas = mapa->crearEsquema();
@@ -99,7 +90,7 @@ Game::Game() :
     posInicial.x = 16*32;
     posInicial.y = 8*32;
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
-    colision->recibirRobot(robot);
+    colision->init(robot, cantidadBloques, nombreBloques);
     
     camara->creaCamara(posInicial.x,posInicial.y-64,960,640);
     robot->recibirCamara(camara);
@@ -210,16 +201,16 @@ void Game::render(float interpolacion){
     }
     
     for (int i = 0; i < 5; i++){
-        window->draw(piezas[i]);
+        //window->draw(piezas[i]);
     }
-    window->draw(*vida1);
-    window->draw(*vida2);
-    window->draw(*vida3);
-    window->draw(*vida4);
+    //window->draw(*vida1);
+    //window->draw(*vida2);
+    //window->draw(*vida3);
+    //window->draw(*vida4);
     
     window->setView(*camara->getView());
     robot->Draw(*window, interpolacion);
-    window->draw(*debugText);
+    //window->draw(*debugText);
     
     
     
@@ -274,14 +265,14 @@ void Game::controlarRobot(sf::Keyboard::Key key, bool presionada){
 
 sf::Sprite*** Game::construirMapas(){
     /*PRUEBA GEN MAPA*/
-    nombresBloques = new char*[cantidadBloques];
+    nombreBloques = new char*[cantidadBloques];
     for(int i=0; i < cantidadBloques; i++){
-        nombresBloques[i] = new char[13];
+        nombreBloques[i] = new char[13];
     }
-    nombresBloques = mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
+    nombreBloques = mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
     
     for(int i=0; i<cantidadBloques; i++){
-        std::cout<<"Nombre: "<<nombresBloques[i]<<std::endl;
+        std::cout<<"Nombre: "<<nombreBloques[i]<<std::endl;
     }
     
     spritesBloques = new sf::Sprite**[cantidadBloques];
@@ -293,7 +284,7 @@ sf::Sprite*** Game::construirMapas(){
         }
     }
     for(int i = 0; i < cantidadBloques; i++){
-        spritesBloques[i] = mapa->crearMapa(i, nombresBloques[i]);
+        spritesBloques[i] = mapa->crearMapa(i, nombreBloques[i]);
     }
        
     return spritesBloques;

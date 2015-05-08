@@ -23,7 +23,7 @@ public:
     Mapa(const Mapa& orig);
     virtual ~Mapa();
     sf::Sprite* createSprite(sf::Sprite*, int, int, int);
-    int** createColisiones();
+    int** createColisiones(int, char**);
     sf::Sprite** crearMapa(int , char[] );
     sf::Sprite** sitiosMonedas();
     sf::Sprite** objetosAleatorios();

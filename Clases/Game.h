@@ -47,7 +47,6 @@ private:
     sf::Text*               debugText;
     
     sf::Sprite**            spritesObjetosAleatorios;
-    sf::Sprite**            spritesMapa;
     sf::Sprite**            spritesMonedas;
     sf::Sprite***           spritesBloques;
     sf::Sprite*             piezas;
@@ -69,7 +68,7 @@ private:
     
     int                     cantidadBloques;
     int                     posiblesBloques;
-    char**                  nombresBloques;
+    char**                  nombreBloques;
     
     bool                    mDcha;
     bool                    mIzq;

@@ -54,27 +54,16 @@ Mapa::~Mapa() {
 
 
 sf::Sprite** Mapa::crearMapa(int desplazamiento, char nombreBloques[]){
-    const char* unBloque = new char[22]; //nombre de un mapa 13 caract. 
 
     std::stringstream stm; //Para unir los strings
     stm<<"bloques/"<<nombreBloques; //Unimos los nombres de los mapas
-        //std::cout<<stm.str()<<std::endl;
-
-        //unBloque = stm.str().c_str(); // Obtenemos el string de la cadena unida y lo guardamos en unMapa
-
-       /* strcpy(nombreBloques[i], unBloque); // copiamos el string de unMapa (el mapa) dentro del array de mapas
-
-        std::cout<<nombreBloques[i]<<std::endl;*/
-
-         // Vaciamos el stringstream para el siguiente mapa
-    
-    std::cout<<stm.str().c_str()<<std::endl;
+    // std::cout<<stm.str().c_str()<<std::endl;
     
     txml2::XMLDocument map;
     map.LoadFile(stm.str().c_str());
     
     
-    stm.str("");
+    
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
     while(strcmp(xmlNode->Attribute("name"), "Capa de Patrones 1") != 0){
@@ -521,22 +510,26 @@ sf::Sprite** Mapa::crearMapa(int desplazamiento, char nombreBloques[]){
     return scene;
 }
 
-int** Mapa::createColisiones(){
-    txml2::XMLDocument map;
-    map.LoadFile("bloques/bloque0.tmx");
+int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
+    
+    
     
     
     
     int**lista = new int*[windowHeight];
     for(int i =0; i< windowHeight; i++){
-        lista[i]= new int[windowWidth*2];
+        lista[i]= new int[windowWidth*desplazamiento];
     }
     
     int desp = 0;
     
-    while(desp<2){
+    while(desp<desplazamiento){
         int i = 0, j = (windowWidth*desp);
-        
+        std::stringstream stm; //Para unir los strings
+        stm<<"bloques/"<<nombreBloques[desp]; //Unimos los nombres de los mapas
+
+        txml2::XMLDocument map;
+        map.LoadFile(stm.str().c_str());
        // std::cout<<"j: "<<j<<std::endl;
        // std::cout<<"WindowWidth*(desp+1)-1 "<< (windowWidth*(desp+1)-1) <<std::endl;
        // std::cout<<"desp: "<<desp<<std::endl;

@@ -15,8 +15,8 @@ public:
     ColisionSuelo();
     ColisionSuelo(const ColisionSuelo& orig);
     virtual ~ColisionSuelo();
-    void recibirRobot(Robot*);
-    void getMapa();
+    void init(Robot*, int, char**);
+    void getMapa(int, char**);
     bool comprobarColision();
     bool comprobarColisionDcha();
     
@@ -31,6 +31,8 @@ private:
     int columna;
     int posRobotAnteriorX;
     int posRobotAnteriorY;
+    
+    
     
 };
 
