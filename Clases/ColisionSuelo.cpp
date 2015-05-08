@@ -106,10 +106,7 @@ bool ColisionSuelo::comprobarColision(){
     //recogemos la posicion del robot
     int filaAnterior,columnaAnterior;
 
-    float posRobotActualX = robot->getPos().x;
-    float posRobotActualY = robot->getPos().y;
-    //std::cout<<"posRobotActual: "<<posRobotActual<<std::endl;
-     //cambiamos de casilla en la matriz
+    
     
     fila = (robot->getPos().y / tamTile);
     columna = ((robot->getPos().x+16) / tamTile) ;
@@ -117,38 +114,7 @@ bool ColisionSuelo::comprobarColision(){
     if(filaAnterior != fila && columnaAnterior != columna){
         //std::cout<<endl<<endl<<"MatrizColision["<<(fila+2)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
     }
-    
-    /*
-    if(posRobotActualX - posRobotAnteriorX >= tamTile){
-        posRobotAnteriorX = posRobotActualX;
-        //cambiamos de columna
-        contY++;
-        posActualMatriz = mapaColision[cont][contY];
-        std::cout<<endl<<endl<<"Voy derecha["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
-    }
-    if(posRobotAnteriorX- posRobotActualX >= tamTile){
-        posRobotAnteriorX = posRobotActualX;
-        contY--;
-        posActualMatriz = mapaColision[contY][cont];
-        std::cout<<endl<<endl<<"Voy izquierda["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
-    }
-    //std::cout<<"posRobotActualY: "<<posRobotActualY<<std::endl;
-    
-        if( posRobotActualY - posRobotAnteriorY>= cambioTiled){//baja
-            posRobotAnteriorY = posRobotActualY;
-            cont++;
-            posActualMatriz = mapaColision[cont][contY];
-            std::cout<<endl<<endl<<"Voy abajo["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
-        }
    
-
-        if(posRobotAnteriorY - posRobotActualY  >= cambioTiled){//sube
-            posRobotAnteriorY = posRobotActualY;
-            cont--;
-            posActualMatriz = mapaColision[cont][contY];
-            std::cout<<endl<<endl<<"Voy arriba["<<cont<<"]["<<contY<<"]: "<<posActualMatriz<<endl;
-        }
-     */
     
     if(posActualMatriz != 0){
         hayColision = true;

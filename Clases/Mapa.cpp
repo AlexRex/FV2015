@@ -91,9 +91,9 @@ Mapa::~Mapa() {
 
 
 
-sf::Sprite** Mapa::crearMapa(){
+sf::Sprite** Mapa::crearMapa(int desplazamiento){
     txml2::XMLDocument map;
-    map.LoadFile("bloques/bloque5.tmx");
+    map.LoadFile("bloques/bloque1.tmx");
     
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
@@ -519,60 +519,80 @@ sf::Sprite** Mapa::crearMapa(){
             default:
                 //std::cout<<"WHITE"<<std::endl;
                 sp.setTextureRect(sf::IntRect(10*tileDim, tileDim, tileDim, tileDim));
-                //sp.setColor(sf::Color::Transparent);
                 break;
             }
-            //std::cout << "tilepos[" << k << "] = " << tilePos[k] << std::endl;
+      // std::cout<<tilePos[k];
             ++k;
             
             sp.setOrigin(0,0);
-            sp.setPosition(j * tileDim, i * tileDim);
+            if(desplazamiento>0){
+                sp.setPosition(j * tileDim + (desplazamiento*windowWidth*tileDim), i * tileDim);
+            }
+            else
+                sp.setPosition(j * tileDim, i * tileDim);
+
             sp.setScale(1,1);
             scene[i][j] = sp;
         }
+        //std::cout<<std::endl;
     }
    
+
     return scene;
 }
 
 int** Mapa::createColisiones(){
     txml2::XMLDocument map;
-    map.LoadFile("bloques/bloque5.tmx");
+    map.LoadFile("bloques/bloque1.tmx");
     
-    txml2::XMLElement* xmlNode = map.FirstChildElement("map")
-                                ->FirstChildElement("layer");
-    while(strcmp(xmlNode->Attribute("name"), "Colision") != 0){
-         xmlNode = xmlNode->NextSiblingElement();
-    }
-    xmlNode = xmlNode->FirstChildElement("data")
-                     ->FirstChildElement("tile");
+    
     
     int**lista = new int*[windowHeight];
     for(int i =0; i< windowHeight; i++){
-        lista[i]= new int[windowWidth];
+        lista[i]= new int[windowWidth*2];
     }
-    int i = 0, j = 0;
     
-    while (xmlNode){
-        std::stringstream s(xmlNode->Attribute("gid"));
-        xmlNode = xmlNode->NextSiblingElement();
-        int tilePos;
-        s >> tilePos;
-       // std::cout<<"I: "<<i;
-       // std::cout<<" J: "<<j<<std::endl;
+    int desp = 0;
+    
+    while(desp<2){
+        int i = 0, j = (windowWidth*desp);
+        
+        std::cout<<"j: "<<j<<std::endl;
+        std::cout<<"WindowWidth*(desp+1)-1 "<< (windowWidth*(desp+1)-1) <<std::endl;
+        std::cout<<"desp: "<<desp<<std::endl;
 
-        if(i<windowHeight){
-            if(j<windowWidth-1){
-                lista[i][j] = tilePos;
-                //std::cout<<lista[i][j];
-                j++;
-            }
-            else{
-                //std::cout<<std::endl;
-                j=0;
-                i++;
+        
+        txml2::XMLElement* xmlNode = map.FirstChildElement("map")
+                                ->FirstChildElement("layer");
+        while(strcmp(xmlNode->Attribute("name"), "Colision") != 0){
+             xmlNode = xmlNode->NextSiblingElement();
+        }
+        xmlNode = xmlNode->FirstChildElement("data")
+                         ->FirstChildElement("tile");
+        
+        
+        while (xmlNode){
+            std::stringstream s(xmlNode->Attribute("gid"));
+            xmlNode = xmlNode->NextSiblingElement();
+            int tilePos;
+            s >> tilePos;
+           // std::cout<<"I: "<<i;
+           // std::cout<<" J: "<<j<<std::endl;
+
+            if(i<windowHeight){
+                if(j<windowWidth*(desp+1)-1){
+                    lista[i][j] = tilePos;
+                    std::cout<<lista[i][j];
+                    j++;
+                }
+                else{
+                    std::cout<<std::endl;
+                    j=windowWidth*desp;
+                    i++;
+                }
             }
         }
+        desp++;
     }
     return lista;
 }
@@ -729,7 +749,7 @@ char** Mapa::generarMapa(int cantB, int posibles){
     
     for(int i=0; i<cantBloques; i++){
         do{
-        numMapa = rand() % (posibles+1);
+        numMapa = rand() % (posibles);
         } while(anterior == numMapa);
         
         anterior = numMapa;

@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="alien2" tilewidth="32" tileheight="32">
   <image source="../Resources/tilesetFinal.png" width="384" height="2304"/>
  </tileset>
- <layer name="Capa de Patrones 1" width="30" height="20" visible="0">
+ <layer name="Capa de Patrones 1" width="30" height="20">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -524,15 +524,15 @@
    <tile gid="14"/>
    <tile gid="16"/>
    <tile gid="0"/>
-   <tile gid="55"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="55"/>
    <tile gid="0"/>
-   <tile gid="55"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="55"/>
    <tile gid="0"/>
-   <tile gid="55"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="55"/>
    <tile gid="0"/>
@@ -1128,15 +1128,15 @@
    <tile gid="14"/>
    <tile gid="16"/>
    <tile gid="0"/>
-   <tile gid="55"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="55"/>
    <tile gid="0"/>
-   <tile gid="55"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="55"/>
    <tile gid="0"/>
-   <tile gid="55"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="55"/>
    <tile gid="0"/>

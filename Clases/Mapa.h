@@ -24,7 +24,7 @@ public:
     virtual ~Mapa();
     sf::Sprite* createSprite(sf::Sprite*, int, int, int);
     int** createColisiones();
-    sf::Sprite** crearMapa();
+    sf::Sprite** crearMapa(int desplazamiento);
     sf::Sprite** sitiosMonedas();
     sf::Sprite** objetosAleatorios();
     sf::Sprite* crearEsquema();

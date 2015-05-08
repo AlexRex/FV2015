@@ -45,7 +45,8 @@ private:
     sf::Text*               debugText;
     
     sf::Sprite**            spritesObjetosAleatorios;
-    sf::Sprite**            sprites;
+    sf::Sprite**            spritesMapa;
+    sf::Sprite**            spritesMapa2;
     sf::Sprite**            spritesMonedas;
     sf::Sprite*             piezas;
     sf::Texture*            texturaRobot; //REND
@@ -63,6 +64,9 @@ private:
     
     float                   interpolacion;
     int                     posIniSalto;
+    
+    int                     cantidadBloques;
+    int                     posiblesBloques;
     
     bool                    mDcha;
     bool                    mIzq;

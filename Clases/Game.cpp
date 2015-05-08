@@ -19,11 +19,19 @@ Game::Game() :
 , primeraVez(true)
 , windowHeight(20)
 , windowWidth(30)
+, cantidadBloques(2)
+, posiblesBloques(2)
 {
-    sprites = new sf::Sprite*[windowHeight];
+    spritesMapa = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
     for(int i = 0; i < windowHeight; i++){
-        sprites[i] = new sf::Sprite[windowWidth];
+        spritesMapa[i] = new sf::Sprite[windowWidth];
     }
+    
+    spritesMapa2 = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
+    for(int i = 0; i < windowHeight; i++){
+        spritesMapa2[i] = new sf::Sprite[windowWidth];
+    }
+
     
     spritesMonedas = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
@@ -63,11 +71,17 @@ Game::Game() :
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
     
+    spritesMapa = mapa->crearMapa(0);
+    spritesMapa2 = mapa->crearMapa(1);
+    std::cout<<"spritesss"<<std::endl;
+    
+    
+    
     /*PRUEBA GEN MAPA*/
-    mapa->generarMapa(5, 10);
+    //mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
     
     
-    sprites = mapa->crearMapa();
+    //spritesMapa = mapa->crearMapa();
     spritesMonedas = mapa->sitiosMonedas();
     spritesObjetosAleatorios = mapa->objetosAleatorios();
     piezas = mapa->crearEsquema();
@@ -199,7 +213,8 @@ void Game::render(float interpolacion){
    for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
-            window->draw(sprites[i][j]);
+            window->draw(spritesMapa[i][j]);
+            window->draw(spritesMapa2[i][j]);
             //window->draw(spritesObjetosAleatorios[i][j]);
             //window->draw(spritesMonedas[i][j]);
         }
