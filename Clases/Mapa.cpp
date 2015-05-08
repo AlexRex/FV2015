@@ -51,50 +51,30 @@ Mapa::~Mapa() {
     std::cout<<"Libero memoria"<<std::endl;
 }
 
-/*sf::Sprite* Mapa::createSprite(sf::Sprite* sp, int offsetx, int offsety, int tilePos) {
-    sf::Color blanco;
-    switch (tilePos){
-        case 22:
-            sp->setTextureRect(sf::IntRect(0, tileDim, tileDim, tileDim));
-            break;
-        case 65:
-            sp->setTextureRect(sf::IntRect(tileDim, 3*tileDim, tileDim, tileDim));
-            std::cout<<"65"<<std::endl;
-            break;
-        case 23:
-            sp->setTextureRect(sf::IntRect(tileDim, tileDim, tileDim, tileDim));
-            std::cout<<"23"<<std::endl;
-            break;
-        case 24:
-            sp->setTextureRect(sf::IntRect(2*tileDim, tileDim, tileDim, tileDim));
-            break;
-        case 25:
-            sp->setTextureRect(sf::IntRect(3*tileDim, tileDim, tileDim, tileDim));
-            break;
-        case 86:
-            sp->setTextureRect(sf::IntRect(tileDim, 4*tileDim, tileDim, tileDim));
-            break;
-        default:
-            sp->setColor(blanco.Transparent);
-            break;
-    }
-    // position of the sprite calculated as offset
-    // from the left side of the window
-    offsetx = offsetx % windowWidth;
 
-    sp->setOrigin(0,0);
-    sp->setPosition(offsetx * tileDim, offsety * tileDim);
-    sp->setScale(1,1);
+
+sf::Sprite** Mapa::crearMapa(int desplazamiento, char nombreBloques[]){
+    const char* unBloque = new char[22]; //nombre de un mapa 13 caract. 
+
+    std::stringstream stm; //Para unir los strings
+    stm<<"bloques/"<<nombreBloques; //Unimos los nombres de los mapas
+        //std::cout<<stm.str()<<std::endl;
+
+        //unBloque = stm.str().c_str(); // Obtenemos el string de la cadena unida y lo guardamos en unMapa
+
+       /* strcpy(nombreBloques[i], unBloque); // copiamos el string de unMapa (el mapa) dentro del array de mapas
+
+        std::cout<<nombreBloques[i]<<std::endl;*/
+
+         // Vaciamos el stringstream para el siguiente mapa
     
-    return sp;
-}*/
-
-
-
-sf::Sprite** Mapa::crearMapa(int desplazamiento){
+    std::cout<<stm.str().c_str()<<std::endl;
+    
     txml2::XMLDocument map;
-    map.LoadFile("bloques/bloque1.tmx");
+    map.LoadFile(stm.str().c_str());
     
+    
+    stm.str("");
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
     while(strcmp(xmlNode->Attribute("name"), "Capa de Patrones 1") != 0){
@@ -543,7 +523,7 @@ sf::Sprite** Mapa::crearMapa(int desplazamiento){
 
 int** Mapa::createColisiones(){
     txml2::XMLDocument map;
-    map.LoadFile("bloques/bloque1.tmx");
+    map.LoadFile("bloques/bloque0.tmx");
     
     
     
@@ -557,9 +537,9 @@ int** Mapa::createColisiones(){
     while(desp<2){
         int i = 0, j = (windowWidth*desp);
         
-        std::cout<<"j: "<<j<<std::endl;
-        std::cout<<"WindowWidth*(desp+1)-1 "<< (windowWidth*(desp+1)-1) <<std::endl;
-        std::cout<<"desp: "<<desp<<std::endl;
+       // std::cout<<"j: "<<j<<std::endl;
+       // std::cout<<"WindowWidth*(desp+1)-1 "<< (windowWidth*(desp+1)-1) <<std::endl;
+       // std::cout<<"desp: "<<desp<<std::endl;
 
         
         txml2::XMLElement* xmlNode = map.FirstChildElement("map")
@@ -582,11 +562,11 @@ int** Mapa::createColisiones(){
             if(i<windowHeight){
                 if(j<windowWidth*(desp+1)-1){
                     lista[i][j] = tilePos;
-                    std::cout<<lista[i][j];
+                   // std::cout<<lista[i][j];
                     j++;
                 }
                 else{
-                    std::cout<<std::endl;
+                   // std::cout<<std::endl;
                     j=windowWidth*desp;
                     i++;
                 }
@@ -750,7 +730,7 @@ char** Mapa::generarMapa(int cantB, int posibles){
     for(int i=0; i<cantBloques; i++){
         do{
         numMapa = rand() % (posibles);
-        } while(anterior == numMapa);
+        } while(anterior == numMapa && posibles>1);
         
         anterior = numMapa;
         stm<<"bloque"<<numMapa<<".tmx"; //Unimos los nombres de los mapas
@@ -760,11 +740,11 @@ char** Mapa::generarMapa(int cantB, int posibles){
 
         strcpy(nombreBloques[i], unBloque); // copiamos el string de unMapa (el mapa) dentro del array de mapas
 
-        std::cout<<nombreBloques[i]<<std::endl;
+        //std::cout<<nombreBloques[i]<<std::endl;
 
         stm.str(""); // Vaciamos el stringstream para el siguiente mapa
     }
     
     
-        
+    return nombreBloques;
 }

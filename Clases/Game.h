@@ -27,12 +27,14 @@
 class Game : private sf::NonCopyable {
 public:
     Game();
-    virtual ~Game();
-    void    run();
-    void    update(sf::Time elapsedTime);
-    void    render(float interpolacion);
-    void    processEvents();
-    void    controlarRobot(sf::Keyboard::Key key, bool presionada);
+    virtual          ~Game();
+    void             run();
+    void             update(sf::Time elapsedTime);
+    void             render(float interpolacion);
+    void             processEvents();
+    void             controlarRobot(sf::Keyboard::Key key, bool presionada);
+    sf::Sprite***    construirMapas();
+    
     
 private:
     static const sf::Time   timePerFrame;
@@ -46,8 +48,8 @@ private:
     
     sf::Sprite**            spritesObjetosAleatorios;
     sf::Sprite**            spritesMapa;
-    sf::Sprite**            spritesMapa2;
     sf::Sprite**            spritesMonedas;
+    sf::Sprite***           spritesBloques;
     sf::Sprite*             piezas;
     sf::Texture*            texturaRobot; //REND
     
@@ -67,6 +69,7 @@ private:
     
     int                     cantidadBloques;
     int                     posiblesBloques;
+    char**                  nombresBloques;
     
     bool                    mDcha;
     bool                    mIzq;

@@ -19,19 +19,12 @@ Game::Game() :
 , primeraVez(true)
 , windowHeight(20)
 , windowWidth(30)
-, cantidadBloques(2)
-, posiblesBloques(2)
+, cantidadBloques(4)
+, posiblesBloques(4)
 {
-    spritesMapa = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
-    for(int i = 0; i < windowHeight; i++){
-        spritesMapa[i] = new sf::Sprite[windowWidth];
-    }
     
-    spritesMapa2 = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
-    for(int i = 0; i < windowHeight; i++){
-        spritesMapa2[i] = new sf::Sprite[windowWidth];
-    }
-
+    
+    
     
     spritesMonedas = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
@@ -57,8 +50,9 @@ Game::Game() :
     debugFont = new sf::Font();
     debugText = new sf::Text();
     
+    this->construirMapas();
    
-    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Close);
+    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Default);
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(125);
     
@@ -71,15 +65,9 @@ Game::Game() :
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
     
-    spritesMapa = mapa->crearMapa(0);
-    spritesMapa2 = mapa->crearMapa(1);
-    std::cout<<"spritesss"<<std::endl;
+   
     
-    
-    
-    /*PRUEBA GEN MAPA*/
-    //mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
-    
+        
     
     //spritesMapa = mapa->crearMapa();
     spritesMonedas = mapa->sitiosMonedas();
@@ -213,8 +201,9 @@ void Game::render(float interpolacion){
    for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
-            window->draw(spritesMapa[i][j]);
-            window->draw(spritesMapa2[i][j]);
+            for(int a = 0; a<cantidadBloques; a++){
+               window->draw(spritesBloques[a][i][j]);
+            }
             //window->draw(spritesObjetosAleatorios[i][j]);
             //window->draw(spritesMonedas[i][j]);
         }
@@ -280,4 +269,32 @@ void Game::controlarRobot(sf::Keyboard::Key key, bool presionada){
         window->close();
     }
     
+}
+
+
+sf::Sprite*** Game::construirMapas(){
+    /*PRUEBA GEN MAPA*/
+    nombresBloques = new char*[cantidadBloques];
+    for(int i=0; i < cantidadBloques; i++){
+        nombresBloques[i] = new char[13];
+    }
+    nombresBloques = mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
+    
+    for(int i=0; i<cantidadBloques; i++){
+        std::cout<<"Nombre: "<<nombresBloques[i]<<std::endl;
+    }
+    
+    spritesBloques = new sf::Sprite**[cantidadBloques];
+    
+    for(int a = 0; a<cantidadBloques; a++){
+        spritesBloques[a] = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
+        for(int i = 0; i < windowHeight; i++){
+            spritesBloques[a][i] = new sf::Sprite[windowWidth];
+        }
+    }
+    for(int i = 0; i < cantidadBloques; i++){
+        spritesBloques[i] = mapa->crearMapa(i, nombresBloques[i]);
+    }
+       
+    return spritesBloques;
 }
