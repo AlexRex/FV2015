@@ -17,10 +17,7 @@ using namespace std;
 ColisionSuelo::ColisionSuelo() {
     //robot = new Robot();
     //mapa = new Mapa();
-    mapaColision = new int*[sizeX];    
-    for(int i =0; i< sizeX; i++){
-        mapaColision[i]= new int[sizeY];
-    }
+    
    posActualMatriz = 0;
    fila = 0;
    columna = 0;
@@ -42,11 +39,8 @@ void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
 }
 void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
     
-    for(int i=0; i<bloques; i++){
-        std::cout<<nombreBloques[i]<<std::endl;
-    }
     
-    char nomb[] = "bloque0.tmx";
+    
     
     mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);
@@ -69,13 +63,11 @@ bool ColisionSuelo::comprobarColisionDcha(){
     
     int filaAnterior, columnaAnterior;
     
-    float posRobotX = robot->getPos().x;
-    float posRobotY = robot->getPos().y;
     
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
     posActualMatriz = mapaColision[fila+1][columna+1];
-
+    std::cout<"Pos Actual: "<<posActualMatriz<<std::endl;
     /*for(int i=0; i<20; i++){
         for(int j=0; j<19; j++){
             std::cout<<mapaColision[i][j];

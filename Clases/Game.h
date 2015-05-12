@@ -28,12 +28,15 @@ class Game : private sf::NonCopyable {
 public:
     Game();
     virtual          ~Game();
-    void             run();
+    bool             run();
     void             update(sf::Time elapsedTime);
     void             render(float interpolacion);
     void             processEvents();
     void             controlarRobot(sf::Keyboard::Key key, bool presionada);
+    void             controlarJuego(sf::Keyboard::Key key);
+    void             mostrarMenuMuerte();
     sf::Sprite***    construirMapas();
+    sf::Sprite***    construirFondos();
     
     
 private:
@@ -46,13 +49,17 @@ private:
     sf::Font*               debugFont;
     sf::Text*               debugText;
     
+    sf::Time                tiempoSaltoPause;
+    
     sf::Sprite**            spritesObjetosAleatorios;
     sf::Sprite**            spritesMonedas;
     sf::Sprite***           spritesBloques;
     sf::Sprite*             piezas;
-    sf::Sprite**            spritesFondo;
     
-    sf::Sprite              spriteFondo;
+    
+    sf::Sprite***           spritesFondos;
+    sf::Sprite*             spriteFondo;
+    sf::Sprite*             fondo;
     
     sf::Texture*            texturaRobot; //REND
     sf::Texture             texturaFondo;
@@ -68,6 +75,7 @@ private:
     Robot*                  robot;
     ColisionSuelo*          colision;
     Camara*                 camara;
+    Camara*                 camaraMenu;
     
     float                   interpolacion;
     int                     posIniSalto;
@@ -80,6 +88,8 @@ private:
     bool                    mIzq;
     bool                    caiendo;
     bool                    primeraVez;
+    bool                    muerto;
+    bool                    pause;
 };
 
 #endif	/* GAME_H */

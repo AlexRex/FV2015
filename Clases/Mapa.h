@@ -28,7 +28,7 @@ public:
     sf::Sprite** sitiosMonedas();
     sf::Sprite** objetosAleatorios();
     sf::Sprite* crearEsquema();
-    sf::Sprite** crearFondo();
+    sf::Sprite** crearFondo(int);
     
     char** generarMapa(int, int);
     

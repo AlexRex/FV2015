@@ -748,7 +748,7 @@ char** Mapa::generarMapa(int cantB, int posibles){
 }
 
 
-sf::Sprite** Mapa::crearFondo(){
+sf::Sprite** Mapa::crearFondo(int desplazamiento){
     txml2::XMLDocument map;
     map.LoadFile("bloques/fondo.tmx");
     
@@ -756,7 +756,7 @@ sf::Sprite** Mapa::crearFondo(){
     
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
-    while(strcmp(xmlNode->Attribute("name"), "Capa de Patrones 1") != 0){
+    while(strcmp(xmlNode->Attribute("name"), "Fondo") != 0){
          xmlNode->NextSibling();
     }
     xmlNode = xmlNode->FirstChildElement("data")
@@ -823,8 +823,11 @@ sf::Sprite** Mapa::crearFondo(){
             ++k;
             
             sp.setOrigin(0,0);
-            
-            sp.setPosition(j * tileDim, i * tileDim);
+            if(desplazamiento>0){
+                sp.setPosition(j * tileDim + (desplazamiento*windowWidth*tileDim), i * tileDim);
+            }
+            else
+                sp.setPosition(j * tileDim, i * tileDim);
 
             sp.setScale(1,1);
             scene[i][j] = sp;
