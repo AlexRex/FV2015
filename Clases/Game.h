@@ -50,7 +50,13 @@ private:
     sf::Sprite**            spritesMonedas;
     sf::Sprite***           spritesBloques;
     sf::Sprite*             piezas;
+    sf::Sprite**            spritesFondo;
+    
+    sf::Sprite              spriteFondo;
+    
     sf::Texture*            texturaRobot; //REND
+    sf::Texture             texturaFondo;
+    
     
     sf::RectangleShape*     vida1;
     sf::RectangleShape*     vida2;

@@ -31,6 +31,11 @@ Game::Game() :
     for(int i = 0; i < windowHeight; i++){
         spritesObjetosAleatorios[i] = new sf::Sprite[windowWidth];
     }
+    
+    spritesFondo = new sf::Sprite*[windowHeight];
+    for(int i = 0; i < windowHeight; i++){
+        spritesFondo[i] = new sf::Sprite[windowWidth];
+    }
     /*Inicializar variables*/
     
     robot = new Robot();
@@ -59,10 +64,21 @@ Game::Game() :
     if(!texturaRobot->loadFromFile("Resources/spriteSheetTotal.png")){
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
+    
+    
+    if(!texturaFondo.loadFromFile("Resources/fondoG.png")){
+        std::cerr << "Error cargando las texturas";
+        exit(0);
+    }
+    
+    
+    spriteFondo.setTexture(texturaFondo);
+    
 
     this->construirMapas();
-    spritesMonedas = mapa->sitiosMonedas();
-    spritesObjetosAleatorios = mapa->objetosAleatorios();
+    //spritesMonedas = mapa->sitiosMonedas();
+    //spritesObjetosAleatorios = mapa->objetosAleatorios();
+    spritesFondo = mapa->crearFondo();
     piezas = mapa->crearEsquema();
     
     
@@ -187,11 +203,13 @@ void Game::update(sf::Time elapsedTime){
 void Game::render(float interpolacion){
     //std::cout<<"Render"<<std::endl;
     window->clear(sf::Color::White);
-    
+    window->draw(spriteFondo);
+
     //Dibujamos desde player
    for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
+            //window->draw(spritesFondo[i][j]);
             for(int a = 0; a<cantidadBloques; a++){
                window->draw(spritesBloques[a][i][j]);
             }
