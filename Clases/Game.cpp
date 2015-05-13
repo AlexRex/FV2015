@@ -38,6 +38,7 @@ Game::Game() :
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(125);
     
+    /*Chapuzas preesntacion*/
     pause = true;
     
     sf::Texture texturaMenu;
@@ -67,6 +68,9 @@ Game::Game() :
         }
         }
     }
+    
+    /* Fin chapuza present*/
+    
     
     /*Inicializar variables*/
     
