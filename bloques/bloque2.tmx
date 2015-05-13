@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="alien2" tilewidth="32" tileheight="32">
   <image source="../Resources/tilesetFinal.png" width="384" height="2304"/>
  </tileset>
- <layer name="Capa de Patrones 1" width="30" height="20" visible="0">
+ <layer name="Capa de Patrones 1" width="30" height="20">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -554,16 +554,16 @@
    <tile gid="31"/>
    <tile gid="32"/>
    <tile gid="33"/>
-   <tile gid="241"/>
-   <tile gid="242"/>
-   <tile gid="242"/>
-   <tile gid="242"/>
-   <tile gid="242"/>
-   <tile gid="242"/>
-   <tile gid="242"/>
-   <tile gid="242"/>
-   <tile gid="242"/>
-   <tile gid="244"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="37"/>
    <tile gid="26"/>
    <tile gid="26"/>
@@ -584,16 +584,16 @@
    <tile gid="43"/>
    <tile gid="44"/>
    <tile gid="45"/>
-   <tile gid="247"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="250"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="49"/>
    <tile gid="50"/>
    <tile gid="50"/>
@@ -1188,16 +1188,16 @@
    <tile gid="43"/>
    <tile gid="44"/>
    <tile gid="45"/>
-   <tile gid="247"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="248"/>
-   <tile gid="250"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="49"/>
    <tile gid="50"/>
    <tile gid="50"/>

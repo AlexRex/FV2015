@@ -67,9 +67,11 @@ bool ColisionSuelo::comprobarColisionDcha(){
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
     posActualMatriz = mapaColision[fila+1][columna+1];
-    std::cout<"Pos Actual: "<<posActualMatriz<<std::endl;
-    /*for(int i=0; i<20; i++){
-        for(int j=0; j<19; j++){
+    std::cout<<"Pos siguiente: "<<posActualMatriz;
+    std::cout<<" Fila: "<<fila;
+    std::cout<<" Columna: "<<columna<<std::endl;
+    for(int i=0; i<20; i++){
+        for(int j=0; j<60; j++){
             std::cout<<mapaColision[i][j];
             if(mapaColision[i][j]==64){
                 std::cout<<"i: "<<i;
@@ -78,12 +80,12 @@ bool ColisionSuelo::comprobarColisionDcha(){
         }
         std::cout<<std::endl;
     }
-    */
+    
     //std::cout<<"Fila: "<<fila;
     //std::cout<<" Columna: "<<columna;
     //std::cout<<" Pos actual matriz: "<<mapaColision[fila+1][columna+1]<<std::endl;
     
-    if(posActualMatriz != 0){
+    if(posActualMatriz != 0 && posActualMatriz<600){
         hayColisionDcha = true;
         if(columna != columnaAnterior){
             robot->mueveA(columna*tamTile, robot->getPos().y);
@@ -115,7 +117,7 @@ bool ColisionSuelo::comprobarColision(){
     }
    
     
-    if(posActualMatriz != 0){
+    if(posActualMatriz != 0 && posActualMatriz<700){
         hayColision = true;
         //recolocamos al robot justo encima de la casilla para que no se quede entre medias
         if(fila != filaAnterior){

@@ -22,7 +22,7 @@ Game::Game() :
 , windowHeight(20)
 , windowWidth(30)
 , cantidadBloques(10)
-, posiblesBloques(5)
+, posiblesBloques(4)
 {   
     spritesMonedas = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
@@ -33,6 +33,41 @@ Game::Game() :
         spritesObjetosAleatorios[i] = new sf::Sprite[windowWidth];
     }
    
+    
+    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Default);
+    window->setVerticalSyncEnabled(true);
+    window->setFramerateLimit(125);
+    
+    pause = true;
+    
+    sf::Texture texturaMenu;
+     if(!texturaMenu.loadFromFile("Resources/menu1.png")){
+        std::cout<<"Error al cargar la fuente"<<std::endl;
+    }  
+    sf::Sprite spriteMenu;
+    spriteMenu.setTexture(texturaMenu);
+    
+    window->draw(spriteMenu);
+    window->display();
+    
+    while(pause){
+        sf::Event event;
+
+        while(window->pollEvent(event)){
+        switch (event.type){
+            case sf::Event::Closed:
+                window->close();
+                break;
+            
+            case sf::Event::KeyPressed:
+                if(event.key.code == sf::Keyboard::S)
+                    pause=false;
+                break;
+                
+        }
+        }
+    }
+    
     /*Inicializar variables*/
     
     robot = new Robot();
@@ -50,9 +85,7 @@ Game::Game() :
     debugText = new sf::Text();
     
    
-    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Default);
-    window->setVerticalSyncEnabled(true);
-    window->setFramerateLimit(125);
+    
     
     
     if(!debugFont->loadFromFile("Resources/OpenSans.ttf")){
@@ -230,7 +263,7 @@ void Game::render(float interpolacion){
     //Dibujamos desde player
     
     for(int i = 0; i<cantidadBloques; i++){
-      // window->draw(fondo[i]);
+       window->draw(fondo[i]);
     }
    for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
@@ -246,12 +279,12 @@ void Game::render(float interpolacion){
     }
     
     for (int i = 0; i < 5; i++){
-        //window->draw(piezas[i]);
+        window->draw(piezas[i]);
     }
-    //window->draw(*vida1);
-    //window->draw(*vida2);
-    //window->draw(*vida3);
-    //window->draw(*vida4);
+    window->draw(*vida1);
+    window->draw(*vida2);
+    window->draw(*vida3);
+    window->draw(*vida4);
     if(muerto){
         window->clear(sf::Color::White);
         window->setView(*camaraMenu->getMenuView());

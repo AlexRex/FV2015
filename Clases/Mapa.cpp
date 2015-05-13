@@ -520,8 +520,6 @@ int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
     
     
     
-    
-    
     int**lista = new int*[windowHeight];
     for(int i =0; i< windowHeight; i++){
         lista[i]= new int[windowWidth*desplazamiento];
@@ -561,11 +559,11 @@ int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
             if(i<windowHeight){
                 if(j<windowWidth*(desp+1)-1){
                     lista[i][j] = tilePos;
-                   // std::cout<<lista[i][j];
+                    std::cout<<lista[i][j];
                     j++;
                 }
                 else{
-                   // std::cout<<std::endl;
+                    std::cout<<std::endl;
                     j=windowWidth*desp;
                     i++;
                 }
