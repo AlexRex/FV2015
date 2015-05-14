@@ -19,6 +19,7 @@ ColisionSuelo::ColisionSuelo() {
     //mapa = new Mapa();
     
    posActualMatriz = 0;
+   posActualMatrizMonedas =0;
    fila = 0;
    columna = 0;
 }
@@ -37,7 +38,22 @@ void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
     posRobotAnteriorY  = robot->getPos().y;
     getMapa(bloques, nombreBloques);
 }
+
+
+void ColisionSuelo::getMapaMondedas(){
+    //cambiar lo de create colisiones
+    mapaMonedas = mapa->createColisiones(bloques, nombreBloques);
+    filaMoneda = (robot->getPos().y / tamTile);
+    columnaMoneda = (robot->getPos().x / tamTile);
+    posActualMatrizMonedas = mapaMonedas[filaMoneda][columnaMoneda];
+ 
+    
+}
 void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
+    
+    /* CON ESTO COGES LA MATRIZ DE MONEDAS*/
+    mapa->getColisionesMonedas(bloques, nombreBloques);
+    
     mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
@@ -127,32 +143,42 @@ bool ColisionSuelo::comprobarColision(){
 bool ColisionSuelo::comprobarMoneda(){
     
    bool hayMoneda = false;
-    //recogemos la posicion del robot
-    int filaAnterior,columnaAnterior;
+  
     
-    fila = (robot->getPos().y / tamTile);
-    columna = ((robot->getPos().x+16) / tamTile) ;
-    posActualMatriz = mapaColision[fila+2][columna];
-    if(filaAnterior != fila && columnaAnterior != columna){
-        //std::cout<<endl<<endl<<"MatrizColision["<<(fila+2)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
-    }
-    
-    if(posActualMatriz != 0 && posActualMatriz<700){
-        hayMoneda = true;
-        //recolocamos al robot justo encima de la casilla para que no se quede entre medias
-        if(fila != filaAnterior){
-            robot->mueveA(robot->getPos().x ,fila*tamTile);
+    int filaAnterior, columnaAnterior;
+    filaMoneda = (robot->getPos().y / tamTile);
+    columnaMoneda = (robot->getPos().x / tamTile);
+    posActualMatrizMonedas = mapaMonedas[filaMoneda+1][columnaMoneda+1];
+    /*std::cout<<"Pos siguiente: "<<posActualMatriz;
+    std::cout<<" Fila: "<<fila;
+    std::cout<<" Columna: "<<columna<<std::endl;
+    for(int i=0; i<20; i++){
+        for(int j=0; j<60; j++){
+            std::cout<<mapaColision[i][j];
+            if(mapaColision[i][j]==64){
+                std::cout<<"i: "<<i;
+                std::cout<<" j: "<<j;
+            }
         }
+        std::cout<<std::endl;
+    }*/
+    
+    //std::cout<<"Fila: "<<fila;
+    //std::cout<<" Columna: "<<columna;
+    //std::cout<<" Pos actual matriz: "<<mapaColision[fila+1][columna+1]<<std::endl;
+    
+    if(posActualMatrizMonedas != 0 && posActualMatrizMonedas<600){
+        hayMoneda = true;
+        if(columnaMoneda != columnaAnterior){
+            robot->mueveA(columnaMoneda*tamTile, robot->getPos().y);
+        }
+
     }else{
         hayMoneda = false;
     }
-    filaAnterior = fila;
-    columnaAnterior = columna;
+    filaAnterior = filaMoneda;
+    columnaAnterior = columnaMoneda;
     return hayMoneda;
-    
-    
-
-
 
 }
 
