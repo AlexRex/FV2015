@@ -86,8 +86,7 @@ Game::Game() :
     debugText = new sf::Text();
     
    
-    
-    
+     
     
     if(!debugFont->loadFromFile("Resources/OpenSans.ttf")){
         std::cout<<"Error al cargar la fuente"<<std::endl;
@@ -364,9 +363,7 @@ sf::Sprite*** Game::construirMapas(){
     }
     nombreBloques = mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
     
-    for(int i=0; i<cantidadBloques; i++){
-        std::cout<<"Nombre: "<<nombreBloques[i]<<std::endl;
-    }
+    
     
     spritesBloques = new sf::Sprite**[cantidadBloques];
     spritesMonedas = new sf::Sprite**[cantidadBloques];
@@ -379,7 +376,6 @@ sf::Sprite*** Game::construirMapas(){
             spritesMonedas[a][i] = new sf::Sprite[windowWidth];
         }
     }
-    std::cout<<"he"<<std::endl;
     for(int i = 0; i < cantidadBloques; i++){
         spritesBloques[i] = mapa->crearMapa(i, nombreBloques[i]);
         spritesMonedas[i] = mapa->sitiosMonedas(i, nombreBloques[i]);
