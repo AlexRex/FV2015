@@ -148,7 +148,12 @@ bool ColisionSuelo::comprobarMoneda(){
     int filaAnterior, columnaAnterior;
     filaMoneda = (robot->getPos().y / tamTile);
     columnaMoneda = (robot->getPos().x / tamTile);
-    posActualMatrizMonedas = mapaMonedas[filaMoneda+1][columnaMoneda+1]; 
+    posActualMatrizMonedas = mapaMonedas[filaMoneda+1][columnaMoneda+1];
+   
+    
+   
+    
+    
     
     if(posActualMatrizMonedas != 0 && posActualMatrizMonedas<600){
         hayMoneda = true;

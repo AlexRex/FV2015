@@ -254,6 +254,7 @@ void Game::update(sf::Time elapsedTime){
             //Coge moneda        
             if(hayColisionMoneda){
                 monedasRecogidas++;
+                std::cout<<"Monedas: "<<monedasRecogidas<<std::endl;
 
             }
 
