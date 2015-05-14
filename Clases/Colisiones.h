@@ -19,6 +19,7 @@ public:
     void getMapa(int, char**);
     bool comprobarColision();
     bool comprobarColisionDcha();
+    bool comprobarMoneda();
     
     void creoMatriz();
     void eliminarMatriz(int**a[]);

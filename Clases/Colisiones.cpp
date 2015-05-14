@@ -38,10 +38,6 @@ void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
     getMapa(bloques, nombreBloques);
 }
 void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
-    
-    
-    
-    
     mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
@@ -62,8 +58,6 @@ bool ColisionSuelo::comprobarColisionDcha(){
     bool hayColisionDcha = false;
     
     int filaAnterior, columnaAnterior;
-    
-    
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
     posActualMatriz = mapaColision[fila+1][columna+1];
@@ -106,8 +100,6 @@ bool ColisionSuelo::comprobarColision(){
     bool hayColision = false;
     //recogemos la posicion del robot
     int filaAnterior,columnaAnterior;
-
-    
     
     fila = (robot->getPos().y / tamTile);
     columna = ((robot->getPos().x+16) / tamTile) ;
@@ -115,7 +107,6 @@ bool ColisionSuelo::comprobarColision(){
     if(filaAnterior != fila && columnaAnterior != columna){
         //std::cout<<endl<<endl<<"MatrizColision["<<(fila+2)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
     }
-   
     
     if(posActualMatriz != 0 && posActualMatriz<700){
         hayColision = true;
@@ -132,6 +123,39 @@ bool ColisionSuelo::comprobarColision(){
 
 
 }
+
+bool ColisionSuelo::comprobarMoneda(){
+    
+   bool hayMoneda = false;
+    //recogemos la posicion del robot
+    int filaAnterior,columnaAnterior;
+    
+    fila = (robot->getPos().y / tamTile);
+    columna = ((robot->getPos().x+16) / tamTile) ;
+    posActualMatriz = mapaColision[fila+2][columna];
+    if(filaAnterior != fila && columnaAnterior != columna){
+        //std::cout<<endl<<endl<<"MatrizColision["<<(fila+2)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
+    }
+    
+    if(posActualMatriz != 0 && posActualMatriz<700){
+        hayMoneda = true;
+        //recolocamos al robot justo encima de la casilla para que no se quede entre medias
+        if(fila != filaAnterior){
+            robot->mueveA(robot->getPos().x ,fila*tamTile);
+        }
+    }else{
+        hayMoneda = false;
+    }
+    filaAnterior = fila;
+    columnaAnterior = columna;
+    return hayMoneda;
+    
+    
+
+
+
+}
+
 
 void ColisionSuelo::creoMatriz(){
    
