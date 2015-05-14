@@ -17,29 +17,65 @@ Game::Game() :
 , mDcha(false)
 , caiendo(false)
 , primeraVez(true)
+, muerto(false)
+, pause(false)
 , windowHeight(20)
 , windowWidth(30)
-{
-    sprites = new sf::Sprite*[windowHeight];
-    for(int i = 0; i < windowHeight; i++){
-        sprites[i] = new sf::Sprite[windowWidth];
-    }
-    
-    spritesMonedas = new sf::Sprite*[windowHeight];
-    for(int i = 0; i < windowHeight; i++){
-        spritesMonedas[i] = new sf::Sprite[windowWidth];
-    }
+, cantidadBloques(10)
+, posiblesBloques(4)
+{   
     
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
         spritesObjetosAleatorios[i] = new sf::Sprite[windowWidth];
     }
+   
+    
+    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Default);
+    window->setVerticalSyncEnabled(true);
+    window->setFramerateLimit(125);
+    
+    /*Chapuzas preesntacion*/
+    pause = true;
+    
+    sf::Texture texturaMenu;
+     if(!texturaMenu.loadFromFile("Resources/menu1.png")){
+        std::cout<<"Error al cargar la fuente"<<std::endl;
+    }  
+    sf::Sprite spriteMenu;
+    spriteMenu.setTexture(texturaMenu);
+    
+    window->draw(spriteMenu);
+    window->display();
+    
+    while(pause){
+        sf::Event event;
+
+        while(window->pollEvent(event)){
+        switch (event.type){
+            case sf::Event::Closed:
+                window->close();
+                break;
+            
+            case sf::Event::KeyPressed:
+                if(event.key.code == sf::Keyboard::S)
+                    pause=false;
+                break;
+                
+        }
+        }
+    }
+    
+    /* Fin chapuza present*/
+    
+    
     /*Inicializar variables*/
     
     robot = new Robot();
     mapa = new Mapa();
     colision = new ColisionSuelo();
     camara = new Camara();
+    camaraMenu = new Camara();
     
     texturaRobot = new sf::Texture();
     
@@ -50,9 +86,7 @@ Game::Game() :
     debugText = new sf::Text();
     
    
-    window = new sf::RenderWindow(sf::VideoMode(ancho, alto), "Melting Me", sf::Style::Close);
-    window->setVerticalSyncEnabled(true);
-    window->setFramerateLimit(125);
+    
     
     
     if(!debugFont->loadFromFile("Resources/OpenSans.ttf")){
@@ -63,13 +97,30 @@ Game::Game() :
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
     
+    spriteFondo = new sf::Sprite();
     
-    sprites = mapa->crearMapa();
-    spritesMonedas = mapa->sitiosMonedas();
-    spritesObjetosAleatorios = mapa->objetosAleatorios();
+    if(!texturaFondo.loadFromFile("Resources/fondoG.png")){
+        std::cerr << "Error cargando las texturas";
+        exit(0);
+    }
+    
+    
+    spriteFondo->setTexture(texturaFondo);
+    spriteFondo->setOrigin(0, 0);
+    
+    fondo = new sf::Sprite[cantidadBloques];
+    for(int i=0; i<cantidadBloques; i++){
+        spriteFondo->setPosition(i*ancho, 0); 
+        fondo[i] = *spriteFondo;
+    }
+
+    this->construirMapas();
+    //spritesMonedas = mapa->sitiosMonedas();
+    //spritesObjetosAleatorios = mapa->objetosAleatorios();
     piezas = mapa->crearEsquema();
     
-    mapa->generarMapa();
+    
+    
     vida1 = new sf::RectangleShape(sf::Vector2f(60, 10));
     vida2 = new sf::RectangleShape(sf::Vector2f(60, 10));
     vida3 = new sf::RectangleShape(sf::Vector2f(60, 10));
@@ -93,8 +144,10 @@ Game::Game() :
     posInicial.x = 16*32;
     posInicial.y = 8*32;
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
-    colision->recibirRobot(robot);
-    camara->creaCamara(posInicial.x,posInicial.y-64,960,640);
+    colision->init(robot, cantidadBloques, nombreBloques);
+    
+    camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto);
+    camaraMenu->creaCamaraMenu(posInicial.x, posInicial.y-64, ancho, alto);
     robot->recibirCamara(camara);
 
     debugText->setFont(*debugFont);
@@ -110,36 +163,51 @@ Game::~Game(){
     delete texturaRobot;
     delete debugFont;
     delete debugText;
+    delete spriteFondo;
+    delete fondo;
+    delete camara;
+    delete camaraMenu;
     delete window;
 }
 
-void Game::run() {
+bool Game::run() {
     
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero; 
     
     while (window->isOpen()){
         
-        sf::Time elapsedTime = clock.restart();
-        timeSinceLastUpdate += elapsedTime;
+        if(!pause){
+            sf::Time elapsedTime = clock.restart();
+            timeSinceLastUpdate += elapsedTime;
+        }
         //Procesamos los eventos
         processEvents();
         
-        while(timeSinceLastUpdate > timePerFrame){
-            timeSinceLastUpdate -= timePerFrame;
-            
-            //Update
-            update(timePerFrame);
+        if(!pause){
+            while(timeSinceLastUpdate > timePerFrame){
+                timeSinceLastUpdate -= timePerFrame;
+
+                //Update
+
+                update(timePerFrame);
+            }
+
+            interpolacion = (float)std::min(1.f, timeSinceLastUpdate.asSeconds() / timePerFrame.asSeconds());
+
+            //Render
+            render(interpolacion);
+        }
+        if(muerto){
+            return true;
         }
         
-        interpolacion = (float)std::min(1.f, timeSinceLastUpdate.asSeconds() / timePerFrame.asSeconds());
-        
-        //Render
-        render(interpolacion);
+
     }
     
     
-    
+    return true;
+
 }
 
 /**Update y Render**/
@@ -147,58 +215,70 @@ void Game::run() {
 void Game::update(sf::Time elapsedTime){
     //Actualizamos fisica de los pj
     //std::cout<<"Update"<<std::endl;
-    bool hayColision = false;
-    bool hayColisionDcha = false;
-    float vel_x = 0.f, vel_y=0.f;
-    float vel_xCam = 0.f, vel_yCam=0.f;
-    
-    sf::Vector2f velocidad;
-    sf::Vector2f velCam;
-    
-    hayColision = colision->comprobarColision();
-    hayColisionDcha = colision->comprobarColisionDcha();
+        bool hayColision = false;
+        bool hayColisionDcha = false;
+        float vel_x = 200.f, vel_y=0.f;
+        
+        sf::Vector2f velocidad;
 
-    if(!primeraVez){
-        if(mIzq)
-            vel_x = -300.f;
-        if(mDcha && !hayColisionDcha){
-            vel_x = 300.f;
+        hayColision = colision->comprobarColision();
+        hayColisionDcha = colision->comprobarColisionDcha();
+
+        if(!primeraVez){
+            /*if(mIzq)
+                vel_x = -300.f;
+            if(mDcha && !hayColisionDcha){
+                vel_x = 300.f;
+            }*/
+            if(caiendo){
+               // std::cout<<robot.getPos().y<<std::endl;
+                //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);    
+
+                if(hayColision && robot->getVel().y > 0)
+                    caiendo = false;
+                else
+                    vel_y = robot->caer(saltoTime.getElapsedTime(),elapsedTime);
+            }     
         }
-        if(caiendo){
-           // std::cout<<robot.getPos().y<<std::endl;
-            //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);    
-            
-            if(hayColision && robot->getVel().y > 0)
-                caiendo = false;
-            else
-                vel_y = robot->caer(saltoTime.getElapsedTime(),elapsedTime);
-        }     
-    }
-        if(!hayColision){
-            caiendo=true;
-            //caer
-        }  
- 
-    
-    velocidad = sf::Vector2f(vel_x, vel_y);
-    //velCam = sf::Vector2f(vel_xCam, vel_yCam);
-    robot->Update(velocidad, elapsedTime);
-    primeraVez = false;
+            if(!hayColision){
+                caiendo=true;
+                if(robot->getPos().y>555){
+                    pause=true;
+                    muerto = true;
+                }
+                //caer
+            }  
 
+
+        velocidad = sf::Vector2f(vel_x, vel_y);
+        //velCam = sf::Vector2f(vel_xCam, vel_yCam);
+        robot->Update(velocidad, elapsedTime);
+        primeraVez = false;
 }
 
 
 void Game::render(float interpolacion){
     //std::cout<<"Render"<<std::endl;
     window->clear(sf::Color::White);
-    
+    //window->draw(*spriteFondo);
     //Dibujamos desde player
+    
+    for(int i = 0; i<cantidadBloques; i++){
+       window->draw(fondo[i]);
+    }
    for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
-            window->draw(sprites[i][j]);
-            window->draw(spritesObjetosAleatorios[i][j]);
-            window->draw(spritesMonedas[i][j]);
+            //window->draw(spritesFondo[i][j]);
+            for(int a = 0; a<cantidadBloques; a++){
+               //window->draw(spritesMonedas[a][i][j]);
+               window->draw(spritesBloques[a][i][j]);
+            }
+            for(int a = 0; a<cantidadBloques; a++){
+                window->draw(spritesMonedas[a][i][j]);
+            }
+            //window->draw(spritesObjetosAleatorios[i][j]);
+            //window->draw(spritesMonedas[i][j]);
         }
     }
     
@@ -209,10 +289,15 @@ void Game::render(float interpolacion){
     window->draw(*vida2);
     window->draw(*vida3);
     window->draw(*vida4);
-    
-    window->setView(*camara->getView());
-    robot->Draw(*window, interpolacion);
-    window->draw(*debugText);
+    if(muerto){
+        window->clear(sf::Color::White);
+        window->setView(*camaraMenu->getMenuView());
+    }
+    else{
+        window->setView(*camara->getView());
+        robot->Draw(*window, interpolacion);
+    }
+    //window->draw(*debugText);
     
     
     
@@ -231,6 +316,7 @@ void Game::processEvents(){
             
             case sf::Event::KeyPressed:
                 controlarRobot(event.key.code, true);
+                controlarJuego(event.key.code);
                 break;
                 
             case sf::Event::KeyReleased:
@@ -254,12 +340,67 @@ void Game::controlarRobot(sf::Keyboard::Key key, bool presionada){
             saltoTime.restart();
             robot->saltar();
         }
+    } 
+}
+
+void Game::controlarJuego(sf::Keyboard::Key key){
+    if (key==sf::Keyboard::Escape){
+        window->close();
+    }
+    else if (key==sf::Keyboard::P){
+        pause = !pause;
     }
     else if (key==sf::Keyboard::R){
         robot->mueveA(16*32,8*32);
     }
-    else if (key==sf::Keyboard::Escape){
-        window->close();
+}
+
+
+sf::Sprite*** Game::construirMapas(){
+    /*PRUEBA GEN MAPA*/
+    nombreBloques = new char*[cantidadBloques];
+    for(int i=0; i < cantidadBloques; i++){
+        nombreBloques[i] = new char[13];
+    }
+    nombreBloques = mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
+    
+    for(int i=0; i<cantidadBloques; i++){
+        std::cout<<"Nombre: "<<nombreBloques[i]<<std::endl;
     }
     
+    spritesBloques = new sf::Sprite**[cantidadBloques];
+    spritesMonedas = new sf::Sprite**[cantidadBloques];
+    
+    for(int a = 0; a<cantidadBloques; a++){
+        spritesMonedas[a] = new sf::Sprite*[windowHeight];
+        spritesBloques[a] = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
+        for(int i = 0; i < windowHeight; i++){
+            spritesBloques[a][i] = new sf::Sprite[windowWidth];
+            spritesMonedas[a][i] = new sf::Sprite[windowWidth];
+        }
+    }
+    std::cout<<"he"<<std::endl;
+    for(int i = 0; i < cantidadBloques; i++){
+        spritesBloques[i] = mapa->crearMapa(i, nombreBloques[i]);
+        spritesMonedas[i] = mapa->sitiosMonedas(i, nombreBloques[i]);
+    }
+       
+    return spritesBloques;
+}
+
+sf::Sprite*** Game::construirFondos(){
+    
+    spritesFondos = new sf::Sprite**[cantidadBloques];
+    
+    for(int a = 0; a<cantidadBloques; a++){
+        spritesFondos[a] = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
+        for(int i = 0; i < windowHeight; i++){
+            spritesFondos[a][i] = new sf::Sprite[windowWidth];
+        }
+    }
+    for(int i = 0; i < cantidadBloques; i++){
+        spritesFondos[i] = mapa->crearFondo(i);
+    }
+       
+    return spritesFondos;
 }

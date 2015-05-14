@@ -27,12 +27,17 @@
 class Game : private sf::NonCopyable {
 public:
     Game();
-    virtual ~Game();
-    void    run();
-    void    update(sf::Time elapsedTime);
-    void    render(float interpolacion);
-    void    processEvents();
-    void    controlarRobot(sf::Keyboard::Key key, bool presionada);
+    virtual          ~Game();
+    bool             run();
+    void             update(sf::Time elapsedTime);
+    void             render(float interpolacion);
+    void             processEvents();
+    void             controlarRobot(sf::Keyboard::Key key, bool presionada);
+    void             controlarJuego(sf::Keyboard::Key key);
+    void             mostrarMenuMuerte();
+    sf::Sprite***    construirMapas();
+    sf::Sprite***    construirFondos();
+    
     
 private:
     static const sf::Time   timePerFrame;
@@ -44,11 +49,21 @@ private:
     sf::Font*               debugFont;
     sf::Text*               debugText;
     
+    sf::Time                tiempoSaltoPause;
+    
     sf::Sprite**            spritesObjetosAleatorios;
-    sf::Sprite**            sprites;
-    sf::Sprite**            spritesMonedas;
+    sf::Sprite***           spritesMonedas;
+    sf::Sprite***           spritesBloques;
     sf::Sprite*             piezas;
+    
+    
+    sf::Sprite***           spritesFondos;
+    sf::Sprite*             spriteFondo;
+    sf::Sprite*             fondo;
+    
     sf::Texture*            texturaRobot; //REND
+    sf::Texture             texturaFondo;
+    
     
     sf::RectangleShape*     vida1;
     sf::RectangleShape*     vida2;
@@ -60,14 +75,21 @@ private:
     Robot*                  robot;
     ColisionSuelo*          colision;
     Camara*                 camara;
+    Camara*                 camaraMenu;
     
     float                   interpolacion;
     int                     posIniSalto;
+    
+    int                     cantidadBloques;
+    int                     posiblesBloques;
+    char**                  nombreBloques;
     
     bool                    mDcha;
     bool                    mIzq;
     bool                    caiendo;
     bool                    primeraVez;
+    bool                    muerto;
+    bool                    pause;
 };
 
 #endif	/* GAME_H */

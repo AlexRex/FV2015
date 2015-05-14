@@ -15,11 +15,15 @@ public:
     Camara(const Camara& orig);
     virtual ~Camara();
     void creaCamara(int c1, int c2, int tamx, int tamy);
+    void creaCamaraMenu(int c1, int c2, int tamx, int tamy);
+
     sf::View* getView(){return vistaCamara;};
+    sf::View* getMenuView(){return vistaMenu;}
    
     void setPos(sf::Vector2f pos);
 private:
     sf::View* vistaCamara;
+    sf::View* vistaMenu;
    // Render*                 render;
    // PlayerPhysics*          fisicasCamara;
     sf::Vector2i posicion;
