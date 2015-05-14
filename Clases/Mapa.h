@@ -32,6 +32,8 @@ public:
     
     char** generarMapa(int, int);
     
+    int**   getColisionesMonedas(int, char**);
+    
 private:
     sf::Texture* texturaMapa;
     sf::Texture* texturaMoneda;
@@ -39,6 +41,7 @@ private:
     sf::Texture* texturaEsquema;
     
     sf::Texture* texturaFondo;
+    
     
 };
 
