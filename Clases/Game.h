@@ -15,7 +15,7 @@
 
 #include "Robot.h"
 #include "Mapa.h"
-#include "ColisionSuelo.h"
+#include "Colisiones.h"
 #include "Camara.h"
 
 #include "../Includes/AnimatedSprite.hpp"

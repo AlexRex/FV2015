@@ -5,7 +5,7 @@
  * Created on 13 de abril de 2015, 13:06
  */
 
-#include "ColisionSuelo.h"
+#include "Colisiones.h"
 #include <cstdlib>
 #include <iostream>
 
