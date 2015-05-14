@@ -23,6 +23,7 @@ Game::Game() :
 , windowWidth(30)
 , cantidadBloques(10)
 , posiblesBloques(4)
+,monedasRecogidas(0)
 {   
     
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];
@@ -217,12 +218,14 @@ void Game::update(sf::Time elapsedTime){
     //std::cout<<"Update"<<std::endl;
         bool hayColision = false;
         bool hayColisionDcha = false;
+        bool hayColisionMoneda =false;
         float vel_x = 0.f, vel_y=0.f;
         
         sf::Vector2f velocidad;
 
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
+        hayColisionMoneda = colision->comprobarMoneda();
 
         if(!primeraVez){
             if(mIzq)
@@ -247,7 +250,12 @@ void Game::update(sf::Time elapsedTime){
                     muerto = true;
                 }
                 //caer
-            }  
+            }
+            //Coge moneda        
+            if(hayColisionMoneda){
+                monedasRecogidas++;
+
+            }
 
 
         velocidad = sf::Vector2f(vel_x, vel_y);

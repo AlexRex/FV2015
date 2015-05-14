@@ -81,8 +81,10 @@ private:
     int                     posIniSalto;
     
     int                     cantidadBloques;
-    int                     posiblesBloques;
+    int                     posiblesBloques;    
     char**                  nombreBloques;
+    
+    int                     monedasRecogidas;
     
     bool                    mDcha;
     bool                    mIzq;
