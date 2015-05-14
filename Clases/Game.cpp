@@ -35,7 +35,7 @@ Game::Game() :
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(125);
     
-    /*Chapuzas preesntacion*/
+    /*Chapuzas preesntacion
     pause = true;
     
     sf::Texture texturaMenu;
@@ -66,7 +66,7 @@ Game::Game() :
         }
     }
     
-    /* Fin chapuza present*/
+     Fin chapuza present*/
     
     
     /*Inicializar variables*/
@@ -217,7 +217,7 @@ void Game::update(sf::Time elapsedTime){
     //std::cout<<"Update"<<std::endl;
         bool hayColision = false;
         bool hayColisionDcha = false;
-        float vel_x = 200.f, vel_y=0.f;
+        float vel_x = 0.f, vel_y=0.f;
         
         sf::Vector2f velocidad;
 
@@ -225,11 +225,11 @@ void Game::update(sf::Time elapsedTime){
         hayColisionDcha = colision->comprobarColisionDcha();
 
         if(!primeraVez){
-            /*if(mIzq)
+            if(mIzq)
                 vel_x = -300.f;
             if(mDcha && !hayColisionDcha){
                 vel_x = 300.f;
-            }*/
+            }
             if(caiendo){
                // std::cout<<robot.getPos().y<<std::endl;
                 //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);    
@@ -264,7 +264,7 @@ void Game::render(float interpolacion){
     //Dibujamos desde player
     
     for(int i = 0; i<cantidadBloques; i++){
-       window->draw(fondo[i]);
+       //window->draw(fondo[i]);
     }
    for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
