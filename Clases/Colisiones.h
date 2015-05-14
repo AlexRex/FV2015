@@ -17,7 +17,7 @@ public:
     virtual ~ColisionSuelo();
     void init(Robot*, int, char**);
     void getMapa(int, char**);
-    void getMapaMondedas();
+    void getMapaMonedas(int, char**);
     bool comprobarColision();
     bool comprobarColisionDcha();
     bool comprobarMoneda();

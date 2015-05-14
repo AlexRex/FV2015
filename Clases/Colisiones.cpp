@@ -37,12 +37,12 @@ void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
     posRobotAnteriorX  = robot->getPos().x;
     posRobotAnteriorY  = robot->getPos().y;
     getMapa(bloques, nombreBloques);
+    getMapaMonedas(bloques, nombreBloques);
 }
 
 
-void ColisionSuelo::getMapaMondedas(){
-    //cambiar lo de create colisiones
-    mapaMonedas = mapa->createColisiones(bloques, nombreBloques);
+void ColisionSuelo::getMapaMonedas(int bloques, char** nombreBloques){    
+    mapaMonedas =  mapa->getColisionesMonedas(bloques, nombreBloques);
     filaMoneda = (robot->getPos().y / tamTile);
     columnaMoneda = (robot->getPos().x / tamTile);
     posActualMatrizMonedas = mapaMonedas[filaMoneda][columnaMoneda];
@@ -52,7 +52,7 @@ void ColisionSuelo::getMapaMondedas(){
 void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
     
     /* CON ESTO COGES LA MATRIZ DE MONEDAS*/
-    mapa->getColisionesMonedas(bloques, nombreBloques);
+   // mapa->getColisionesMonedas(bloques, nombreBloques);
     
     mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);

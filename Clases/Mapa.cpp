@@ -886,18 +886,18 @@ int** Mapa::getColisionesMonedas(int desplazamiento, char** nombreBloques){
             if(i<windowHeight){
                 if(j<windowWidth*(desp+1)-1){
                     colisionesMonedas[i][j] = tilePos;
-                    std::cout<<colisionesMonedas[i][j];
+                    //std::cout<<colisionesMonedas[i][j];
                     j++;
                 }
                 else{
-                    std::cout<<std::endl;
+                    //std::cout<<std::endl;
                     j=windowWidth*desp;
                     i++;
                 }
             }
         }
         desp++;
-        std::cout<<std::endl;
+        //std::cout<<std::endl;
     }
     return colisionesMonedas;
 }
