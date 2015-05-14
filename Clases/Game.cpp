@@ -22,8 +22,8 @@ Game::Game() :
 , windowHeight(20)
 , windowWidth(30)
 , cantidadBloques(10)
-, posiblesBloques(4)
-,monedasRecogidas(0)
+, posiblesBloques(1)
+, monedasRecogidas(0)
 {   
     
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];

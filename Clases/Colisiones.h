@@ -30,9 +30,13 @@ private:
     int** mapaColision;
     int** mapaMonedas;
     int posActualMatriz;
+    int posActualMatrizDcha;
     int posActualMatrizMonedas;
+    int posActualMatrizMonedasCabeza;
     int fila;
     int columna;
+    int filaDcha;
+    int columnaDcha;
     int filaMoneda;
     int columnaMoneda;
     int posRobotAnteriorX;

@@ -609,7 +609,7 @@ sf::Sprite** Mapa::sitiosMonedas(int desplazamiento, char nombreBloques[]){
     for(int i = 0; i < windowHeight; ++i) {
         scene[i] = new sf::Sprite[windowWidth];
         for (int j = 0; j < windowWidth; ++j) {
-            int visible = rand() % 2;
+            int visible = 0; //rand() % 1;
             if(tilePos[k]==0 ){
                 sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
             }

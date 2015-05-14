@@ -74,9 +74,9 @@ bool ColisionSuelo::comprobarColisionDcha(){
     bool hayColisionDcha = false;
     
     int filaAnterior, columnaAnterior;
-    fila = (robot->getPos().y / tamTile);
-    columna = (robot->getPos().x / tamTile);
-    posActualMatriz = mapaColision[fila+1][columna+1];
+    filaDcha = (robot->getPos().y / tamTile);
+    columnaDcha = (robot->getPos().x / tamTile);
+    posActualMatrizDcha = mapaColision[filaDcha+1][columnaDcha+1];
     /*std::cout<<"Pos siguiente: "<<posActualMatriz;
     std::cout<<" Fila: "<<fila;
     std::cout<<" Columna: "<<columna<<std::endl;
@@ -95,17 +95,17 @@ bool ColisionSuelo::comprobarColisionDcha(){
     //std::cout<<" Columna: "<<columna;
     //std::cout<<" Pos actual matriz: "<<mapaColision[fila+1][columna+1]<<std::endl;
     
-    if(posActualMatriz != 0 && posActualMatriz<600){
+    if(posActualMatrizDcha != 0 && posActualMatrizDcha<600){
         hayColisionDcha = true;
-        if(columna != columnaAnterior){
-            robot->mueveA(columna*tamTile, robot->getPos().y);
+        if(columnaDcha != columnaAnterior){
+            robot->mueveA(columnaDcha*tamTile, robot->getPos().y);
         }
 
     }else{
         hayColisionDcha = false;
     }
-    filaAnterior = fila;
-    columnaAnterior = columna;
+    filaAnterior = filaDcha;
+    columnaAnterior = columnaDcha;
     return hayColisionDcha;
     
 }
@@ -146,19 +146,18 @@ bool ColisionSuelo::comprobarMoneda(){
   
     
     int filaAnterior, columnaAnterior;
-    filaMoneda = (robot->getPos().y / tamTile);
+    filaMoneda = ((robot->getPos().y-0) / tamTile);
     columnaMoneda = (robot->getPos().x / tamTile);
     posActualMatrizMonedas = mapaMonedas[filaMoneda+1][columnaMoneda+1];
-   
+    posActualMatrizMonedasCabeza = mapaMonedas[filaMoneda][columnaMoneda+1];
     
    
     
     
     
-    if(posActualMatrizMonedas != 0 && posActualMatrizMonedas<600){
+    if((posActualMatrizMonedas != 0 || posActualMatrizMonedasCabeza !=0) && posActualMatrizMonedas<600){
         hayMoneda = true;
         if(columnaMoneda != columnaAnterior){
-            robot->mueveA(columnaMoneda*tamTile, robot->getPos().y);
         }
 
     }else{
