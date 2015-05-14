@@ -39,6 +39,8 @@ void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
 }
 void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
     
+    /* CON ESTO COGES LA MATRIZ DE MONEDAS*/
+    mapa->getColisionesMonedas(bloques, nombreBloques);
     
     mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);
