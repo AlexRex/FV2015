@@ -25,17 +25,20 @@ public:
     sf::Sprite* createSprite(sf::Sprite*, int, int, int);
     int** createColisiones(int, char**);
     sf::Sprite** crearMapa(int , char[] );
-    sf::Sprite** sitiosMonedas();
+    sf::Sprite** sitiosMonedas(int, char[]);
     sf::Sprite** objetosAleatorios();
-    sf::Sprite* crearEsquema();
+    sf::Sprite*  crearEsquema();
+    sf::Sprite** crearFondo(int);
     
     char** generarMapa(int, int);
     
 private:
-    sf::Texture* texture;
+    sf::Texture* texturaMapa;
     sf::Texture* texturaMoneda;
     sf::Texture* texturaObjAleatorio;
     sf::Texture* texturaEsquema;
+    
+    sf::Texture* texturaFondo;
     
 };
 

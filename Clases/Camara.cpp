@@ -11,12 +11,16 @@ Camara::Camara() {
 }
 void Camara::creaCamara(int c1, int c2, int tamx, int tamy) {
     
-    sf:: View* view = new sf::View();
-    vistaCamara = view;
+    vistaCamara = new sf::View();
     vistaCamara->setCenter(c1,c2);
     vistaCamara->setSize(tamx,tamy);
+}
+
+void Camara::creaCamaraMenu(int c1, int c2, int tamx, int tamy) {
     
-    
+    vistaMenu = new sf::View();
+    vistaMenu->setCenter(c1,c2);
+    vistaMenu->setSize(tamx,tamy);
 }
 
 void Camara::setPos(sf::Vector2f pos){
@@ -26,6 +30,8 @@ Camara::Camara(const Camara& orig) {
 }
 
 Camara::~Camara() {
+    delete vistaCamara;
+    delete vistaMenu;
 }
 
 

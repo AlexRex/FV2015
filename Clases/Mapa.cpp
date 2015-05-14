@@ -11,15 +11,15 @@
 
 
 const int tileDim = 32; // in pixel: 32x32px
-    const int windowHeight = 20; // height of the window in number of tiles
-    const int windowWidth = 30; // width of the window in number of tiles
-    const int windowArea = windowWidth * windowHeight; // total number of tiles in the whole window area
+const int windowHeight = 20; // height of the window in number of tiles
+const int windowWidth = 30; // width of the window in number of tiles
+const int windowArea = windowWidth * windowHeight; // total number of tiles in the whole window area
     
 
 Mapa::Mapa() {
     std::cout<<"Se crea el mapa"<<std::endl;
-    texture = new sf::Texture();
-    if (!texture->loadFromFile("Resources/tilesetFinal.png")){
+    texturaMapa = new sf::Texture();
+    if (!texturaMapa->loadFromFile("Resources/tilesetFinal.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
@@ -41,13 +41,19 @@ Mapa::Mapa() {
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
+    
+    texturaFondo = new sf::Texture();
+    if(!texturaFondo->loadFromFile("Resources/fondo2.png")){
+        std::cerr << "Error cargando las texturas";
+        exit(0);
+    }
 }
 
 Mapa::Mapa(const Mapa& orig) {
 }
 
 Mapa::~Mapa() {
-    delete texture;
+    delete texturaMapa;
     std::cout<<"Libero memoria"<<std::endl;
 }
 
@@ -89,7 +95,7 @@ sf::Sprite** Mapa::crearMapa(int desplazamiento, char nombreBloques[]){
         tilePos.push_back(tp);
     }
     
-    sf::Sprite sp(*texture);
+    sf::Sprite sp(*texturaMapa);
         
     int k = 0;
     for(int i = 0; i < windowHeight; ++i) {
@@ -514,8 +520,6 @@ int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
     
     
     
-    
-    
     int**lista = new int*[windowHeight];
     for(int i =0; i< windowHeight; i++){
         lista[i]= new int[windowWidth*desplazamiento];
@@ -555,11 +559,11 @@ int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
             if(i<windowHeight){
                 if(j<windowWidth*(desp+1)-1){
                     lista[i][j] = tilePos;
-                   // std::cout<<lista[i][j];
+                    std::cout<<lista[i][j];
                     j++;
                 }
                 else{
-                   // std::cout<<std::endl;
+                    std::cout<<std::endl;
                     j=windowWidth*desp;
                     i++;
                 }
@@ -570,9 +574,13 @@ int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
     return lista;
 }
 
-sf::Sprite** Mapa::sitiosMonedas(){
+sf::Sprite** Mapa::sitiosMonedas(int desplazamiento, char nombreBloques[]){
+    std::stringstream stm; //Para unir los strings
+    stm<<"bloques/"<<nombreBloques; //Unimos los nombres de los mapas
+    // std::cout<<stm.str().c_str()<<std::endl;
+    
     txml2::XMLDocument map;
-    map.LoadFile("prueba2.tmx");
+    map.LoadFile(stm.str().c_str());
     
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
@@ -594,7 +602,7 @@ sf::Sprite** Mapa::sitiosMonedas(){
         s >> tp;
         tilePos.push_back(tp);
     }
-    
+    srand (time(NULL));
     
     sf::Sprite sp(*texturaMoneda);
     
@@ -602,18 +610,22 @@ sf::Sprite** Mapa::sitiosMonedas(){
     for(int i = 0; i < windowHeight; ++i) {
         scene[i] = new sf::Sprite[windowWidth];
         for (int j = 0; j < windowWidth; ++j) {
+            int visible = rand() % 2;
             if(tilePos[k]==0 ){
                 sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
             }
-            else{
+            else if(visible==0){
                 sp.setTextureRect(sf::IntRect(0*tileDim, 0*tileDim, tileDim, tileDim));
             }
 
             ++k;
             
             sp.setOrigin(0,0);
-            sp.setPosition(j * tileDim, i * tileDim);
-            sp.setScale(1,1);
+            if(desplazamiento>0){
+                sp.setPosition(j * tileDim + (desplazamiento*windowWidth*tileDim), i * tileDim);
+            }
+            else
+                sp.setPosition(j * tileDim, i * tileDim);            sp.setScale(1,1);
             scene[i][j] = sp;
         }
     }
@@ -701,7 +713,6 @@ sf::Sprite* Mapa::crearEsquema(){
 }
 
 
-
 char** Mapa::generarMapa(int cantB, int posibles){
     int caract = 13; // Caracteres en cada nombre
     int cantBloques = cantB; // Cantidad de mapas
@@ -740,4 +751,96 @@ char** Mapa::generarMapa(int cantB, int posibles){
     
     
     return nombreBloques;
+}
+
+
+sf::Sprite** Mapa::crearFondo(int desplazamiento){
+    txml2::XMLDocument map;
+    map.LoadFile("bloques/fondo.tmx");
+    
+    
+    
+    txml2::XMLElement* xmlNode = map.FirstChildElement("map")
+                                ->FirstChildElement("layer");
+    while(strcmp(xmlNode->Attribute("name"), "Fondo") != 0){
+         xmlNode->NextSibling();
+    }
+    xmlNode = xmlNode->FirstChildElement("data")
+                     ->FirstChildElement("tile");
+    
+    //int**lista = new int*[windowHeight];
+    /*for(int i =0; i< windowHeight; i++){
+        lista[i]= new int[windowWidth];
+    }*/
+    //int i = 0, j = 0;
+    
+    sf::Sprite** scene = new sf::Sprite*[windowHeight];
+    
+    std::vector<int> tilePos;
+    while (xmlNode) {
+        std::stringstream s(xmlNode->Attribute("gid"));
+        xmlNode = xmlNode->NextSiblingElement();
+        int tp;
+        s >> tp;
+        tilePos.push_back(tp);
+    }
+    
+    sf::Sprite sp(*texturaFondo);
+    
+    int k = 0;
+    for(int i = 0; i < windowHeight; ++i) {
+        scene[i] = new sf::Sprite[windowWidth];
+        for (int j = 0; j < windowWidth; ++j) {
+
+       switch (tilePos[k]){
+           case 1:
+               sp.setTextureRect(sf::IntRect(0, 0, tileDim, tileDim));
+               break;
+           case 2:
+               sp.setTextureRect(sf::IntRect(0, tileDim, tileDim, tileDim));
+               break;
+           case 3:
+               sp.setTextureRect(sf::IntRect(0, 2*tileDim, tileDim, tileDim));
+               break;
+           case 4:
+               sp.setTextureRect(sf::IntRect(0, 3*tileDim, tileDim, tileDim));
+               break;
+           case 5:
+               sp.setTextureRect(sf::IntRect(0, 4*tileDim, tileDim, tileDim));
+               break;
+           case 6:
+               sp.setTextureRect(sf::IntRect(0, 5*tileDim, tileDim, tileDim));
+               break;
+           case 7:
+               sp.setTextureRect(sf::IntRect(0, 6*tileDim, tileDim, tileDim));
+               break;
+           case 8:
+               sp.setTextureRect(sf::IntRect(0, 7*tileDim, tileDim, tileDim));
+               break;
+           case 9:
+               sp.setTextureRect(sf::IntRect(0, 8*tileDim, tileDim, tileDim));
+               break;
+           default:
+                //std::cout<<"WHITE"<<std::endl;
+                sp.setTextureRect(sf::IntRect(0, 9*tileDim, tileDim, tileDim));
+                break;
+            }
+      // std::cout<<tilePos[k];
+            ++k;
+            
+            sp.setOrigin(0,0);
+            if(desplazamiento>0){
+                sp.setPosition(j * tileDim + (desplazamiento*windowWidth*tileDim), i * tileDim);
+            }
+            else
+                sp.setPosition(j * tileDim, i * tileDim);
+
+            sp.setScale(1,1);
+            scene[i][j] = sp;
+        }
+        //std::cout<<std::endl;
+    }
+   
+
+    return scene;
 }

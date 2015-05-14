@@ -17,10 +17,7 @@ using namespace std;
 ColisionSuelo::ColisionSuelo() {
     //robot = new Robot();
     //mapa = new Mapa();
-    mapaColision = new int*[sizeX];    
-    for(int i =0; i< sizeX; i++){
-        mapaColision[i]= new int[sizeY];
-    }
+    
    posActualMatriz = 0;
    fila = 0;
    columna = 0;
@@ -42,11 +39,8 @@ void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
 }
 void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
     
-    for(int i=0; i<bloques; i++){
-        std::cout<<nombreBloques[i]<<std::endl;
-    }
     
-    char nomb[] = "bloque0.tmx";
+    
     
     mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);
@@ -69,15 +63,15 @@ bool ColisionSuelo::comprobarColisionDcha(){
     
     int filaAnterior, columnaAnterior;
     
-    float posRobotX = robot->getPos().x;
-    float posRobotY = robot->getPos().y;
     
     fila = (robot->getPos().y / tamTile);
     columna = (robot->getPos().x / tamTile);
     posActualMatriz = mapaColision[fila+1][columna+1];
-
-    /*for(int i=0; i<20; i++){
-        for(int j=0; j<19; j++){
+    std::cout<<"Pos siguiente: "<<posActualMatriz;
+    std::cout<<" Fila: "<<fila;
+    std::cout<<" Columna: "<<columna<<std::endl;
+    for(int i=0; i<20; i++){
+        for(int j=0; j<60; j++){
             std::cout<<mapaColision[i][j];
             if(mapaColision[i][j]==64){
                 std::cout<<"i: "<<i;
@@ -86,12 +80,12 @@ bool ColisionSuelo::comprobarColisionDcha(){
         }
         std::cout<<std::endl;
     }
-    */
+    
     //std::cout<<"Fila: "<<fila;
     //std::cout<<" Columna: "<<columna;
     //std::cout<<" Pos actual matriz: "<<mapaColision[fila+1][columna+1]<<std::endl;
     
-    if(posActualMatriz != 0){
+    if(posActualMatriz != 0 && posActualMatriz<600){
         hayColisionDcha = true;
         if(columna != columnaAnterior){
             robot->mueveA(columna*tamTile, robot->getPos().y);
@@ -123,7 +117,7 @@ bool ColisionSuelo::comprobarColision(){
     }
    
     
-    if(posActualMatriz != 0){
+    if(posActualMatriz != 0 && posActualMatriz<700){
         hayColision = true;
         //recolocamos al robot justo encima de la casilla para que no se quede entre medias
         if(fila != filaAnterior){
