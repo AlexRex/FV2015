@@ -264,7 +264,7 @@ void Game::render(float interpolacion){
     //Dibujamos desde player
     
     for(int i = 0; i<cantidadBloques; i++){
-       window->draw(fondo[i]);
+       //window->draw(fondo[i]);
     }
    for (int i = 0; i < windowHeight; i++) {
         for(int j = 0; j < windowWidth; j++){
