@@ -52,7 +52,7 @@ private:
     sf::Time                tiempoSaltoPause;
     
     sf::Sprite**            spritesObjetosAleatorios;
-    sf::Sprite**            spritesMonedas;
+    sf::Sprite***           spritesMonedas;
     sf::Sprite***           spritesBloques;
     sf::Sprite*             piezas;
     

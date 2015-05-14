@@ -24,10 +24,7 @@ Game::Game() :
 , cantidadBloques(10)
 , posiblesBloques(4)
 {   
-    spritesMonedas = new sf::Sprite*[windowHeight];
-    for(int i = 0; i < windowHeight; i++){
-        spritesMonedas[i] = new sf::Sprite[windowWidth];
-    }
+    
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];
     for(int i = 0; i < windowHeight; i++){
         spritesObjetosAleatorios[i] = new sf::Sprite[windowWidth];
@@ -220,19 +217,19 @@ void Game::update(sf::Time elapsedTime){
     //std::cout<<"Update"<<std::endl;
         bool hayColision = false;
         bool hayColisionDcha = false;
-        float vel_x = 0.f, vel_y=0.f;
-
+        float vel_x = 200.f, vel_y=0.f;
+        
         sf::Vector2f velocidad;
 
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
 
         if(!primeraVez){
-            if(mIzq)
+            /*if(mIzq)
                 vel_x = -300.f;
             if(mDcha && !hayColisionDcha){
                 vel_x = 300.f;
-            }
+            }*/
             if(caiendo){
                // std::cout<<robot.getPos().y<<std::endl;
                 //vel_y = robot->salta(posIniSalto, saltoTime, elapsedTime);    
@@ -274,8 +271,11 @@ void Game::render(float interpolacion){
             //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
             //window->draw(spritesFondo[i][j]);
             for(int a = 0; a<cantidadBloques; a++){
-               //window->draw(spritesFondos[a][i][j]);
+               //window->draw(spritesMonedas[a][i][j]);
                window->draw(spritesBloques[a][i][j]);
+            }
+            for(int a = 0; a<cantidadBloques; a++){
+                window->draw(spritesMonedas[a][i][j]);
             }
             //window->draw(spritesObjetosAleatorios[i][j]);
             //window->draw(spritesMonedas[i][j]);
@@ -369,15 +369,20 @@ sf::Sprite*** Game::construirMapas(){
     }
     
     spritesBloques = new sf::Sprite**[cantidadBloques];
+    spritesMonedas = new sf::Sprite**[cantidadBloques];
     
     for(int a = 0; a<cantidadBloques; a++){
+        spritesMonedas[a] = new sf::Sprite*[windowHeight];
         spritesBloques[a] = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
         for(int i = 0; i < windowHeight; i++){
             spritesBloques[a][i] = new sf::Sprite[windowWidth];
+            spritesMonedas[a][i] = new sf::Sprite[windowWidth];
         }
     }
+    std::cout<<"he"<<std::endl;
     for(int i = 0; i < cantidadBloques; i++){
         spritesBloques[i] = mapa->crearMapa(i, nombreBloques[i]);
+        spritesMonedas[i] = mapa->sitiosMonedas(i, nombreBloques[i]);
     }
        
     return spritesBloques;

@@ -574,9 +574,13 @@ int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
     return lista;
 }
 
-sf::Sprite** Mapa::sitiosMonedas(){
+sf::Sprite** Mapa::sitiosMonedas(int desplazamiento, char nombreBloques[]){
+    std::stringstream stm; //Para unir los strings
+    stm<<"bloques/"<<nombreBloques; //Unimos los nombres de los mapas
+    // std::cout<<stm.str().c_str()<<std::endl;
+    
     txml2::XMLDocument map;
-    map.LoadFile("prueba2.tmx");
+    map.LoadFile(stm.str().c_str());
     
     txml2::XMLElement* xmlNode = map.FirstChildElement("map")
                                 ->FirstChildElement("layer");
@@ -598,7 +602,7 @@ sf::Sprite** Mapa::sitiosMonedas(){
         s >> tp;
         tilePos.push_back(tp);
     }
-    
+    srand (time(NULL));
     
     sf::Sprite sp(*texturaMoneda);
     
@@ -606,18 +610,22 @@ sf::Sprite** Mapa::sitiosMonedas(){
     for(int i = 0; i < windowHeight; ++i) {
         scene[i] = new sf::Sprite[windowWidth];
         for (int j = 0; j < windowWidth; ++j) {
+            int visible = rand() % 2;
             if(tilePos[k]==0 ){
                 sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
             }
-            else{
+            else if(visible==0){
                 sp.setTextureRect(sf::IntRect(0*tileDim, 0*tileDim, tileDim, tileDim));
             }
 
             ++k;
             
             sp.setOrigin(0,0);
-            sp.setPosition(j * tileDim, i * tileDim);
-            sp.setScale(1,1);
+            if(desplazamiento>0){
+                sp.setPosition(j * tileDim + (desplazamiento*windowWidth*tileDim), i * tileDim);
+            }
+            else
+                sp.setPosition(j * tileDim, i * tileDim);            sp.setScale(1,1);
             scene[i][j] = sp;
         }
     }
