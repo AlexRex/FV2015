@@ -73,7 +73,7 @@ private:
     
     Mapa*                   mapa;
     Robot*                  robot;
-    ColisionSuelo*          colision;
+    Colisiones*          colision;
     Camara*                 camara;
     Camara*                 camaraMenu;
     
@@ -81,8 +81,10 @@ private:
     int                     posIniSalto;
     
     int                     cantidadBloques;
-    int                     posiblesBloques;
+    int                     posiblesBloques;    
     char**                  nombreBloques;
+    
+    int                     monedasRecogidas;
     
     bool                    mDcha;
     bool                    mIzq;

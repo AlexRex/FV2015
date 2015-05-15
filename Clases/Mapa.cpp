@@ -559,11 +559,11 @@ int** Mapa::createColisiones(int desplazamiento, char** nombreBloques){
             if(i<windowHeight){
                 if(j<windowWidth*(desp+1)-1){
                     lista[i][j] = tilePos;
-                    std::cout<<lista[i][j];
+                    //std::cout<<lista[i][j];
                     j++;
                 }
                 else{
-                    std::cout<<std::endl;
+                   // std::cout<<std::endl;
                     j=windowWidth*desp;
                     i++;
                 }
@@ -590,7 +590,6 @@ sf::Sprite** Mapa::sitiosMonedas(int desplazamiento, char nombreBloques[]){
     xmlNode = xmlNode->FirstChildElement("data")
                      ->FirstChildElement("tile");
     
-   
     
     sf::Sprite** scene = new sf::Sprite*[windowHeight];
     
@@ -610,7 +609,7 @@ sf::Sprite** Mapa::sitiosMonedas(int desplazamiento, char nombreBloques[]){
     for(int i = 0; i < windowHeight; ++i) {
         scene[i] = new sf::Sprite[windowWidth];
         for (int j = 0; j < windowWidth; ++j) {
-            int visible = rand() % 2;
+            int visible = 0;
             if(tilePos[k]==0 ){
                 sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
             }
@@ -844,3 +843,62 @@ sf::Sprite** Mapa::crearFondo(int desplazamiento){
 
     return scene;
 }
+
+
+
+int** Mapa::getColisionesMonedas(int desplazamiento, char** nombreBloques){
+    int** colisionesMonedas = new int*[windowHeight];
+    for(int i =0; i< windowHeight; i++){
+        colisionesMonedas[i]= new int[windowWidth*desplazamiento];
+    }
+    
+    int desp = 0;
+    
+    while(desp<desplazamiento){
+        int i = 0, j = (windowWidth*desp);
+        std::stringstream stm; //Para unir los strings
+        stm<<"bloques/"<<nombreBloques[desp]; //Unimos los nombres de los mapas
+
+        txml2::XMLDocument map;
+        map.LoadFile(stm.str().c_str());
+       // std::cout<<"j: "<<j<<std::endl;
+       // std::cout<<"WindowWidth*(desp+1)-1 "<< (windowWidth*(desp+1)-1) <<std::endl;
+       // std::cout<<"desp: "<<desp<<std::endl;
+
+        
+        txml2::XMLElement* xmlNode = map.FirstChildElement("map")
+                                ->FirstChildElement("layer");
+        while(strcmp(xmlNode->Attribute("name"), "Monedas") != 0){
+             xmlNode = xmlNode->NextSiblingElement();
+        }
+        xmlNode = xmlNode->FirstChildElement("data")
+                         ->FirstChildElement("tile");
+        
+        
+        while (xmlNode){
+            std::stringstream s(xmlNode->Attribute("gid"));
+            xmlNode = xmlNode->NextSiblingElement();
+            int tilePos;
+            s >> tilePos;
+           // std::cout<<"I: "<<i;
+           // std::cout<<" J: "<<j<<std::endl;
+
+            if(i<windowHeight){
+                if(j<windowWidth*(desp+1)-1){
+                    colisionesMonedas[i][j] = tilePos;
+                    //std::cout<<colisionesMonedas[i][j];
+                    j++;
+                }
+                else{
+                    //std::cout<<std::endl;
+                    j=windowWidth*desp;
+                    i++;
+                }
+            }
+        }
+        desp++;
+        //std::cout<<std::endl;
+    }
+    return colisionesMonedas;
+}
+

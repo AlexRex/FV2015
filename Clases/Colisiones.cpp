@@ -11,36 +11,48 @@
 
 using namespace std;
 #define sizeX 29
-#define sizeY 20
+#define sizeY 19
 #define tamTile 32
 
-ColisionSuelo::ColisionSuelo() {
+Colisiones::Colisiones() {
     //robot = new Robot();
     //mapa = new Mapa();
     
    posActualMatriz = 0;
+   posActualMatrizMonedas =0;
    fila = 0;
    columna = 0;
 }
 
-ColisionSuelo::ColisionSuelo(const ColisionSuelo& orig) {
+Colisiones::Colisiones(const Colisiones& orig) {
 }
 
-ColisionSuelo::~ColisionSuelo() {
+Colisiones::~Colisiones() {
 }
 
-void ColisionSuelo::init(Robot* roby, int bloques, char** nombreBloques){
+void Colisiones::init(Robot* roby, int bloques, char** nombreBloques){
     //Robot nuevo = roby;
     robot = roby;
     //prueba = roby;
     posRobotAnteriorX  = robot->getPos().x;
     posRobotAnteriorY  = robot->getPos().y;
     getMapa(bloques, nombreBloques);
+    getMapaMonedas(bloques, nombreBloques);
 }
-void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
+
+
+void Colisiones::getMapaMonedas(int bloques, char** nombreBloques){    
+    mapaMonedas =  mapa->getColisionesMonedas(bloques, nombreBloques);
+    filaMoneda = (robot->getPos().y / tamTile);
+    columnaMoneda = (robot->getPos().x / tamTile);
+    posActualMatrizMonedas = mapaMonedas[filaMoneda][columnaMoneda];
+ 
     
+}
+void Colisiones::getMapa(int bloques, char** nombreBloques){
     
-    
+    /* CON ESTO COGES LA MATRIZ DE MONEDAS*/
+   // mapa->getColisionesMonedas(bloques, nombreBloques);
     
     mapaColision = mapa->createColisiones(bloques, nombreBloques);
     fila = (robot->getPos().y / tamTile);
@@ -58,15 +70,13 @@ void ColisionSuelo::getMapa(int bloques, char** nombreBloques){
     
 }
 
-bool ColisionSuelo::comprobarColisionDcha(){
+bool Colisiones::comprobarColisionDcha(){
     bool hayColisionDcha = false;
     
     int filaAnterior, columnaAnterior;
-    
-    
-    fila = (robot->getPos().y / tamTile);
-    columna = (robot->getPos().x / tamTile);
-    posActualMatriz = mapaColision[fila+1][columna+1];
+    filaDcha = (robot->getPos().y / tamTile);
+    columnaDcha = (robot->getPos().x / tamTile);
+    posActualMatrizDcha = mapaColision[filaDcha+1][columnaDcha+1];
     /*std::cout<<"Pos siguiente: "<<posActualMatriz;
     std::cout<<" Fila: "<<fila;
     std::cout<<" Columna: "<<columna<<std::endl;
@@ -85,37 +95,34 @@ bool ColisionSuelo::comprobarColisionDcha(){
     //std::cout<<" Columna: "<<columna;
     //std::cout<<" Pos actual matriz: "<<mapaColision[fila+1][columna+1]<<std::endl;
     
-    if(posActualMatriz != 0 && posActualMatriz<600){
+    if(posActualMatrizDcha != 0 && posActualMatrizDcha<600){
         hayColisionDcha = true;
-        if(columna != columnaAnterior){
-            robot->mueveA(columna*tamTile, robot->getPos().y);
+        if(columnaDcha != columnaAnterior){
+            robot->mueveA(columnaDcha*tamTile, robot->getPos().y);
         }
 
     }else{
         hayColisionDcha = false;
     }
-    filaAnterior = fila;
-    columnaAnterior = columna;
+    filaAnterior = filaDcha;
+    columnaAnterior = columnaDcha;
     return hayColisionDcha;
     
 }
 
 
 //DA ERROR AQUÍ, voy a debuggear
-bool ColisionSuelo::comprobarColision(){
+bool Colisiones::comprobarColision(){
     bool hayColision = false;
     //recogemos la posicion del robot
     int filaAnterior,columnaAnterior;
-
-    
     
     fila = (robot->getPos().y / tamTile);
     columna = ((robot->getPos().x+16) / tamTile) ;
-    posActualMatriz = mapaColision[fila+2][columna];
+    posActualMatriz = mapaColision[fila+2][columna-1];
     if(filaAnterior != fila && columnaAnterior != columna){
         //std::cout<<endl<<endl<<"MatrizColision["<<(fila+2)<<"]["<<columna<<"]: "<<posActualMatriz<<endl;
     }
-   
     
     if(posActualMatriz != 0 && posActualMatriz<700){
         hayColision = true;
@@ -133,51 +140,57 @@ bool ColisionSuelo::comprobarColision(){
 
 }
 
-void ColisionSuelo::creoMatriz(){
-   
-    int**a = new int*[sizeX];
-    //reserva memoria
-    for(int i =0; i< sizeX; i++){
-        a[i]= new int[sizeY];
-    }
-    //Relleno
-    for(int i =0; i< sizeX; i++){
-        for(int j=0; j < sizeY; j++){
-             a[i][j]= 0;
-        }
-    }
-    //haago suelo
-    for(int k=0; k < sizeY; k++){
-        if(k<6){
-             a[3][k]= 1;
-        }else{
-            a[3][k]= 0;
-        }
-    }
+bool Colisiones::comprobarMoneda(sf::Sprite*** spritesMonedas){
     
-      //imprimo
-    for(int i =0; i< sizeX; i++){
-        for(int j=0; j < sizeY; j++){
-            cout<< a[i][j];
+    bool hayMoneda = false;
+    
+    
+    filaMoneda = ((robot->getPos().y-0) / tamTile);
+    columnaMoneda = (robot->getPos().x / tamTile);
+    posActualMatrizMonedas = mapaMonedas[filaMoneda+1][columnaMoneda+1];
+    posActualMatrizMonedasCabeza = mapaMonedas[filaMoneda][columnaMoneda+1];
+    
+    //std::cout<<"PosX: "<<columnaMoneda<<" PosY: "<<filaMoneda<<std::endl;
+    
+    
+    
+    if((posActualMatrizMonedas != 0 || posActualMatrizMonedasCabeza !=0) && posActualMatrizMonedas<600){
+        hayMoneda = true;
+        if(posActualMatrizMonedas!=0){
+            mapaMonedas[filaMoneda+1][columnaMoneda+1] = 0;
+            this->quitarMoneda(spritesMonedas, (columnaMoneda+1), (filaMoneda+1));
         }
-        cout<<endl;
+        else{
+            mapaMonedas[filaMoneda][columnaMoneda+1] = 0;
+            this->quitarMoneda(spritesMonedas, (columnaMoneda+1), (filaMoneda));
+        }
+
+
+    }else{
+        hayMoneda = false;
     }
 
-    eliminarMatriz(&a);
-    
-
+    return hayMoneda;
 
 }
 
-void ColisionSuelo::eliminarMatriz(int**a[]){
-      //liberamos memoria
-    for(int i =0; i< sizeX; i++){        
-        delete[] a[i];
-    }
-    delete[] a;
-    cout<<"se elimina";
 
+void Colisiones::quitarMoneda(sf::Sprite*** spriteMonedas, int posX, int posY){
+    int nBloque = 0;
+    int spriteX = 0;
+    int spriteY = 0;
+    
+    nBloque = posX/29;
+    spriteX = (posX-(nBloque*29))-nBloque;
+    spriteY = posY;
+    
+    std::cout<<"nBloques: "<<nBloque<<" spriteX: "<<spriteX<<" spriteY: "<<spriteY<<std::endl;
+    
+    std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
+    
+    float posM=spriteMonedas[nBloque][spriteY][spriteX].getPosition().x;
+    std::cout<<"PosM: "<<posM<<std::endl;
+    spriteMonedas[nBloque][spriteY][spriteX].setTextureRect(sf::IntRect(tamTile, 0*tamTile, tamTile, tamTile));
 
-
+    
 }
-
