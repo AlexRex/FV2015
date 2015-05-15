@@ -34,6 +34,7 @@ public:
     
     int**   getColisionesMonedas(int, char**);
     
+    
 private:
     sf::Texture* texturaMapa;
     sf::Texture* texturaMoneda;

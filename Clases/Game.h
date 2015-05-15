@@ -73,7 +73,7 @@ private:
     
     Mapa*                   mapa;
     Robot*                  robot;
-    ColisionSuelo*          colision;
+    Colisiones*          colision;
     Camara*                 camara;
     Camara*                 camaraMenu;
     

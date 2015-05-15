@@ -21,7 +21,7 @@ Game::Game() :
 , pause(false)
 , windowHeight(20)
 , windowWidth(30)
-, cantidadBloques(10)
+, cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
 {   
@@ -74,7 +74,7 @@ Game::Game() :
     
     robot = new Robot();
     mapa = new Mapa();
-    colision = new ColisionSuelo();
+    colision = new Colisiones();
     camara = new Camara();
     camaraMenu = new Camara();
     
@@ -225,7 +225,7 @@ void Game::update(sf::Time elapsedTime){
 
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
-        hayColisionMoneda = colision->comprobarMoneda();
+        hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
 
         if(!primeraVez){
             if(mIzq)

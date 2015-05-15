@@ -901,3 +901,4 @@ int** Mapa::getColisionesMonedas(int desplazamiento, char** nombreBloques){
     }
     return colisionesMonedas;
 }
+
