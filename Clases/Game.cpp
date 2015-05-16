@@ -123,26 +123,7 @@ Game::Game() :
     piezas = mapa->crearEsquema();
     
     barrasVida = new sf::RectangleShape[4];
-    
-    vida1 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    vida2 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    vida3 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    vida4 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    
-    /*
-    vida1->setFillColor(sf::Color(150, 50, 250));
-    vida1->setPosition(40,90);
-    
-    vida2->setFillColor(sf::Color(150, 50, 250));
-    vida2->setPosition(165,90);
-    
-    vida3->setFillColor(sf::Color(150, 50, 250));
-    vida3->setPosition(40,120);
-    
-    vida4->setFillColor(sf::Color(150, 50, 250));
-    vida4->setPosition(165,120);
-    */
-    
+
     //AQUI
     sf::Vector2i posInicial;
     posInicial.x = 16*32;
