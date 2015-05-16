@@ -6,7 +6,7 @@
  */
 
 #include "Robot.h"
-#include "Camara.h"
+
 
 Robot::Robot()
 {
@@ -19,6 +19,7 @@ Robot::Robot()
     walkingAnimation = new Animation();
     animatedSprite = new AnimatedSprite(sf::seconds(0.05), true, false);
     camara = new Camara();
+    datos = new Hud();
     
 
 }
@@ -34,6 +35,7 @@ Robot::~Robot() {
     delete currentAnimation;
     delete walkingAnimation;
     delete camara;
+    delete datos;
 }
 
 
@@ -100,5 +102,8 @@ float Robot::caer(sf::Time tiempoCaida, sf::Time elapsedTime){
 }
 void Robot::recibirCamara (Camara* micam){
     render->recibirCamara(micam);
+}
+void Robot::recibirHud(Hud* mihud){
+    render->recibirHud(mihud);
 }
 

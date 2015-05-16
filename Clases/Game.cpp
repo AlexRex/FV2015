@@ -77,6 +77,8 @@ Game::Game() :
     colision = new Colisiones();
     camara = new Camara();
     camaraMenu = new Camara();
+    hud = new Hud();
+    tiempoPartida = new sf::Clock();
     
     texturaRobot = new sf::Texture();
     
@@ -120,36 +122,21 @@ Game::Game() :
     //spritesObjetosAleatorios = mapa->objetosAleatorios();
     piezas = mapa->crearEsquema();
     
-    
-    
-    vida1 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    vida2 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    vida3 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    vida4 = new sf::RectangleShape(sf::Vector2f(60, 10));
-    
-    vida1->setFillColor(sf::Color(150, 50, 250));
-    vida1->setPosition(40,90);
-    
-    vida2->setFillColor(sf::Color(150, 50, 250));
-    vida2->setPosition(165,90);
-    
-    vida3->setFillColor(sf::Color(150, 50, 250));
-    vida3->setPosition(40,120);
-    
-    vida4->setFillColor(sf::Color(150, 50, 250));
-    vida4->setPosition(165,120);
-    
-    
+    barrasVida = new sf::RectangleShape[4];
+
     //AQUI
     sf::Vector2i posInicial;
     posInicial.x = 16*32;
     posInicial.y = 8*32;
+    hud->crearHud(debugFont);
+    hud->recibirPiezas(piezas);
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
     colision->init(robot, cantidadBloques, nombreBloques);
     
     camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto);
     camaraMenu->creaCamaraMenu(posInicial.x, posInicial.y-64, ancho, alto);
     robot->recibirCamara(camara);
+    robot->recibirHud(hud);
 
     debugText->setFont(*debugFont);
     debugText->setPosition(400.f, 5.f);
@@ -214,6 +201,8 @@ bool Game::run() {
 /**Update y Render**/
 
 void Game::update(sf::Time elapsedTime){
+    
+    
     //Actualizamos fisica de los pj
     //std::cout<<"Update"<<std::endl;
         bool hayColision = false;
@@ -263,6 +252,13 @@ void Game::update(sf::Time elapsedTime){
         //velCam = sf::Vector2f(vel_xCam, vel_yCam);
         robot->Update(velocidad, elapsedTime);
         primeraVez = false;
+        
+        //Actualizamos Hud
+        hud->recibirDatos(tiempoPartida);
+        
+
+       
+
 }
 
 
@@ -291,13 +287,7 @@ void Game::render(float interpolacion){
         }
     }
     
-    for (int i = 0; i < 5; i++){
-        window->draw(piezas[i]);
-    }
-    window->draw(*vida1);
-    window->draw(*vida2);
-    window->draw(*vida3);
-    window->draw(*vida4);
+    
     if(muerto){
         window->clear(sf::Color::White);
         window->setView(*camaraMenu->getMenuView());
@@ -305,6 +295,7 @@ void Game::render(float interpolacion){
     else{
         window->setView(*camara->getView());
         robot->Draw(*window, interpolacion);
+        pintarHud(); //Agrupado todo en una funcion auxiliar para reducir codigo
     }
     //window->draw(*debugText);
     
@@ -412,4 +403,19 @@ sf::Sprite*** Game::construirFondos(){
     }
        
     return spritesFondos;
+}
+
+void Game::pintarHud(){
+    sf::Text textoHud;
+    textoHud = *hud->getTiempo();
+    window->draw(textoHud);
+        
+    for (int i = 0; i < 5; i++){
+        if(i<4){
+            barrasVida[i]=*hud->getVida(i); //Actualizamos la posicion de las barras
+            window->draw(barrasVida[i]);//Pintamos barras
+        }
+        piezas[i] = hud->getPieza(i); //Actualizamos la posicion de los sprites del esquema
+        window->draw(piezas[i]); //Pintamos sprite del esquema
+    }
 }

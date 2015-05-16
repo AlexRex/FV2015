@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include "../Includes/AnimatedSprite.hpp"
 #include "Camara.h"
+#include "Hud.h"
 #include <iostream>
 
 class Render {
@@ -23,6 +24,7 @@ public:
     void SetTextura(sf::Texture &tex);
     
     void recibirCamara(Camara* cam);
+    void recibirHud(Hud* hud);
     Animation* getWalkingAnimation() const { return walkingAnimation; }
     Animation* getJumpingAnimation() const { return jumpingAnimation; }
     Animation* getFallingAnimation() const { return fallingAnimation; }
@@ -34,6 +36,7 @@ public:
     sf::Vector2f* getRenderPos() const { return renderPos; }
 private:
     Camara*              camara;
+    Hud*                 hud;
     sf::Vector2f*        renderPos;
     Animation*           walkingAnimation;
     Animation*           jumpingAnimation;
