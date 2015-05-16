@@ -17,6 +17,7 @@
 #include "Mapa.h"
 #include "Colisiones.h"
 #include "Camara.h"
+#include "Hud.h"
 
 #include "../Includes/AnimatedSprite.hpp"
 
@@ -49,12 +50,14 @@ private:
     sf::Font*               debugFont;
     sf::Text*               debugText;
     
+    sf::Clock*               tiempoPartida;
     sf::Time                tiempoSaltoPause;
     
     sf::Sprite**            spritesObjetosAleatorios;
     sf::Sprite***           spritesMonedas;
     sf::Sprite***           spritesBloques;
     sf::Sprite*             piezas;
+    sf::RectangleShape*    barrasVida;
     
     
     sf::Sprite***           spritesFondos;
@@ -73,9 +76,10 @@ private:
     
     Mapa*                   mapa;
     Robot*                  robot;
-    Colisiones*          colision;
+    Colisiones*             colision;
     Camara*                 camara;
     Camara*                 camaraMenu;
+    Hud*                    hud;
     
     float                   interpolacion;
     int                     posIniSalto;
@@ -92,6 +96,8 @@ private:
     bool                    primeraVez;
     bool                    muerto;
     bool                    pause;
+    
+    void pintarHud();
 };
 
 #endif	/* GAME_H */

@@ -10,6 +10,8 @@
 
 #include "PlayerPhysics.h"
 #include "Render.h"
+#include "Camara.h"
+#include "Hud.h"
 #include "../Includes/AnimatedSprite.hpp"
 
 class Robot {
@@ -27,6 +29,7 @@ public:
     void Draw(sf::RenderWindow& window, float interpolacion);
     void mueveA(int y, int x);
     void recibirCamara(Camara*);
+    void recibirHud(Hud*);
     
     
     float saltar();
@@ -43,6 +46,7 @@ private:
     Render*                 render;
     PlayerPhysics*          playerPhysics;
     Camara*                 camara;
+    Hud*                    datos;
     
     AnimatedSprite*         animatedSprite;
     Animation*              walkingAnimation;

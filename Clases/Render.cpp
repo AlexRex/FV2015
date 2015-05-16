@@ -66,9 +66,13 @@ void Render::Draw(sf::RenderWindow& window, const sf::Vector2f& lastPos, const s
     
     animatedSprite.setPosition(renderPos->x, renderPos->y);
     camara->setPos(*renderPos);
+    hud->setPos(*renderPos);
     window.draw(animatedSprite);
     
 }
 void Render::recibirCamara (Camara *cam){
     camara = cam;
+}
+void Render::recibirHud(Hud* mihud){
+    hud = mihud;
 }
