@@ -190,7 +190,7 @@ void Colisiones::quitarMoneda(sf::Sprite*** spriteMonedas, int posX, int posY){
     spriteX = (posX-(nBloque*29))-nBloque;
     spriteY = posY;
     
-    std::cout<<"nBloques: "<<nBloque<<" spriteX: "<<spriteX<<" spriteY: "<<spriteY<<std::endl;
+    std::cout<<"nBloques: "<<nBloque<<" spriteXmoneda: "<<spriteX<<" spriteYmoneda: "<<spriteY<<std::endl;
     
     std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
     
@@ -211,11 +211,11 @@ bool Colisiones::comprobarPieza(sf::Sprite*** spritesPiezas){
         hayPieza = true;
         if(posActualMatrizPiezas!=0){
             mapaPiezas[filaPieza+1][columnaPieza+1] = 0;
-            this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza+1));
+           // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza+1));
         }
         else{
             mapaPiezas[filaPieza][columnaPieza+1] = 0;
-            this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza));
+           // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza));
         }
     }else{
         hayPieza = false;
@@ -232,7 +232,7 @@ void Colisiones::quitarPieza(sf::Sprite*** spritePiezas, int posX, int posY){
     spriteX = (posX-(nBloque*29))-nBloque;
     spriteY = posY;
     
-    std::cout<<"nBloques: "<<nBloque<<" spriteX: "<<spriteX<<" spriteY: "<<spriteY<<std::endl;
+    std::cout<<"nBloques: "<<nBloque<<" spriteXpieza: "<<spriteX<<" spriteYpieza: "<<spriteY<<std::endl;
     
     std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
     

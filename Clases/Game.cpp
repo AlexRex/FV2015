@@ -208,6 +208,7 @@ void Game::update(sf::Time elapsedTime){
         bool hayColision = false;
         bool hayColisionDcha = false;
         bool hayColisionMoneda =false;
+        bool hayColisionPieza = false;
         float vel_x = 0.f, vel_y=0.f;
         
         sf::Vector2f velocidad;
@@ -215,6 +216,7 @@ void Game::update(sf::Time elapsedTime){
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
+       // hayColisionPieza = colision->comprobarPieza();
 
         if(!primeraVez){
             if(mIzq)
@@ -245,6 +247,9 @@ void Game::update(sf::Time elapsedTime){
                 monedasRecogidas++;
                 std::cout<<"Monedas: "<<monedasRecogidas<<std::endl;
 
+            }
+            if(hayColisionPieza){
+                std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
             }
 
 

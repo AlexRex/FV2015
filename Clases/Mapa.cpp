@@ -31,11 +31,15 @@ Mapa::Mapa() {
     }
     
     texturaObjAleatorio = new sf::Texture();
-    if (!texturaObjAleatorio->loadFromFile("Resources/barril64x32.png")){
+    if (!texturaObjAleatorio->loadFromFile("Resources/piezaFalsa.JPG")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
-    
+    texturaPieza = new sf::Texture();
+    if (!texturaPieza->loadFromFile("Resources/piezaFalsa.JPG")){
+        std::cerr << "Error cargando las texturas";
+        exit(0);
+    }
     texturaEsquema = new sf::Texture();
     if(!texturaEsquema->loadFromFile("Resources/piezas.png")){
         std::cerr << "Error cargando las texturas";
@@ -631,6 +635,52 @@ sf::Sprite** Mapa::sitiosMonedas(int desplazamiento, char nombreBloques[]){
    
     return scene;
 }
+sf::Sprite** Mapa::sitiosPiezas(int desplazamiento, char nombreBloques[]){
+    std::stringstream stm; //Para unir los strings
+    stm<<"bloques/"<<nombreBloques; //Unimos los nombres de los mapas
+    txml2::XMLDocument map;
+    map.LoadFile(stm.str().c_str());
+    txml2::XMLElement* xmlNode = map.FirstChildElement("map")
+                                ->FirstChildElement("layer");
+    while(strcmp(xmlNode->Attribute("name"), "Piezas") != 0){
+          xmlNode = xmlNode->NextSiblingElement();
+    }
+    xmlNode = xmlNode->FirstChildElement("data")
+                     ->FirstChildElement("tile");
+    sf::Sprite** scene = new sf::Sprite*[windowHeight];
+    std::vector<int> tilePos;
+    while (xmlNode) {
+        std::stringstream s(xmlNode->Attribute("gid"));
+        xmlNode = xmlNode->NextSiblingElement();
+        int tp;
+        s >> tp;
+        tilePos.push_back(tp);
+    }
+    srand (time(NULL));
+    sf::Sprite sp(*texturaPieza);
+    int k = 0;
+    for(int i = 0; i < windowHeight; ++i) {
+        scene[i] = new sf::Sprite[windowWidth];
+        for (int j = 0; j < windowWidth; ++j) {
+            int visible = 0;
+            if(tilePos[k]==0 ){
+                sp.setTextureRect(sf::IntRect(tileDim, 0*tileDim, tileDim, tileDim));
+            }
+            else if(visible==0){
+                sp.setTextureRect(sf::IntRect(0*tileDim, 0*tileDim, tileDim, tileDim));
+            }
+            ++k;            
+            sp.setOrigin(0,0);
+            if(desplazamiento>0){
+                sp.setPosition(j * tileDim + (desplazamiento*windowWidth*tileDim), i * tileDim);
+            }
+            else
+                sp.setPosition(j * tileDim, i * tileDim);            sp.setScale(1,1);
+            scene[i][j] = sp;
+        }
+    }   
+    return scene;
+}
 
 sf::Sprite** Mapa::objetosAleatorios(){
     txml2::XMLDocument map;
@@ -647,7 +697,6 @@ sf::Sprite** Mapa::objetosAleatorios(){
    
     
     sf::Sprite** scene = new sf::Sprite*[windowHeight];
-    
     std::vector<int> tilePos;
     while (xmlNode) {
         std::stringstream s(xmlNode->Attribute("gid"));
