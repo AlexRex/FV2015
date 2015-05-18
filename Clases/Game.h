@@ -80,6 +80,7 @@ private:
     Camara*                 camara;
     Camara*                 camaraMenu;
     Hud*                    hud;
+    Pieza*                  nuevaPieza;
     
     float                   interpolacion;
     int                     posIniSalto;

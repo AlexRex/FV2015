@@ -79,6 +79,7 @@ Game::Game() :
     camaraMenu = new Camara();
     hud = new Hud();
     tiempoPartida = new sf::Clock();
+    nuevaPieza = new Pieza();
     
     texturaRobot = new sf::Texture();
     
@@ -252,7 +253,38 @@ void Game::update(sf::Time elapsedTime){
             if(hayColisionPieza){
                 std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
                 //Crear pieza random
+                int tipoPieza = -1;
+                tipoPieza = nuevaPieza->iniciarPieza(-1);
                 //Comprobar casillas robot
+                
+                
+                
+                /* Imprimir array piezas robot*/
+                Pieza*** piezasRobot = new Pieza**[4];
+                piezasRobot = new Pieza**[4];
+                for(int i = 0; i < 4; i++){
+                    piezasRobot[i] = new Pieza*[2];
+                    for(int j = 0; j < 2; j++){
+                        piezasRobot[i][j] = new Pieza();
+                    }
+                }
+                piezasRobot = robot->getPiezas();
+                for(int i=0; i<4; i++){
+                    //for(int j=0; j<2; j++){
+                        std::cout<<"Pieza robot["<<i<<"]["<<0<<"]: "<<piezasRobot[i][0]->getTipo()<<std::endl;
+                    //}
+                }
+                std::cout<<std::endl;
+                std::cout<<std::endl;
+                robot->insertarPieza(nuevaPieza);
+                std::cout<<"Tipo pieza nueva: "<<tipoPieza<<std::endl;
+                piezasRobot = robot->getPiezas();
+                std::cout<<std::endl;
+                for(int i=0; i<4; i++){
+                    //for(int j=0; j<2; j++){
+                        std::cout<<"Pieza robot["<<i<<"]["<<0<<"]: "<<piezasRobot[i][0]->getTipo()<<std::endl;
+                    //}
+                }
             }
 
 

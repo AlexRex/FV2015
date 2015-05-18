@@ -23,8 +23,9 @@ public:
     sf::Sprite* getSprite();
     void setMuerta(bool);
     bool getMuerta();
-    void iniciarPieza(int);
+    int iniciarPieza(int);
     void darVuelta();
+    int getVida();
 private:
     int tipo;
     int vida;

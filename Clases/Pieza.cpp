@@ -46,8 +46,8 @@ void Pieza::darVuelta(){
     sprite->scale(-1, 0);
 }
 
-void Pieza::iniciarPieza(int clase){
-    if(clase == 10){
+int Pieza::iniciarPieza(int clase){
+    if(clase == -1){
         //random
         srand (time(NULL));
         tipo = rand() % 10;
@@ -110,5 +110,8 @@ void Pieza::iniciarPieza(int clase){
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
     }
+    return tipo;
 }
-
+int Pieza::getVida(){
+    return vida;
+}
