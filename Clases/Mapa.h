@@ -33,6 +33,7 @@ public:
     char** generarMapa(int, int);
     
     int**   getColisionesMonedas(int, char**);
+    int** getColisionesPiezas(int desplazamiento, char** nombreBloques);
     
     
 private:

@@ -49,6 +49,12 @@ void Colisiones::getMapaMonedas(int bloques, char** nombreBloques){
  
     
 }
+void Colisiones::getMapaPiezas(int bloques, char** nombreBloques){    
+    mapaPiezas =  mapa->getColisionesPiezas(bloques, nombreBloques);
+    filaPieza = (robot->getPos().y / tamTile);
+    columnaPieza = (robot->getPos().x / tamTile);
+    posActualMatrizPiezas = mapaPiezas[filaPieza][columnaPieza];
+}
 void Colisiones::getMapa(int bloques, char** nombreBloques){
     
     /* CON ESTO COGES LA MATRIZ DE MONEDAS*/
@@ -191,6 +197,48 @@ void Colisiones::quitarMoneda(sf::Sprite*** spriteMonedas, int posX, int posY){
     float posM=spriteMonedas[nBloque][spriteY][spriteX].getPosition().x;
     std::cout<<"PosM: "<<posM<<std::endl;
     spriteMonedas[nBloque][spriteY][spriteX].setTextureRect(sf::IntRect(tamTile, 0*tamTile, tamTile, tamTile));
+
+    
+}
+
+bool Colisiones::comprobarPieza(sf::Sprite*** spritesPiezas){
+    bool hayPieza = false;
+    filaPieza = ((robot->getPos().y-0) / tamTile);
+    columnaPieza = (robot->getPos().x / tamTile);
+    posActualMatrizPiezas = mapaPiezas[filaPieza+1][columnaPieza+1];
+    posActualMatrizPiezasCabeza = mapaPiezas[filaPieza][columnaPieza+1];
+    if((posActualMatrizPiezas != 0 || posActualMatrizPiezasCabeza !=0) && posActualMatrizPiezas<600){
+        hayPieza = true;
+        if(posActualMatrizPiezas!=0){
+            mapaPiezas[filaPieza+1][columnaPieza+1] = 0;
+            this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza+1));
+        }
+        else{
+            mapaPiezas[filaPieza][columnaPieza+1] = 0;
+            this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza));
+        }
+    }else{
+        hayPieza = false;
+    }
+    return hayPieza;
+}
+
+void Colisiones::quitarPieza(sf::Sprite*** spritePiezas, int posX, int posY){
+    int nBloque = 0;
+    int spriteX = 0;
+    int spriteY = 0;
+    
+    nBloque = posX/29;
+    spriteX = (posX-(nBloque*29))-nBloque;
+    spriteY = posY;
+    
+    std::cout<<"nBloques: "<<nBloque<<" spriteX: "<<spriteX<<" spriteY: "<<spriteY<<std::endl;
+    
+    std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
+    
+    float posM=spritePiezas[nBloque][spriteY][spriteX].getPosition().x;
+    std::cout<<"PosM: "<<posM<<std::endl;
+    spritePiezas[nBloque][spriteY][spriteX].setTextureRect(sf::IntRect(tamTile, 0*tamTile, tamTile, tamTile));
 
     
 }

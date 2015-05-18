@@ -902,3 +902,51 @@ int** Mapa::getColisionesMonedas(int desplazamiento, char** nombreBloques){
     return colisionesMonedas;
 }
 
+int** Mapa::getColisionesPiezas(int desplazamiento, char** nombreBloques){
+    int** colisionesPiezas = new int*[windowHeight];
+    for(int i =0; i< windowHeight; i++){
+        colisionesPiezas[i]= new int[windowWidth*desplazamiento];
+    }
+    
+    int desp = 0;
+    
+    while(desp<desplazamiento){
+        int i = 0, j = (windowWidth*desp);
+        std::stringstream stm; //Para unir los strings
+        stm<<"bloques/"<<nombreBloques[desp]; //Unimos los nombres de los mapas
+
+        txml2::XMLDocument map;
+        map.LoadFile(stm.str().c_str());
+
+        
+        txml2::XMLElement* xmlNode = map.FirstChildElement("map")
+                                ->FirstChildElement("layer");
+        while(strcmp(xmlNode->Attribute("name"), "Piezas") != 0){
+             xmlNode = xmlNode->NextSiblingElement();
+        }
+        xmlNode = xmlNode->FirstChildElement("data")
+                         ->FirstChildElement("tile");
+        
+        
+        while (xmlNode){
+            std::stringstream s(xmlNode->Attribute("gid"));
+            xmlNode = xmlNode->NextSiblingElement();
+            int tilePos;
+            s >> tilePos;
+
+            if(i<windowHeight){
+                if(j<windowWidth*(desp+1)-1){
+                    colisionesPiezas[i][j] = tilePos;
+                    j++;
+                }
+                else{
+                    j=windowWidth*desp;
+                    i++;
+                }
+            }
+        }
+        desp++;
+    }
+    return colisionesPiezas;
+}
+
