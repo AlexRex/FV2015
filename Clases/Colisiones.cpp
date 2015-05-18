@@ -20,6 +20,7 @@ Colisiones::Colisiones() {
     
    posActualMatriz = 0;
    posActualMatrizMonedas =0;
+   posActualMatrizPiezas = 0;
    fila = 0;
    columna = 0;
 }
@@ -38,6 +39,7 @@ void Colisiones::init(Robot* roby, int bloques, char** nombreBloques){
     posRobotAnteriorY  = robot->getPos().y;
     getMapa(bloques, nombreBloques);
     getMapaMonedas(bloques, nombreBloques);
+    getMapaPiezas(bloques, nombreBloques);
 }
 
 
@@ -201,14 +203,17 @@ void Colisiones::quitarMoneda(sf::Sprite*** spriteMonedas, int posX, int posY){
     
 }
 
-bool Colisiones::comprobarPieza(sf::Sprite*** spritesPiezas){
+bool Colisiones::comprobarPieza(/* sf::Sprite*** spritesPiezas */){
     bool hayPieza = false;
     filaPieza = ((robot->getPos().y-0) / tamTile);
     columnaPieza = (robot->getPos().x / tamTile);
+    //std::cout<<"Inicia variables"<<std::endl;
     posActualMatrizPiezas = mapaPiezas[filaPieza+1][columnaPieza+1];
     posActualMatrizPiezasCabeza = mapaPiezas[filaPieza][columnaPieza+1];
+    //std::cout<<"Antes primer if"<<std::endl;
     if((posActualMatrizPiezas != 0 || posActualMatrizPiezasCabeza !=0) && posActualMatrizPiezas<600){
         hayPieza = true;
+        //std::cout<<"Dentro primer if"<<std::endl;
         if(posActualMatrizPiezas!=0){
             mapaPiezas[filaPieza+1][columnaPieza+1] = 0;
            // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza+1));
@@ -218,8 +223,10 @@ bool Colisiones::comprobarPieza(sf::Sprite*** spritesPiezas){
            // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza));
         }
     }else{
+        //std::cout<<"else"<<std::endl;
         hayPieza = false;
     }
+    //std::cout<<"Final"<<std::endl;
     return hayPieza;
 }
 

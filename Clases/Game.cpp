@@ -216,7 +216,8 @@ void Game::update(sf::Time elapsedTime){
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
-       // hayColisionPieza = colision->comprobarPieza();
+        //std::cout<<"En game"<<std::endl;
+        hayColisionPieza = colision->comprobarPieza();
 
         if(!primeraVez){
             if(mIzq)
@@ -250,6 +251,8 @@ void Game::update(sf::Time elapsedTime){
             }
             if(hayColisionPieza){
                 std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
+                //Crear pieza random
+                //Comprobar casillas robot
             }
 
 
