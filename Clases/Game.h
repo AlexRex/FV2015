@@ -22,6 +22,7 @@
 #include "Menu.h"
 #include "MenuMuerte.h"
 #include "MenuPuntoDeControl.h"
+#include "Guardado.h"
 
 #include "../Includes/AnimatedSprite.hpp"
 
@@ -69,7 +70,7 @@ private:
     sf::Sprite***           spritesPiezas;
     
     sf::Sprite*             piezas;
-    sf::RectangleShape*    barrasVida;
+    sf::RectangleShape*     barrasVida;
     
     
     sf::Sprite***           spritesFondos;
@@ -94,6 +95,7 @@ private:
     Camara*                 camaraMenu;
     Hud*                    hud;
     Pieza*                  nuevaPieza;
+    Guardado*               guardado;
     
     Tienda*                 tienda;
     Menu*                   menu;
