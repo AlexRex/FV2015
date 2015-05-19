@@ -10,6 +10,7 @@
 Pieza::Pieza() {
     vida = 0;
     muerta = true;
+    tipo = -1;
     
     sprite = new sf::Sprite();
     texture = new sf::Texture();
@@ -40,6 +41,8 @@ bool Pieza::getMuerta(){
 
 void Pieza::setMuerta(bool aux){
     muerta = aux;
+    if(muerta)
+        tipo = -1;
 }
 
 void Pieza::darVuelta(){
@@ -110,6 +113,7 @@ int Pieza::iniciarPieza(int clase){
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
     }
+    muerta = false;
     return tipo;
 }
 int Pieza::getVida(){

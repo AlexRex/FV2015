@@ -91,13 +91,13 @@ void Robot::Draw(sf::RenderWindow& window, float interpolacion){
 
 bool Robot::insertarPieza(Pieza* nueva){
     bool insertada = false;
-
+    
     if(nueva->getTipo() >= 0 && nueva != NULL && insertada == false){
         if(nueva->getTipo() <=5){
             //Comprobar hueco pierna
             //Comprobar casillas vacias
             if(piezas[0][0] == NULL){
-                piezas[0][0] = nueva;
+                piezas[0][0]->iniciarPieza(nueva->getTipo());
                 insertada = true;
                 std::cout<<"cambio pierna 1 vacia"<<std::endl;
             }
@@ -224,6 +224,61 @@ bool Robot::insertarPieza(Pieza* nueva){
     
     return insertada;
 }
+bool Robot::insertarBrazo(int n){
+    bool insertado = true;
+    
+    if(piezas[0][0]->getMuerta()){
+        piezas[0][0]->iniciarPieza(n);
+    }
+    else{
+        if(piezas[1][0]->getMuerta()){
+            piezas[1][0]->iniciarPieza(n);
+        }
+        else{
+            if(piezas[0][1]->getMuerta()){
+                piezas[0][1]->iniciarPieza(n);
+            }
+            else{
+                if(piezas[1][1]->getMuerta()){
+                    piezas[1][1]->iniciarPieza(n);
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+    }
+    return insertado;
+    
+}
+
+bool Robot::insertarPierna(int n){
+    bool insertado = true;
+    
+    if(piezas[2][0]->getMuerta()){
+        piezas[2][0]->iniciarPieza(n);
+    }
+    else{
+        if(piezas[3][0]->getMuerta()){
+            piezas[3][0]->iniciarPieza(n);
+        }
+        else{
+            if(piezas[2][1]->getMuerta()){
+                piezas[2][1]->iniciarPieza(n);
+            }
+            else{
+                if(piezas[3][1]->getMuerta()){
+                    piezas[3][1]->iniciarPieza(n);
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+    }
+    return insertado;
+    
+}
     
 
 float Robot::getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
@@ -255,6 +310,9 @@ void Robot::inicializarPiezas(){
         for(int j = 0; j < 2; j++){
             piezas[i][j] = new Pieza();
             piezas[i][j]->setMuerta(false);
+            if(j>0){
+                piezas[i][j]->setMuerta(true);
+            }
         }
     }
     
@@ -264,6 +322,17 @@ void Robot::inicializarPiezas(){
     piezas[2][0]->iniciarPieza(6);
     piezas[3][0]->iniciarPieza(6);
     piezas[3][0]->darVuelta();
+}
+void Robot::actualizaPiezas(){
+    
+    for(int i = 0; i<4; i++){
+        if(piezas[i][0]->getMuerta()){
+            if(!piezas[i][1]->getMuerta()){
+                piezas[i][0] = piezas[i][1];
+                piezas[i][1]->setMuerta(true); 
+            }   
+        }
+    }
 }
 Pieza*** Robot::getPiezas(){
     return piezas; 
