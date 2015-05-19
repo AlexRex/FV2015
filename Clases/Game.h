@@ -20,6 +20,8 @@
 #include "Hud.h"
 #include "Tienda.h"
 #include "Menu.h"
+#include "MenuMuerte.h"
+#include "MenuPuntoDeControl.h"
 
 #include "../Includes/AnimatedSprite.hpp"
 
@@ -39,6 +41,9 @@ public:
     void             controlarJuego(sf::Keyboard::Key key);
     void             controlarMenus(sf::Keyboard::Key key);
     void             controlarTienda(sf::Keyboard::Key key);
+    void             controlarMenuMuerte(sf::Keyboard::Key key);
+    void             controlarPuntoControl(sf::Keyboard::Key key);
+
     void             mostrarMenuMuerte();
     sf::Sprite***    construirMapas();
     sf::Sprite***    construirFondos();
@@ -89,8 +94,12 @@ private:
     Camara*                 camaraMenu;
     Hud*                    hud;
     Pieza*                  nuevaPieza;
+    
     Tienda*                 tienda;
     Menu*                   menu;
+    MenuMuerte*             menuMuerte;
+    MenuPuntoDeControl*     menuPuntoControl;
+    
     
     float                   interpolacion;
     int                     posIniSalto;

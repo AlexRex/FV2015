@@ -24,7 +24,7 @@ Game::Game() :
 , cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
-, status(2)
+, status(2) // 0 = Juego, 1 = Tienda, 2 = Menu Princ, 3 = Muerte, 4 = Pto Control
 {   
     
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];
@@ -41,6 +41,8 @@ Game::Game() :
     
     /*Inicializar variables*/
     
+    menuPuntoControl = new MenuPuntoDeControl(ancho, alto);
+    menuMuerte = new MenuMuerte(ancho, alto);
     menu  = new Menu(ancho, alto);
     tienda = new Tienda(ancho, alto);
     robot = new Robot();
@@ -130,6 +132,7 @@ Game::~Game(){
     delete window;
     delete tienda;
     delete menu;
+    delete menuMuerte;
 }
 
 bool Game::run() {
@@ -159,9 +162,6 @@ bool Game::run() {
 
             //Render
             render(interpolacion);
-        }
-        if(muerto){
-            return true;
         }
         
 
@@ -193,11 +193,17 @@ void Game::update(sf::Time elapsedTime){
         //std::cout<<"En game"<<std::endl;
         //hayColisionPieza = colision->comprobarPieza();
         
-        if(tienda->enTienda(cantidadBloques, robot->getPos().x)){
-            status = 1;
+        if(menuPuntoControl->enPuntoControl(cantidadBloques, robot->getPos().x)){
+            status = 4;
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
             camara->setPos(sf::Vector2f (0,0), 1);
             tienda->setMonedas(monedasRecogidas);
+            menuPuntoControl->setMonedas(monedasRecogidas);
+        }
+        
+         if(status==3){
+            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+
         }
         
         if(!primeraVez){
@@ -219,8 +225,10 @@ void Game::update(sf::Time elapsedTime){
             if(!hayColision){
                 caiendo=true;
                 if(robot->getPos().y>555){
-                    pause=true;
+                   // pause=true;
                     muerto = true;
+                    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+                    status = 3;
                 }
                 //caer
             }
@@ -313,11 +321,8 @@ void Game::render(float interpolacion){
         }
 
 
-        if(muerto){
-            window->clear(sf::Color::White);
-            window->setView(*camaraMenu->getMenuView());
-        }
-        else{
+        
+        if(!muerto){
             window->setView(*camara->getView());
             robot->Draw(*window, interpolacion);
             pintarHud(); //Agrupado todo en una funcion auxiliar para reducir codigo
@@ -332,6 +337,17 @@ void Game::render(float interpolacion){
         camara->setPos(sf::Vector2f(0,0), 2);
         window->setView(*camara->getView());
         menu->draw(*window);
+    }
+    else if(status==3){
+        camara->setPos(sf::Vector2f(0,0), 3);
+        window->setView(*camara->getView());
+        menuMuerte->draw(*window);
+    }
+    else if(status == 4){
+        camara->setPos(sf::Vector2f(0,0), 3);
+        window->setView(*camara->getView());
+        menuPuntoControl->draw(*window);
+        
     }
     
     
@@ -360,6 +376,14 @@ void Game::processEvents(){
                 else if(status==2){
                     controlarRobot(sf::Keyboard::Right, false);
                     controlarMenus(event.key.code);
+                }
+                else if(status==3){
+                    controlarRobot(sf::Keyboard::Right, false);
+                    controlarMenuMuerte(event.key.code);
+                }
+                else if(status==4){
+                    controlarRobot(sf::Keyboard::Right, false);
+                    controlarPuntoControl(event.key.code); 
                 }
 
                 break;
@@ -405,6 +429,69 @@ void Game::controlarTienda(sf::Keyboard::Key key){
     }
 }
 
+void Game::controlarPuntoControl(sf::Keyboard::Key key){
+    switch(key){
+        case sf::Keyboard::Up:
+            menuPuntoControl->MoveUp();
+            break;
+        case sf::Keyboard::Down:
+            menuPuntoControl->MoveDown();
+            break;
+        case sf::Keyboard::Escape:
+            status=2;
+            break;
+        case sf::Keyboard::Return:
+            switch(menuPuntoControl->GetPressedItem()){
+                case 0:
+                    std::cout<<"jugar"<<std::endl;
+                    status = 0;
+                break;
+                case 1:
+                    std::cout<<"tienda"<<std::endl;
+                    status = 1;
+                break;
+                case 2:
+                    std::cout<<"Salir"<<std::endl;
+                    window->close();
+                break;
+            }
+            break;
+            
+    }
+}
+
+void Game::controlarMenuMuerte(sf::Keyboard::Key key){
+    switch(key){
+        case sf::Keyboard::Up:
+            menuMuerte->MoveUp();
+            break;
+        case sf::Keyboard::Down:
+            menuMuerte->MoveDown();
+            break;
+        case sf::Keyboard::Escape:
+            status=2;
+            break;
+        case sf::Keyboard::Return:
+            switch(menuMuerte->GetPressedItem()){
+                case 0:
+                    std::cout<<"jugar"<<std::endl;
+                    status = 0;
+                    muerto = false;
+                break;
+                case 1:
+                    std::cout<<"tienda"<<std::endl;
+                    status = 2;
+                    muerto = false;
+                break;
+                case 2:
+                    std::cout<<"Salir"<<std::endl;
+                    window->close();
+                break;
+            }
+            break;
+            
+    }
+}
 
 void Game::controlarMenus(sf::Keyboard::Key key){
     switch(key){
