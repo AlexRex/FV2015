@@ -24,6 +24,7 @@ Game::Game() :
 , cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
+, coeficienteDesintegracion(75)
 , status(2) // 0 = Juego, 1 = Tienda, 2 = Menu Princ, 3 = Muerte, 4 = Pto Control
 {   
     
@@ -104,7 +105,7 @@ Game::Game() :
     posInicial.y = 8*32;
     hud->crearHud(debugFont, cantidadBloques);
     hud->recibirPiezas(piezas);
-    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
     colision->init(robot, cantidadBloques, nombreBloques);
     
     camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto, cantidadBloques);
@@ -190,19 +191,21 @@ void Game::update(sf::Time elapsedTime){
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
+        
+        robot->actualizaPiezas(elapsedTime);
         //std::cout<<"En game"<<std::endl;
-        //hayColisionPieza = colision->comprobarPieza();
+        hayColisionPieza = colision->comprobarPieza();
         
         if(menuPuntoControl->enPuntoControl(cantidadBloques, robot->getPos().x)){
             status = 4;
-            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
             camara->setPos(sf::Vector2f (0,0), 1);
             tienda->setMonedas(monedasRecogidas);
             menuPuntoControl->setMonedas(monedasRecogidas);
         }
         
          if(status==3){
-            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
 
         }
         
@@ -227,7 +230,7 @@ void Game::update(sf::Time elapsedTime){
                 if(robot->getPos().y>555){
                    // pause=true;
                     muerto = true;
-                    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+                    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
                     status = 3;
                 }
                 //caer
@@ -252,7 +255,7 @@ void Game::update(sf::Time elapsedTime){
                 piezasRobot = robot->getPiezas();
                 for(int i=0; i<4; i++){
                     for(int j=0; j<2; j++){
-                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
+                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<"Vida : "<<piezasRobot[i][j]->getVida()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
                     }
                 }
                 std::cout<<std::endl;
@@ -281,7 +284,7 @@ void Game::update(sf::Time elapsedTime){
                 piezasRobot = robot->getPiezas();
                 for(int i=0; i<4; i++){
                     for(int j=0; j<2; j++){
-                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
+                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<"Vida : "<<piezasRobot[i][j]->getVida()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
                     }
                 }
                 
@@ -663,7 +666,10 @@ void Game::pintarHud(){
         
     for (int i = 0; i < 5; i++){
         if(i<4){
-            barrasVida[i]=*hud->getVida(i); //Actualizamos la posicion de las barras
+            //Actualizamos la posicion de las barras
+            Hud* nuevo= robot->getHud();
+            barrasVida[i]=*nuevo->getVida(i);
+             
             window->draw(barrasVida[i]);//Pintamos barras
         }
         piezas[i] = hud->getPieza(i); //Actualizamos la posicion de los sprites del esquema
