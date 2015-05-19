@@ -93,6 +93,8 @@ private:
     
     int                     monedasRecogidas;
     
+    float                   coeficienteDesintegracion;
+    
     bool                    mDcha;
     bool                    mIzq;
     bool                    caiendo;

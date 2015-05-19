@@ -19,16 +19,21 @@ public:
     Pieza();
     Pieza(const Pieza& orig);
     virtual ~Pieza();
+    
+    int iniciarPieza(int);
+    int actualizaVida(sf::Time, float coeficiente);
+    
+    void darVuelta();
+    int getVida();
     int getTipo();
     sf::Sprite* getSprite();
     void setMuerta(bool);
     bool getMuerta();
-    int iniciarPieza(int);
-    void darVuelta();
-    int getVida();
+    
 private:
     int tipo;
     int vida;
+    int debilidad;
     bool muerta;
     sf::Sprite* sprite;
     sf::Texture* texture;

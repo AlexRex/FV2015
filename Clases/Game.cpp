@@ -24,6 +24,7 @@ Game::Game() :
 , cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
+, coeficienteDesintegracion(75)
 {   
     
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];
@@ -131,7 +132,7 @@ Game::Game() :
     posInicial.y = 8*32;
     hud->crearHud(debugFont);
     hud->recibirPiezas(piezas);
-    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y) ,coeficienteDesintegracion);
     colision->init(robot, cantidadBloques, nombreBloques);
     
     camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto);
@@ -219,6 +220,8 @@ void Game::update(sf::Time elapsedTime){
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
         //std::cout<<"En game"<<std::endl;
         hayColisionPieza = colision->comprobarPieza();
+        
+        robot->actualizaPiezas(elapsedTime);
 
         if(!primeraVez){
             if(mIzq)
@@ -264,7 +267,7 @@ void Game::update(sf::Time elapsedTime){
                 piezasRobot = robot->getPiezas();
                 for(int i=0; i<4; i++){
                     for(int j=0; j<2; j++){
-                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
+                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<"Vida : "<<piezasRobot[i][j]->getVida()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
                     }
                 }
                 std::cout<<std::endl;
@@ -293,7 +296,7 @@ void Game::update(sf::Time elapsedTime){
                 piezasRobot = robot->getPiezas();
                 for(int i=0; i<4; i++){
                     for(int j=0; j<2; j++){
-                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
+                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<"Vida : "<<piezasRobot[i][j]->getVida()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
                     }
                 }
                 
@@ -339,8 +342,7 @@ void Game::update(sf::Time elapsedTime){
                 }
                 */
             }
-
-
+        
         velocidad = sf::Vector2f(vel_x, vel_y);
         //velCam = sf::Vector2f(vel_xCam, vel_yCam);
         robot->Update(velocidad, elapsedTime);
@@ -509,11 +511,16 @@ sf::Sprite*** Game::construirFondos(){
 void Game::pintarHud(){
     sf::Text textoHud;
     textoHud = *hud->getTiempo();
-    window->draw(textoHud);
-        
+    window->draw(textoHud);    
     for (int i = 0; i < 5; i++){
         if(i<4){
-            barrasVida[i]=*hud->getVida(i); //Actualizamos la posicion de las barras
+            
+           // barrasVida[i]=*hud->getVida(i); //Actualizamos la posicion de las barras
+           // robot->actualizaPiezas();
+            Hud* nuevo= robot->getHud();
+            barrasVida[i]=*nuevo->getVida(i);
+            //barrasVida[i]=*hud->getVida(i);
+          //  std::cout<<hud->getVida(0)->getPosition().x<<"esgsgrs"<<std::endl;
             window->draw(barrasVida[i]);//Pintamos barras
         }
         piezas[i] = hud->getPieza(i); //Actualizamos la posicion de los sprites del esquema

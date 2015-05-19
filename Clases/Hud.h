@@ -26,6 +26,8 @@ public:
     void recibirPiezas(sf::Sprite* esquema);
     void setPos(sf::Vector2f pos);
     
+    void setVidaPieza(int vida, int i);
+    
     sf::Sprite getPieza(int n);
     sf::Text* getTiempo();
     sf::RectangleShape* getVida(int n);
