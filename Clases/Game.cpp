@@ -100,12 +100,12 @@ Game::Game() :
     sf::Vector2i posInicial;
     posInicial.x = 16*32;
     posInicial.y = 8*32;
-    hud->crearHud(debugFont);
+    hud->crearHud(debugFont, cantidadBloques);
     hud->recibirPiezas(piezas);
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
     colision->init(robot, cantidadBloques, nombreBloques);
     
-    camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto);
+    camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto, cantidadBloques);
     camaraMenu->creaCamaraMenu(posInicial.x, posInicial.y-64, ancho, alto);
     robot->recibirCamara(camara);
     robot->recibirHud(hud);
@@ -283,7 +283,7 @@ void Game::render(float interpolacion){
     //Dibujamos desde player
     if(status==0){
         for(int i = 0; i<cantidadBloques; i++){
-           //window->draw(fondo[i]);
+           window->draw(fondo[i]);
         }
         for (int i = 0; i < windowHeight; i++) {
             for(int j = 0; j < windowWidth; j++){

@@ -21,7 +21,7 @@ public:
     Hud(const Hud& orig);
     virtual ~Hud();
     
-    void crearHud(sf::Font* fuente);
+    void crearHud(sf::Font* fuente, int cantidBloques);
     void recibirDatos(sf::Clock* tiempo);
     void recibirPiezas(sf::Sprite* esquema);
     void setPos(sf::Vector2f pos);
@@ -43,6 +43,8 @@ private:
     sf::RectangleShape* vidaPieDer;
     
     sf::Sprite*         piezas;
+    
+    int                 cantBloques;
     
     sf::RectangleShape* getVidaBrIzq();
     sf::RectangleShape* getVidaBrDer();

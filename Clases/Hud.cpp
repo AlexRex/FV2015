@@ -16,7 +16,7 @@ Hud::Hud(const Hud& orig) {
 Hud::~Hud() {
 }
 
-void Hud::crearHud(sf::Font* font){
+void Hud::crearHud(sf::Font* font, int cantidBloques){
     tiempo = new sf::Clock();
     mtiempo = new sf::Text();
     fuente = new sf::Font();
@@ -35,24 +35,60 @@ void Hud::crearHud(sf::Font* font){
     mtiempo->setCharacterSize(13);
     mtiempo->setColor(sf::Color::Black);
     
+    cantBloques = cantidBloques;
+    
 }
 
 void Hud::setPos(sf::Vector2f pos){
-    this->lastPos.x = pos.x;
-    this->lastPos.y = pos.y;
+    int nBloque = 0;
+    int spriteX = 0;
+    int pixelBloque = 928;
     
-    this->mtiempo->setPosition(lastPos.x-150,20);
+
+       
     
-    this->vidaBrIzq->setPosition(lastPos.x -150,90);
-    this->vidaBrDer->setPosition(lastPos.x -25,90);
-    this->vidaPieIzq->setPosition(lastPos.x -150,120);
-    this->vidaPieDer->setPosition(lastPos.x -25,120);
+    nBloque = pos.x/(29*32);
+    spriteX = pos.x - (pixelBloque*nBloque);
     
-    this->piezas[0].setPosition(lastPos.x -100, 124);
-    this->piezas[1].setPosition(lastPos.x -95, 32);
-    this->piezas[2].setPosition(lastPos.x -90, 123);
-    this->piezas[3].setPosition(lastPos.x -115, 82);
-    this->piezas[4].setPosition(lastPos.x -83, 82);
+    
+    if(nBloque < cantBloques-1){
+        this->lastPos.x = pos.x;
+        this->lastPos.y = pos.y;
+
+        this->mtiempo->setPosition(lastPos.x-150,20);
+
+        this->vidaBrIzq->setPosition(lastPos.x -150,90);
+        this->vidaBrDer->setPosition(lastPos.x -25,90);
+        this->vidaPieIzq->setPosition(lastPos.x -150,120);
+        this->vidaPieDer->setPosition(lastPos.x -25,120);
+
+        this->piezas[0].setPosition(lastPos.x -100, 124);
+        this->piezas[1].setPosition(lastPos.x -95, 32);
+        this->piezas[2].setPosition(lastPos.x -90, 123);
+        this->piezas[3].setPosition(lastPos.x -115, 82);
+        this->piezas[4].setPosition(lastPos.x -83, 82);
+    }
+    else{
+        
+        if(spriteX<192){
+            this->lastPos.x = pos.x;
+            this->lastPos.y = pos.y;
+
+            this->mtiempo->setPosition(lastPos.x-150,20);
+
+            this->vidaBrIzq->setPosition(lastPos.x -150,90);
+            this->vidaBrDer->setPosition(lastPos.x -25,90);
+            this->vidaPieIzq->setPosition(lastPos.x -150,120);
+            this->vidaPieDer->setPosition(lastPos.x -25,120);
+
+            this->piezas[0].setPosition(lastPos.x -100, 124);
+            this->piezas[1].setPosition(lastPos.x -95, 32);
+            this->piezas[2].setPosition(lastPos.x -90, 123);
+            this->piezas[3].setPosition(lastPos.x -115, 82);
+            this->piezas[4].setPosition(lastPos.x -83, 82);
+        }
+        
+    }
 }
 
 

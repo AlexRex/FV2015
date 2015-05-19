@@ -14,7 +14,7 @@ public:
     Camara();
     Camara(const Camara& orig);
     virtual ~Camara();
-    void creaCamara(int c1, int c2, int tamx, int tamy);
+    void creaCamara(int c1, int c2, int tamx, int tamy, int cantidBloques);
     void creaCamaraMenu(int c1, int c2, int tamx, int tamy);
 
     sf::View* getView(){return vistaCamara;};
@@ -27,6 +27,8 @@ private:
    // Render*                 render;
    // PlayerPhysics*          fisicasCamara;
     sf::Vector2i posicion;
+    
+    int          cantBloques;
 
 };
 

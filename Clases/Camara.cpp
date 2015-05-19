@@ -6,14 +6,17 @@
  */
 
 #include "Camara.h"
+#include <iostream>
+
 
 Camara::Camara() {
 }
-void Camara::creaCamara(int c1, int c2, int tamx, int tamy) {
+void Camara::creaCamara(int c1, int c2, int tamx, int tamy, int cantidBloques) {
     
     vistaCamara = new sf::View();
     vistaCamara->setCenter(c1,c2);
     vistaCamara->setSize(tamx,tamy);
+    cantBloques = cantidBloques;
 }
 
 void Camara::creaCamaraMenu(int c1, int c2, int tamx, int tamy) {
@@ -24,7 +27,30 @@ void Camara::creaCamaraMenu(int c1, int c2, int tamx, int tamy) {
 }
 
 void Camara::setPos(sf::Vector2f pos){
-    vistaCamara->setCenter(pos.x+300.f, 320.f);
+    int nBloque = 0;
+    int spriteX = 0;
+    int pixelBloque = 928;
+    
+
+    
+    std::cout<<"posX: "<<pos.x<<std::endl;
+    
+    
+    nBloque = pos.x/(29*32);
+    spriteX = pos.x - (pixelBloque*nBloque);
+    
+    std::cout<<"bloque: "<<nBloque<<" spriteX: "<<spriteX<<std::endl;
+    std::cout<<cantBloques<<std::endl;
+    
+    if(nBloque < cantBloques-1)
+        vistaCamara->setCenter(pos.x+300.f, 320.f);
+    else{
+
+        if(spriteX<192){
+            vistaCamara->setCenter(pos.x+300.f, 320.f);
+        }
+    }
+        
 }
 Camara::Camara(const Camara& orig) {
 }
