@@ -20,7 +20,7 @@ public:
     sf::View* getView(){return vistaCamara;};
     sf::View* getMenuView(){return vistaMenu;}
    
-    void setPos(sf::Vector2f pos);
+    void setPos(sf::Vector2f pos, int status);
 private:
     sf::View* vistaCamara;
     sf::View* vistaMenu;

@@ -17,7 +17,7 @@ const int windowArea = windowWidth * windowHeight; // total number of tiles in t
     
 
 Mapa::Mapa() {
-    std::cout<<"Se crea el mapa"<<std::endl;
+    //std::cout<<"Se crea el mapa"<<std::endl;
     texturaMapa = new sf::Texture();
     if (!texturaMapa->loadFromFile("Resources/tilesetFinal.png")){
         std::cerr << "Error cargando las texturas";

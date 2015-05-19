@@ -10,7 +10,7 @@
 
 Robot::Robot()
 {
-    std::cout<<"Creo robot"<<std::endl;
+   // std::cout<<"Creo robot"<<std::endl;
     
     render = new Render();
     playerPhysics = new PlayerPhysics();

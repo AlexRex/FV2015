@@ -66,7 +66,7 @@ void Render::Draw(sf::RenderWindow& window, const sf::Vector2f& lastPos, const s
     
     animatedSprite.setPosition(renderPos->x, renderPos->y);
     
-    camara->setPos(*renderPos);
+    camara->setPos(*renderPos, 0);
     hud->setPos(*renderPos);
     window.draw(animatedSprite);
     

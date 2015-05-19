@@ -8,39 +8,49 @@
 #include "Tienda.h"
 
 Tienda::Tienda(float width, float height) {
-    if(!fuente.loadFromFile("Resources/PUNK.ttf")){//cargando la fuente
+    if(!fuentePUNK.loadFromFile("Resources/PUNK.ttf") || !fuenteMonedas.loadFromFile("Resources/OpenSans.ttf")){//cargando la fuente
         std::cout<<"No se carga la fuente"<<std::endl;
         //return 0;
     }
-    tienda[0].setScale(0.6,0.6);
-    tienda[0].setFont(fuente);
-    tienda[0].setColor(sf::Color::Blue);
-    tienda[0].setString("Pierna reforzada");
-    tienda[0].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS + 0)*1));
     
-    tienda[1].setScale(0.6,0.6);
-    tienda[1].setFont(fuente);
-    tienda[1].setColor(sf::Color::Black);
-    tienda[1].setString("Pierna boing");
-    tienda[1].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*1.5));
     
-    tienda[2].setScale(0.6,0.6);
-    tienda[2].setFont(fuente);
-    tienda[2].setColor(sf::Color::Black);
-    tienda[2].setString("Brazo de midas");
-    tienda[2].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*2.1));
+    monedas = 0;
     
-    tienda[3].setScale(0.6,0.6);
-    tienda[3].setFont(fuente);
-    tienda[3].setColor(sf::Color::Black);
-    tienda[3].setString("Brazo-Pierna");
-    tienda[3].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS -1)*2.8));
+    monedasDisponibles.setScale(1.2, 1.2);
+    monedasDisponibles.setFont(fuenteMonedas);
+    monedasDisponibles.setColor(sf::Color::Yellow);
+    monedasDisponibles.setString(std::to_string(monedas)+ " Monedas");
+    monedasDisponibles.setPosition(sf::Vector2f(width-300.f, 10.f));
     
-    tienda[4].setScale(0.6,0.6);
-    tienda[4].setFont(fuente);
-    tienda[4].setColor(sf::Color::Black);
-    tienda[4].setString("Brazo de Chuck Norris");
-    tienda[4].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*3.5));
+    tiendaLabel[0].setScale(0.6,0.6);
+    tiendaLabel[0].setFont(fuentePUNK);
+    tiendaLabel[0].setColor(sf::Color::Blue);
+    tiendaLabel[0].setString("Pierna reforzada");
+    tiendaLabel[0].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS + 0)*1));
+    
+    tiendaLabel[1].setScale(0.6,0.6);
+    tiendaLabel[1].setFont(fuentePUNK);
+    tiendaLabel[1].setColor(sf::Color::White);
+    tiendaLabel[1].setString("Pierna boing");
+    tiendaLabel[1].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*1.5));
+    
+    tiendaLabel[2].setScale(0.6,0.6);
+    tiendaLabel[2].setFont(fuentePUNK);
+    tiendaLabel[2].setColor(sf::Color::White);
+    tiendaLabel[2].setString("Brazo de midas");
+    tiendaLabel[2].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*2.1));
+    
+    tiendaLabel[3].setScale(0.6,0.6);
+    tiendaLabel[3].setFont(fuentePUNK);
+    tiendaLabel[3].setColor(sf::Color::White);
+    tiendaLabel[3].setString("Brazo-Pierna");
+    tiendaLabel[3].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS -1)*2.8));
+    
+    tiendaLabel[4].setScale(0.6,0.6);
+    tiendaLabel[4].setFont(fuentePUNK);
+    tiendaLabel[4].setColor(sf::Color::White);
+    tiendaLabel[4].setString("Brazo de Chuck Norris");
+    tiendaLabel[4].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*3.5));
     
     
 
@@ -51,6 +61,7 @@ Tienda::Tienda(float width, float height) {
         exit(0);
     }
         spriteFondo.setTexture(texturaFondo);
+        
 }
 
 //Tienda::Tienda(const Tienda& orig) {
@@ -63,7 +74,7 @@ sf::Text Tienda::getTienda(int numero){
     if(numero>MAX_NUMBER_OF_ITEMS){
         std::cout<<"Error al obtener la tienda[]"<<std::endl;
     }
-    return tienda[numero];
+    return tiendaLabel[numero];
 }
 
 sf::Sprite Tienda::getSprite(){
@@ -73,22 +84,43 @@ sf::Sprite Tienda::getSprite(){
 void Tienda::draw(sf::RenderWindow &window){
     window.draw(spriteFondo);
     for(int i=0; i<MAX_NUMBER_OF_ITEMS;i++){
-        window.draw(tienda[i]);
+        window.draw(tiendaLabel[i]);
     }
+    window.draw(monedasDisponibles);
 }
 
 void Tienda::MoveUp(){
     if(selectedItemIndex - 1 >= 0){
-        tienda[selectedItemIndex].setColor(sf::Color::Black);
+        tiendaLabel[selectedItemIndex].setColor(sf::Color::White);
         selectedItemIndex--;
-        tienda[selectedItemIndex].setColor(sf::Color::Blue);
+        tiendaLabel[selectedItemIndex].setColor(sf::Color::Blue);
     }
 }
 void Tienda::MoveDown(){
     if(selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS){
-        tienda[selectedItemIndex].setColor(sf::Color::Black);
+        tiendaLabel[selectedItemIndex].setColor(sf::Color::White);
         selectedItemIndex++;
-        tienda[selectedItemIndex].setColor(sf::Color::Blue);
+        tiendaLabel[selectedItemIndex].setColor(sf::Color::Blue);
     }
 }
 
+bool Tienda::enTienda(int cantidadBloques, float posX){
+    int nBloque = 0;
+    int pixelBloque = 928;
+    int lastBloque = 0;    
+    
+    nBloque = posX/(29*32);
+    lastBloque = pixelBloque*cantidadBloques-15;    
+    
+    if(posX>=lastBloque){
+        return true;
+    }
+    
+    return false;
+}
+
+
+void Tienda::setMonedas(int mon){
+    monedas = mon;
+    monedasDisponibles.setString(std::to_string(monedas)+" Monedas");
+}

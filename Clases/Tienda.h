@@ -26,12 +26,18 @@ public:
     int GetPressedItem(){ return selectedItemIndex;}
     sf::Text getTienda(int);
     sf::Sprite getSprite();
+    bool enTienda(int cantidadBloques, float posX);
+    void setMonedas(int mon);
+    
 private:
     int selectedItemIndex;
-    sf::Font fuente;
-    sf::Text tienda[MAX_NUMBER_OF_ITEMS];
+    sf::Font fuentePUNK;
+    sf::Font fuenteMonedas;
+    sf::Text tiendaLabel[MAX_NUMBER_OF_ITEMS];
+    sf::Text monedasDisponibles;
     sf::Texture texturaFondo;
     sf::Sprite spriteFondo;
+    int monedas;
 };
 
 #endif

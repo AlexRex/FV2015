@@ -73,7 +73,8 @@ private:
     
     sf::Texture*            texturaRobot; //REND
     sf::Texture             texturaFondo;
-    
+    sf::Vector2i            posInicial;
+
     
     sf::RectangleShape*     vida1;
     sf::RectangleShape*     vida2;

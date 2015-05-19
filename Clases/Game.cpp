@@ -97,7 +97,7 @@ Game::Game() :
     barrasVida = new sf::RectangleShape[4];
 
     //AQUI
-    sf::Vector2i posInicial;
+    
     posInicial.x = 16*32;
     posInicial.y = 8*32;
     hud->crearHud(debugFont, cantidadBloques);
@@ -191,8 +191,15 @@ void Game::update(sf::Time elapsedTime){
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
         //std::cout<<"En game"<<std::endl;
-        hayColisionPieza = colision->comprobarPieza();
-
+        //hayColisionPieza = colision->comprobarPieza();
+        
+        if(tienda->enTienda(cantidadBloques, robot->getPos().x)){
+            status = 1;
+            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+            camara->setPos(sf::Vector2f (0,0), 1);
+            tienda->setMonedas(monedasRecogidas);
+        }
+        
         if(!primeraVez){
             if(mIzq)
                 vel_x = -300.f;
@@ -318,9 +325,12 @@ void Game::render(float interpolacion){
         //window->draw(*debugText);
     }
     else if(status==1){
+        window->setView(*camara->getView());
         tienda->draw(*window);
     }
     else if(status==2){
+        camara->setPos(sf::Vector2f(0,0), 2);
+        window->setView(*camara->getView());
         menu->draw(*window);
     }
     
@@ -344,9 +354,11 @@ void Game::processEvents(){
                     controlarJuego(event.key.code);
                 }
                 else if(status==1){
+                    controlarRobot(sf::Keyboard::Right, false);
                     controlarTienda(event.key.code);
                 }
                 else if(status==2){
+                    controlarRobot(sf::Keyboard::Right, false);
                     controlarMenus(event.key.code);
                 }
 
@@ -460,9 +472,9 @@ sf::Sprite*** Game::construirMapas(){
     }
     nombreBloques = mapa->generarMapa(cantidadBloques, posiblesBloques); //Cantidad de mapas en el nivel (2) / Bloques distintos que pueden salir (10)
     
-    for(int i=0; i<cantidadBloques; i++){
+    /*for(int i=0; i<cantidadBloques; i++){
         std::cout<<"Nombre: "<<nombreBloques[i]<<std::endl;
-    }
+    }*/
     
     spritesBloques = new sf::Sprite**[cantidadBloques];
     spritesMonedas = new sf::Sprite**[cantidadBloques];
@@ -478,7 +490,6 @@ sf::Sprite*** Game::construirMapas(){
             spritesPiezas[a][i]  = new sf::Sprite[windowWidth];
         }
     }
-    std::cout<<"he"<<std::endl;
     for(int i = 0; i < cantidadBloques; i++){
         spritesBloques[i] = mapa->crearMapa(i, nombreBloques[i]);
         spritesMonedas[i] = mapa->sitiosMonedas(i, nombreBloques[i]);
