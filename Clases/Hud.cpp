@@ -163,7 +163,7 @@ void Hud::setVidaPieza(int vida, int i){
                 } 
                 break;
             case 1:
-                std::cout<<vida<<" pieza: 1"<<std::endl;
+                //std::cout<<vida<<" pieza: 1"<<std::endl;
                 vidaBrDer->setSize(sf::Vector2f(vidaGrafica,10));
                 if(vidaGrafica<20){
                         nuevoColor = sf::Color(255, 0, 0);
@@ -182,7 +182,7 @@ void Hud::setVidaPieza(int vida, int i){
 
                 break;
             case 2:
-                std::cout<<vida<<" pieza: 2"<<std::endl;
+                //std::cout<<vida<<" pieza: 2"<<std::endl;
                 vidaPieIzq->setSize(sf::Vector2f(vidaGrafica,10));
                 if(vidaGrafica<20){
                         nuevoColor = sf::Color(255, 0, 0);
@@ -201,7 +201,7 @@ void Hud::setVidaPieza(int vida, int i){
                    
                 break;
             case 3:
-                std::cout<<vida<<" pieza: 3"<<std::endl;
+                //std::cout<<vida<<" pieza: 3"<<std::endl;
                 vidaPieDer->setSize(sf::Vector2f(vidaGrafica,10));
                 if(vidaGrafica<20){
                         nuevoColor = sf::Color(255, 0, 0);
@@ -219,7 +219,7 @@ void Hud::setVidaPieza(int vida, int i){
                 } 
                     
                 break;
-                std::cout<<"implosion"<<std::endl;
+               // std::cout<<"implosion"<<std::endl;
         }
     
 }
