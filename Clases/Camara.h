@@ -14,19 +14,21 @@ public:
     Camara();
     Camara(const Camara& orig);
     virtual ~Camara();
-    void creaCamara(int c1, int c2, int tamx, int tamy);
+    void creaCamara(int c1, int c2, int tamx, int tamy, int cantidBloques);
     void creaCamaraMenu(int c1, int c2, int tamx, int tamy);
 
     sf::View* getView(){return vistaCamara;};
     sf::View* getMenuView(){return vistaMenu;}
    
-    void setPos(sf::Vector2f pos);
+    void setPos(sf::Vector2f pos, int status);
 private:
     sf::View* vistaCamara;
     sf::View* vistaMenu;
    // Render*                 render;
    // PlayerPhysics*          fisicasCamara;
     sf::Vector2i posicion;
+    
+    int          cantBloques;
 
 };
 

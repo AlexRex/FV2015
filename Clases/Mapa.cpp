@@ -17,7 +17,7 @@ const int windowArea = windowWidth * windowHeight; // total number of tiles in t
     
 
 Mapa::Mapa() {
-    std::cout<<"Se crea el mapa"<<std::endl;
+    //std::cout<<"Se crea el mapa"<<std::endl;
     texturaMapa = new sf::Texture();
     if (!texturaMapa->loadFromFile("Resources/tilesetFinal.png")){
         std::cerr << "Error cargando las texturas";
@@ -31,7 +31,7 @@ Mapa::Mapa() {
     }
     
     texturaObjAleatorio = new sf::Texture();
-    if (!texturaObjAleatorio->loadFromFile("Resources/piezaFalsa.JPG")){
+    if (!texturaObjAleatorio->loadFromFile("Resources/piezaFalsa.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
