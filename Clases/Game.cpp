@@ -41,7 +41,7 @@ Game::Game() :
     
     
     /*Inicializar variables*/
-    
+    guardado = new Guardado();
     menuPuntoControl = new MenuPuntoDeControl(ancho, alto);
     menuMuerte = new MenuMuerte(ancho, alto);
     menu  = new Menu(ancho, alto);
@@ -107,6 +107,9 @@ Game::Game() :
     hud->recibirPiezas(piezas);
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
     colision->init(robot, cantidadBloques, nombreBloques);
+    
+    guardado->guardarPartida(3,2,3,4,5,6);
+    guardado->restaurarPartida();
     
     camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto, cantidadBloques);
     camaraMenu->creaCamaraMenu(posInicial.x, posInicial.y-64, ancho, alto);
