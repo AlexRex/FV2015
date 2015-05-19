@@ -97,7 +97,7 @@ Game::Game() :
         std::cout<<"Error al cargar la fuente"<<std::endl;
     }   
     //Cargamos la textura del robot
-    if(!texturaRobot->loadFromFile("Resources/spriteSheetTotal.png")){
+    if(!texturaRobot->loadFromFile("Resources/spritesheetTotal.png")){
         std::cout<<"Error al cargar la textura"<<std::endl;
     }
     
