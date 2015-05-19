@@ -109,6 +109,7 @@ private:
     char**                  nombreBloques;
     
     int                     monedasRecogidas;
+    float                   coeficienteDesintegracion;
     
     bool                    mDcha;
     bool                    mIzq;
