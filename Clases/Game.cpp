@@ -251,6 +251,58 @@ void Game::update(sf::Time elapsedTime){
 
             }
             if(hayColisionPieza){
+                
+                std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
+                Pieza*** piezasRobot = new Pieza**[4];
+                piezasRobot = new Pieza**[4];
+                for(int i = 0; i < 4; i++){
+                    piezasRobot[i] = new Pieza*[2];
+                    for(int j = 0; j < 2; j++){
+                        piezasRobot[i][j] = new Pieza();
+                    }
+                }
+                piezasRobot = robot->getPiezas();
+                for(int i=0; i<4; i++){
+                    for(int j=0; j<2; j++){
+                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
+                    }
+                }
+                std::cout<<std::endl;
+                std::cout<<std::endl;
+                
+                //random
+                srand (time(NULL));
+                int r = rand() % 2;
+                int r2;
+                bool piezaInsertada=false;
+                if(r ==0){
+                    r2 = rand() % 5 +6;
+                    //comprobar brazos
+                    piezaInsertada=robot->insertarBrazo(r2);
+                    if(piezaInsertada)
+                    std::cout<<"He insertado brazo?: "<<piezaInsertada<<std::endl;
+                }
+                else{
+                    r2 = rand() % 5 +1;
+                    //comprobar piernas
+                    piezaInsertada= robot->insertarPierna(r2);
+                    if(piezaInsertada)
+                    std::cout<<"He insertado pierna?: "<<piezaInsertada<<std::endl;
+                }
+                std::cout<<"Tipo a insertar: "<<r2<<std::endl;
+                piezasRobot = robot->getPiezas();
+                for(int i=0; i<4; i++){
+                    for(int j=0; j<2; j++){
+                        std::cout<<"Pieza robot["<<i<<"]["<<j<<"]: "<<piezasRobot[i][j]->getTipo()<<" Muerta?: "<<piezasRobot[i][j]->getMuerta()<<std::endl;
+                    }
+                }
+                
+                std::cout<<std::endl;
+                std::cout<<std::endl;
+                
+                
+                
+                /*
                 std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
                 //Crear pieza random
                 int tipoPieza = -1;
@@ -259,7 +311,7 @@ void Game::update(sf::Time elapsedTime){
                 
                 
                 
-                /* Imprimir array piezas robot*/
+
                 Pieza*** piezasRobot = new Pieza**[4];
                 piezasRobot = new Pieza**[4];
                 for(int i = 0; i < 4; i++){
@@ -285,6 +337,7 @@ void Game::update(sf::Time elapsedTime){
                         std::cout<<"Pieza robot["<<i<<"]["<<0<<"]: "<<piezasRobot[i][0]->getTipo()<<std::endl;
                     //}
                 }
+                */
             }
 
 

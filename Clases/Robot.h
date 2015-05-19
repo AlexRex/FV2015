@@ -32,6 +32,9 @@ public:
     void recibirCamara(Camara*);
     void recibirHud(Hud*);
     bool insertarPieza(Pieza* nueva);
+    bool insertarBrazo(int);
+    bool insertarPierna(int);
+    void actualizaPiezas();
     
     float saltar();
     float getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
