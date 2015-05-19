@@ -24,7 +24,7 @@ Game::Game() :
 , cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
-, status(1)
+, status(2)
 {   
     
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];
@@ -41,6 +41,7 @@ Game::Game() :
     
     /*Inicializar variables*/
     
+    menu  = new Menu(ancho, alto);
     tienda = new Tienda(ancho, alto);
     robot = new Robot();
     mapa = new Mapa();
@@ -128,6 +129,7 @@ Game::~Game(){
     delete camaraMenu;
     delete window;
     delete tienda;
+    delete menu;
 }
 
 bool Game::run() {
@@ -315,8 +317,11 @@ void Game::render(float interpolacion){
         }
         //window->draw(*debugText);
     }
-    else{
+    else if(status==1){
         tienda->draw(*window);
+    }
+    else if(status==2){
+        menu->draw(*window);
     }
     
     
@@ -338,7 +343,10 @@ void Game::processEvents(){
                     controlarRobot(event.key.code, true);
                     controlarJuego(event.key.code);
                 }
-                else{
+                else if(status==1){
+                    controlarTienda(event.key.code);
+                }
+                else if(status==2){
                     controlarMenus(event.key.code);
                 }
 
@@ -354,14 +362,16 @@ void Game::processEvents(){
     }
 }
 
-
-void Game::controlarMenus(sf::Keyboard::Key key){
+void Game::controlarTienda(sf::Keyboard::Key key){
     switch(key){
         case sf::Keyboard::Up:
             tienda->MoveUp();
             break;
         case sf::Keyboard::Down:
             tienda->MoveDown();
+            break;
+        case sf::Keyboard::Escape:
+            status=2;
             break;
         case sf::Keyboard::Return:
             switch(tienda->GetPressedItem()){
@@ -370,7 +380,37 @@ void Game::controlarMenus(sf::Keyboard::Key key){
                     status = 0;
                 break;
                 case 1:
-                    std::cout<<"opciones"<<std::endl;
+                    std::cout<<"tienda"<<std::endl;
+                    status = 1;
+                break;
+                case 2:
+                    std::cout<<"Salir"<<std::endl;
+                    window->close();
+                break;
+            }
+            break;
+            
+    }
+}
+
+
+void Game::controlarMenus(sf::Keyboard::Key key){
+    switch(key){
+        case sf::Keyboard::Up:
+            menu->MoveUp();
+            break;
+        case sf::Keyboard::Down:
+            menu->MoveDown();
+            break;
+        case sf::Keyboard::Return:
+            switch(menu->GetPressedItem()){
+                case 0:
+                    std::cout<<"jugar"<<std::endl;
+                    status = 0;
+                break;
+                case 1:
+                    std::cout<<"tienda"<<std::endl;
+                    status = 1;
                 break;
                 case 2:
                     std::cout<<"Salir"<<std::endl;

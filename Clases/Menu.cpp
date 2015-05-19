@@ -8,7 +8,7 @@
 #include "Menu.h"
 
 Menu::Menu(float width, float height) {
-    if(!fuente.loadFromFile("fuentes/PUNK.ttf")){//cargando la fuente
+    if(!fuente.loadFromFile("Resources/PUNK.ttf")){//cargando la fuente
     }
     menu[0].setFont(fuente);
     menu[0].setColor(sf::Color::Blue);
@@ -27,7 +27,7 @@ Menu::Menu(float width, float height) {
 
     selectedItemIndex=0;
     
-    if(!texturaFondo.loadFromFile("fondo.jpg")){
+    if(!texturaFondo.loadFromFile("Resources/menuPrincipal.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }

@@ -19,6 +19,7 @@
 #include "Camara.h"
 #include "Hud.h"
 #include "Tienda.h"
+#include "Menu.h"
 
 #include "../Includes/AnimatedSprite.hpp"
 
@@ -37,6 +38,7 @@ public:
     void             controlarRobot(sf::Keyboard::Key key, bool presionada);
     void             controlarJuego(sf::Keyboard::Key key);
     void             controlarMenus(sf::Keyboard::Key key);
+    void             controlarTienda(sf::Keyboard::Key key);
     void             mostrarMenuMuerte();
     sf::Sprite***    construirMapas();
     sf::Sprite***    construirFondos();
@@ -87,6 +89,7 @@ private:
     Hud*                    hud;
     Pieza*                  nuevaPieza;
     Tienda*                 tienda;
+    Menu*                   menu;
     
     float                   interpolacion;
     int                     posIniSalto;
