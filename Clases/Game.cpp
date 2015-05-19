@@ -24,6 +24,7 @@ Game::Game() :
 , cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
+, status(1)
 {   
     
     spritesObjetosAleatorios = new sf::Sprite*[windowHeight];
@@ -36,42 +37,11 @@ Game::Game() :
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(125);
     
-    /*Chapuzas preesntacion
-    pause = true;
-    
-    sf::Texture texturaMenu;
-     if(!texturaMenu.loadFromFile("Resources/menu1.png")){
-        std::cout<<"Error al cargar la fuente"<<std::endl;
-    }  
-    sf::Sprite spriteMenu;
-    spriteMenu.setTexture(texturaMenu);
-    
-    window->draw(spriteMenu);
-    window->display();
-    
-    while(pause){
-        sf::Event event;
-
-        while(window->pollEvent(event)){
-        switch (event.type){
-            case sf::Event::Closed:
-                window->close();
-                break;
-            
-            case sf::Event::KeyPressed:
-                if(event.key.code == sf::Keyboard::S)
-                    pause=false;
-                break;
-                
-        }
-        }
-    }
-    
-     Fin chapuza present*/
     
     
     /*Inicializar variables*/
     
+    tienda = new Tienda(ancho, alto);
     robot = new Robot();
     mapa = new Mapa();
     colision = new Colisiones();
@@ -157,6 +127,7 @@ Game::~Game(){
     delete camara;
     delete camaraMenu;
     delete window;
+    delete tienda;
 }
 
 bool Game::run() {
@@ -290,9 +261,10 @@ void Game::update(sf::Time elapsedTime){
 
         velocidad = sf::Vector2f(vel_x, vel_y);
         //velCam = sf::Vector2f(vel_xCam, vel_yCam);
-        robot->Update(velocidad, elapsedTime);
-        primeraVez = false;
-        
+        if(status == 0){
+            robot->Update(velocidad, elapsedTime);
+            primeraVez = false;
+        }
         //Actualizamos Hud
         hud->recibirDatos(tiempoPartida);
         
@@ -307,42 +279,45 @@ void Game::render(float interpolacion){
     window->clear(sf::Color::White);
     //window->draw(*spriteFondo);
     //Dibujamos desde player
-    
-    for(int i = 0; i<cantidadBloques; i++){
-       //window->draw(fondo[i]);
-    }
-   for (int i = 0; i < windowHeight; i++) {
-        for(int j = 0; j < windowWidth; j++){
-            //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
-            //window->draw(spritesFondo[i][j]);
-            for(int a = 0; a<cantidadBloques; a++){
-               //window->draw(spritesMonedas[a][i][j]);
-               window->draw(spritesBloques[a][i][j]);
-            }
-            for(int a = 0; a<cantidadBloques; a++){
-                window->draw(spritesMonedas[a][i][j]);
-            }
-            for(int a = 0; a<cantidadBloques; a++){
-                window->draw(spritesPiezas[a][i][j]);
-
-            }
-            //window->draw(spritesObjetosAleatorios[i][j]);
-            //window->draw(spritesMonedas[i][j]);
+    if(status==0){
+        for(int i = 0; i<cantidadBloques; i++){
+           //window->draw(fondo[i]);
         }
-    }
-    
-    
-    if(muerto){
-        window->clear(sf::Color::White);
-        window->setView(*camaraMenu->getMenuView());
+        for (int i = 0; i < windowHeight; i++) {
+            for(int j = 0; j < windowWidth; j++){
+                //std::cout<<"i: "<<i<<" j: "<<j<<std::endl;
+                //window->draw(spritesFondo[i][j]);
+                for(int a = 0; a<cantidadBloques; a++){
+                   //window->draw(spritesMonedas[a][i][j]);
+                   window->draw(spritesBloques[a][i][j]);
+                }
+                for(int a = 0; a<cantidadBloques; a++){
+                    window->draw(spritesMonedas[a][i][j]);
+                }
+                for(int a = 0; a<cantidadBloques; a++){
+                    window->draw(spritesPiezas[a][i][j]);
+
+                }
+                //window->draw(spritesObjetosAleatorios[i][j]);
+                //window->draw(spritesMonedas[i][j]);
+            }
+        }
+
+
+        if(muerto){
+            window->clear(sf::Color::White);
+            window->setView(*camaraMenu->getMenuView());
+        }
+        else{
+            window->setView(*camara->getView());
+            robot->Draw(*window, interpolacion);
+            pintarHud(); //Agrupado todo en una funcion auxiliar para reducir codigo
+        }
+        //window->draw(*debugText);
     }
     else{
-        window->setView(*camara->getView());
-        robot->Draw(*window, interpolacion);
-        pintarHud(); //Agrupado todo en una funcion auxiliar para reducir codigo
+        tienda->draw(*window);
     }
-    //window->draw(*debugText);
-    
     
     
     window->display();
@@ -357,16 +332,53 @@ void Game::processEvents(){
             case sf::Event::Closed:
                 window->close();
                 break;
-            
+
             case sf::Event::KeyPressed:
-                controlarRobot(event.key.code, true);
-                controlarJuego(event.key.code);
+                if(status==0){
+                    controlarRobot(event.key.code, true);
+                    controlarJuego(event.key.code);
+                }
+                else{
+                    controlarMenus(event.key.code);
+                }
+
                 break;
-                
+
             case sf::Event::KeyReleased:
-                controlarRobot(event.key.code, false);
+                if(status==0)
+                    controlarRobot(event.key.code, false);
+
                 break;
         }
+        
+    }
+}
+
+
+void Game::controlarMenus(sf::Keyboard::Key key){
+    switch(key){
+        case sf::Keyboard::Up:
+            tienda->MoveUp();
+            break;
+        case sf::Keyboard::Down:
+            tienda->MoveDown();
+            break;
+        case sf::Keyboard::Return:
+            switch(tienda->GetPressedItem()){
+                case 0:
+                    std::cout<<"jugar"<<std::endl;
+                    status = 0;
+                break;
+                case 1:
+                    std::cout<<"opciones"<<std::endl;
+                break;
+                case 2:
+                    std::cout<<"Salir"<<std::endl;
+                    window->close();
+                break;
+            }
+            break;
+            
     }
 }
 

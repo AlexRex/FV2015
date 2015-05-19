@@ -18,6 +18,7 @@
 #include "Colisiones.h"
 #include "Camara.h"
 #include "Hud.h"
+#include "Tienda.h"
 
 #include "../Includes/AnimatedSprite.hpp"
 
@@ -35,6 +36,7 @@ public:
     void             processEvents();
     void             controlarRobot(sf::Keyboard::Key key, bool presionada);
     void             controlarJuego(sf::Keyboard::Key key);
+    void             controlarMenus(sf::Keyboard::Key key);
     void             mostrarMenuMuerte();
     sf::Sprite***    construirMapas();
     sf::Sprite***    construirFondos();
@@ -46,6 +48,7 @@ private:
     sf::RenderWindow*       window;
     int                     windowHeight;
     int                     windowWidth;
+    int                     status;
     
     sf::Font*               debugFont;
     sf::Text*               debugText;
@@ -83,6 +86,7 @@ private:
     Camara*                 camaraMenu;
     Hud*                    hud;
     Pieza*                  nuevaPieza;
+    Tienda*                 tienda;
     
     float                   interpolacion;
     int                     posIniSalto;
