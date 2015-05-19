@@ -126,6 +126,103 @@ void Hud::recibirPiezas(sf::Sprite* esquema){
         piezas[i] = esquema[i];
     }
 }
+
+void Hud::setVidaPieza(int vida, int i){
+    
+    float vidaGrafica = vida*0.6*0.2;
+    sf::Color nuevoColor= sf::Color(0,255,0);
+    
+    if(vidaBrIzq != NULL)
+        switch(i){
+            case 0:
+                /*
+                std::cout<<vida<<" pieza: 0"<<std::endl;
+                nuevo=*getVida(0);
+                std::cout<<vida<<"muerte en switch"<<std::endl;
+                nuevo.setSize(mivector);
+                *vidaBrIzq = nuevo;
+                std::cout<<vida<<"rica hamburguesa"<<std::endl;
+                 *              * 
+                
+                
+                 * */
+                vidaBrIzq->setSize(sf::Vector2f(vidaGrafica, 10));
+                if(vidaGrafica<20){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaBrIzq->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<40){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaBrIzq->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(0, 255, 0);
+                    vidaBrIzq->setFillColor(nuevoColor);
+                    }
+                } 
+                break;
+            case 1:
+                std::cout<<vida<<" pieza: 1"<<std::endl;
+                vidaBrDer->setSize(sf::Vector2f(vidaGrafica,10));
+                if(vidaGrafica<20){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaBrDer->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<40){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaBrDer->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(0, 255, 0);
+                        vidaBrDer->setFillColor(nuevoColor);
+                    }
+                }  
+
+                break;
+            case 2:
+                std::cout<<vida<<" pieza: 2"<<std::endl;
+                vidaPieIzq->setSize(sf::Vector2f(vidaGrafica,10));
+                if(vidaGrafica<20){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaPieIzq->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<40){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaPieIzq->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(0, 255, 0);
+                    vidaPieIzq->setFillColor(nuevoColor);
+                    }
+                }       
+                   
+                break;
+            case 3:
+                std::cout<<vida<<" pieza: 3"<<std::endl;
+                vidaPieDer->setSize(sf::Vector2f(vidaGrafica,10));
+                if(vidaGrafica<20){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaPieDer->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<40){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaPieDer->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(0, 255, 0);
+                    vidaPieDer->setFillColor(nuevoColor);
+                    }
+                } 
+                    
+                break;
+                std::cout<<"implosion"<<std::endl;
+        }
+    
+}
 void Hud::inicializarVidas(){
     
     vidaBrIzq = new sf::RectangleShape(sf::Vector2f(60, 10));
@@ -133,13 +230,13 @@ void Hud::inicializarVidas(){
     vidaPieIzq = new sf::RectangleShape(sf::Vector2f(60, 10));
     vidaPieDer = new sf::RectangleShape(sf::Vector2f(60, 10));
     
-    vidaBrIzq->setFillColor(sf::Color(150, 50, 250));
+    vidaBrIzq->setFillColor(sf::Color(0, 255, 0));
     vidaBrIzq->setPosition(40,90);
     
-    vidaBrDer->setFillColor(sf::Color(0, 0, 255));
+    vidaBrDer->setFillColor(sf::Color(0, 255, 0));
     vidaBrDer->setPosition(165,90);
     
-    vidaPieIzq->setFillColor(sf::Color(255, 0, 0));
+    vidaPieIzq->setFillColor(sf::Color(0, 255, 0));
     vidaPieIzq->setPosition(40,120);
     
     vidaPieDer->setFillColor(sf::Color(0, 255, 0));
