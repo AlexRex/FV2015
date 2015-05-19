@@ -79,6 +79,7 @@ Game::Game() :
     camaraMenu = new Camara();
     hud = new Hud();
     tiempoPartida = new sf::Clock();
+    nuevaPieza = new Pieza();
     
     texturaRobot = new sf::Texture();
     
@@ -208,6 +209,7 @@ void Game::update(sf::Time elapsedTime){
         bool hayColision = false;
         bool hayColisionDcha = false;
         bool hayColisionMoneda =false;
+        bool hayColisionPieza = false;
         float vel_x = 0.f, vel_y=0.f;
         
         sf::Vector2f velocidad;
@@ -215,6 +217,8 @@ void Game::update(sf::Time elapsedTime){
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
+        //std::cout<<"En game"<<std::endl;
+        hayColisionPieza = colision->comprobarPieza();
 
         if(!primeraVez){
             if(mIzq)
@@ -245,6 +249,42 @@ void Game::update(sf::Time elapsedTime){
                 monedasRecogidas++;
                 std::cout<<"Monedas: "<<monedasRecogidas<<std::endl;
 
+            }
+            if(hayColisionPieza){
+                std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
+                //Crear pieza random
+                int tipoPieza = -1;
+                tipoPieza = nuevaPieza->iniciarPieza(-1);
+                //Comprobar casillas robot
+                
+                
+                
+                /* Imprimir array piezas robot*/
+                Pieza*** piezasRobot = new Pieza**[4];
+                piezasRobot = new Pieza**[4];
+                for(int i = 0; i < 4; i++){
+                    piezasRobot[i] = new Pieza*[2];
+                    for(int j = 0; j < 2; j++){
+                        piezasRobot[i][j] = new Pieza();
+                    }
+                }
+                piezasRobot = robot->getPiezas();
+                for(int i=0; i<4; i++){
+                    //for(int j=0; j<2; j++){
+                        std::cout<<"Pieza robot["<<i<<"]["<<0<<"]: "<<piezasRobot[i][0]->getTipo()<<std::endl;
+                    //}
+                }
+                std::cout<<std::endl;
+                std::cout<<std::endl;
+                robot->insertarPieza(nuevaPieza);
+                std::cout<<"Tipo pieza nueva: "<<tipoPieza<<std::endl;
+                piezasRobot = robot->getPiezas();
+                std::cout<<std::endl;
+                for(int i=0; i<4; i++){
+                    //for(int j=0; j<2; j++){
+                        std::cout<<"Pieza robot["<<i<<"]["<<0<<"]: "<<piezasRobot[i][0]->getTipo()<<std::endl;
+                    //}
+                }
             }
 
 
@@ -281,6 +321,10 @@ void Game::render(float interpolacion){
             }
             for(int a = 0; a<cantidadBloques; a++){
                 window->draw(spritesMonedas[a][i][j]);
+            }
+            for(int a = 0; a<cantidadBloques; a++){
+                window->draw(spritesPiezas[a][i][j]);
+
             }
             //window->draw(spritesObjetosAleatorios[i][j]);
             //window->draw(spritesMonedas[i][j]);
@@ -370,19 +414,23 @@ sf::Sprite*** Game::construirMapas(){
     
     spritesBloques = new sf::Sprite**[cantidadBloques];
     spritesMonedas = new sf::Sprite**[cantidadBloques];
+    spritesPiezas =  new sf::Sprite**[cantidadBloques];
     
     for(int a = 0; a<cantidadBloques; a++){
         spritesMonedas[a] = new sf::Sprite*[windowHeight];
+        spritesPiezas[a]  = new sf::Sprite*[windowHeight];
         spritesBloques[a] = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
         for(int i = 0; i < windowHeight; i++){
             spritesBloques[a][i] = new sf::Sprite[windowWidth];
             spritesMonedas[a][i] = new sf::Sprite[windowWidth];
+            spritesPiezas[a][i]  = new sf::Sprite[windowWidth];
         }
     }
     std::cout<<"he"<<std::endl;
     for(int i = 0; i < cantidadBloques; i++){
         spritesBloques[i] = mapa->crearMapa(i, nombreBloques[i]);
         spritesMonedas[i] = mapa->sitiosMonedas(i, nombreBloques[i]);
+        spritesPiezas[i]  = mapa->sitiosPiezas(i, nombreBloques[i]);
     }
        
     return spritesBloques;

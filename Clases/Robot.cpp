@@ -21,6 +21,8 @@ Robot::Robot()
     camara = new Camara();
     datos = new Hud();
     
+    inicializarPiezas();
+    
 
 }
 
@@ -36,6 +38,7 @@ Robot::~Robot() {
     delete walkingAnimation;
     delete camara;
     delete datos;
+    delete piezas;
 }
 
 
@@ -86,6 +89,142 @@ void Robot::Draw(sf::RenderWindow& window, float interpolacion){
     render->Draw(window, playerPhysics->getLastPos(), playerPhysics->getPos(), interpolacion, *animatedSprite);
 }
 
+bool Robot::insertarPieza(Pieza* nueva){
+    bool insertada = false;
+
+    if(nueva->getTipo() >= 0 && nueva != NULL && insertada == false){
+        if(nueva->getTipo() <=5){
+            //Comprobar hueco pierna
+            //Comprobar casillas vacias
+            if(piezas[0][0] == NULL){
+                piezas[0][0] = nueva;
+                insertada = true;
+                std::cout<<"cambio pierna 1 vacia"<<std::endl;
+            }
+            else{
+                if(piezas[1][0] == NULL){
+                    piezas[1][0] = nueva;
+                    insertada = true;
+                    std::cout<<"cambio pierna 2 vacia"<<std::endl;
+                }
+                else{
+                    //Comprobar extremidades normales
+                    if(piezas[0][0]->getTipo() == 1){
+                        /*
+                        delete piezas[0][0]; //??????
+                         * */
+                        delete piezas[0][0];
+                        piezas[0][0] = nueva;
+                        insertada = true;
+                        std::cout<<"cambio pierna 1 normal"<<std::endl;
+                    }
+                    else{
+                        if(piezas[1][0]->getTipo() == 1){
+                            /*
+                            delete piezas[0][0]; //??????
+                             * */
+                            delete piezas[1][0];
+                            piezas[1][0] = nueva;
+                            insertada = true;
+                            std::cout<<"cambio pierna 2 normal"<<std::endl;
+                        }
+                        else{
+                            if(piezas[0][0]->getVida() < nueva->getVida()){
+                                /*
+                                delete piezas[0][0]; //??????
+                                 * */
+                                delete piezas[0][0];
+                                piezas[0][0] = nueva;
+                                insertada = true;
+                                std::cout<<"cambio pierna 1 vida"<<std::endl;
+                            }
+                            else{
+                                //Compruebas si es igual
+                                if(piezas[1][0]->getVida() < nueva->getVida()){
+                                    /*
+                                    delete piezas[0][0]; //??????
+                                     * */
+                                    delete piezas[1][0];
+                                    piezas[1][0] = nueva;
+                                    insertada = true;
+                                    std::cout<<"cambio pierna 2 vida"<<std::endl;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+            
+            
+        }
+        else{
+            
+            //Comprobar casillas vacias
+            if(piezas[2][0] == NULL){
+                piezas[2][0] = nueva;
+                insertada = true;
+                std::cout<<"cambio brazo 1 vacio"<<std::endl;
+            }
+            else{
+                if(piezas[3][0] == NULL){
+                    piezas[3][0] = nueva;
+                    insertada = true;
+                    std::cout<<"cambio brazo 2 vacio"<<std::endl;
+                }
+                else{
+                    //Comprobar extremidades normales
+                    if(piezas[2][0]->getTipo() == 6){
+                        
+                        delete piezas[2][0]; 
+                         
+                        piezas[2][0] = nueva;
+                        insertada = true;
+                        std::cout<<"cambio brazo 1 normal"<<std::endl;
+                    }
+                    else{
+                        if(piezas[3][0]->getTipo() == 6){
+                            /*
+                            delete piezas[0][0]; //??????
+                             * */
+                            delete piezas[3][0];
+                            piezas[3][0] = nueva;
+                            insertada = true;
+                            std::cout<<"cambio brazo 2 normal"<<std::endl;
+                        }
+                        else{
+                            if(piezas[2][0]->getVida() < nueva->getVida()){
+                                /*
+                                delete piezas[0][0]; //??????
+                                 * */
+                                delete piezas[2][0];
+                                piezas[2][0] = nueva;
+                                insertada = true;
+                                std::cout<<"cambio brazo 1 vida"<<std::endl;
+                            }
+                            else{
+                                //Compruebas si es igual
+                                if(piezas[3][0]->getVida() < nueva->getVida()){
+                                    /*
+                                    delete piezas[0][0]; //??????
+                                     * */
+                                    std::cout<<"cambio brazo vida 2"<<std::endl;
+                                    piezas[3][0] = nueva;
+                                    delete piezas[3][0];
+                                    insertada = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return insertada;
+}
+    
 
 float Robot::getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime){
     return playerPhysics->getPosSalto(y, tiempoDesdeSalto, elapsedTime);
@@ -105,5 +244,28 @@ void Robot::recibirCamara (Camara* micam){
 }
 void Robot::recibirHud(Hud* mihud){
     render->recibirHud(mihud);
+}
+void Robot::inicializarPiezas(){
+    
+    //almacenaje de las piezas
+    //orden: i=1 brazo izquierdo ; i=2 brazo derecho ; i=3 pierna izquierda ; i=4 pierna derecha
+    piezas = new Pieza**[4];
+    for(int i = 0; i < 4; i++){
+        piezas[i] = new Pieza*[2];
+        for(int j = 0; j < 2; j++){
+            piezas[i][j] = new Pieza();
+            piezas[i][j]->setMuerta(false);
+        }
+    }
+    
+    piezas[0][0]->iniciarPieza(1);
+    piezas[1][0]->iniciarPieza(1);
+    piezas[1][0]->darVuelta();
+    piezas[2][0]->iniciarPieza(6);
+    piezas[3][0]->iniciarPieza(6);
+    piezas[3][0]->darVuelta();
+}
+Pieza*** Robot::getPiezas(){
+    return piezas; 
 }
 

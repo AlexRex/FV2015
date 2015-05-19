@@ -20,6 +20,7 @@ Colisiones::Colisiones() {
     
    posActualMatriz = 0;
    posActualMatrizMonedas =0;
+   posActualMatrizPiezas = 0;
    fila = 0;
    columna = 0;
 }
@@ -38,6 +39,7 @@ void Colisiones::init(Robot* roby, int bloques, char** nombreBloques){
     posRobotAnteriorY  = robot->getPos().y;
     getMapa(bloques, nombreBloques);
     getMapaMonedas(bloques, nombreBloques);
+    getMapaPiezas(bloques, nombreBloques);
 }
 
 
@@ -48,6 +50,12 @@ void Colisiones::getMapaMonedas(int bloques, char** nombreBloques){
     posActualMatrizMonedas = mapaMonedas[filaMoneda][columnaMoneda];
  
     
+}
+void Colisiones::getMapaPiezas(int bloques, char** nombreBloques){    
+    mapaPiezas =  mapa->getColisionesPiezas(bloques, nombreBloques);
+    filaPieza = (robot->getPos().y / tamTile);
+    columnaPieza = (robot->getPos().x / tamTile);
+    posActualMatrizPiezas = mapaPiezas[filaPieza][columnaPieza];
 }
 void Colisiones::getMapa(int bloques, char** nombreBloques){
     
@@ -184,13 +192,62 @@ void Colisiones::quitarMoneda(sf::Sprite*** spriteMonedas, int posX, int posY){
     spriteX = (posX-(nBloque*29))-nBloque;
     spriteY = posY;
     
-    std::cout<<"nBloques: "<<nBloque<<" spriteX: "<<spriteX<<" spriteY: "<<spriteY<<std::endl;
+    //std::cout<<"nBloques: "<<nBloque<<" spriteXmoneda: "<<spriteX<<" spriteYmoneda: "<<spriteY<<std::endl;
     
-    std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
+    //std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
     
     float posM=spriteMonedas[nBloque][spriteY][spriteX].getPosition().x;
-    std::cout<<"PosM: "<<posM<<std::endl;
+   // std::cout<<"PosM: "<<posM<<std::endl;
     spriteMonedas[nBloque][spriteY][spriteX].setTextureRect(sf::IntRect(tamTile, 0*tamTile, tamTile, tamTile));
+
+    
+}
+
+bool Colisiones::comprobarPieza(/* sf::Sprite*** spritesPiezas */){
+    bool hayPieza = false;
+    filaPieza = ((robot->getPos().y-0) / tamTile);
+    columnaPieza = (robot->getPos().x / tamTile);
+    //std::cout<<"Inicia variables"<<std::endl;
+    posActualMatrizPiezas = mapaPiezas[filaPieza+1][columnaPieza+1];
+    posActualMatrizPiezasCabeza = mapaPiezas[filaPieza][columnaPieza+1];
+    //std::cout<<"Antes primer if"<<std::endl;
+    
+    
+    if((posActualMatrizPiezas != 0 || posActualMatrizPiezasCabeza !=0) && posActualMatrizPiezas<600){
+        hayPieza = true;
+        //std::cout<<"Dentro primer if"<<std::endl;
+        if(posActualMatrizPiezas!=0){
+            mapaPiezas[filaPieza+1][columnaPieza+1] = 0;
+           // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza+1));
+        }
+        else{
+            mapaPiezas[filaPieza][columnaPieza+1] = 0;
+           // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza));
+        }
+    }else{
+        //std::cout<<"else"<<std::endl;
+        hayPieza = false;
+    }
+    //std::cout<<"Final"<<std::endl;
+    return hayPieza;
+}
+
+void Colisiones::quitarPieza(sf::Sprite*** spritePiezas, int posX, int posY){
+    int nBloque = 0;
+    int spriteX = 0;
+    int spriteY = 0;
+    
+    nBloque = posX/29;
+    spriteX = (posX-(nBloque*29))-nBloque;
+    spriteY = posY;
+    
+   // std::cout<<"nBloques: "<<nBloque<<" spriteXpieza: "<<spriteX<<" spriteYpieza: "<<spriteY<<std::endl;
+    
+    //std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
+    
+    float posM=spritePiezas[nBloque][spriteY][spriteX].getPosition().x;
+    //std::cout<<"PosM: "<<posM<<std::endl;
+    spritePiezas[nBloque][spriteY][spriteX].setTextureRect(sf::IntRect(tamTile, 0*tamTile, tamTile, tamTile));
 
     
 }

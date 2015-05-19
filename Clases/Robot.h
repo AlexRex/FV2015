@@ -12,6 +12,7 @@
 #include "Render.h"
 #include "Camara.h"
 #include "Hud.h"
+#include "Pieza.h"
 #include "../Includes/AnimatedSprite.hpp"
 
 class Robot {
@@ -30,11 +31,13 @@ public:
     void mueveA(int y, int x);
     void recibirCamara(Camara*);
     void recibirHud(Hud*);
-    
+    bool insertarPieza(Pieza* nueva);
     
     float saltar();
     float getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
     float caer(sf::Time tiempoCaida, sf::Time elapsedTime);
+    
+    Pieza*** getPiezas();
     
     
     
@@ -54,6 +57,9 @@ private:
     Animation*              fallingAnimation;
     Animation*              currentAnimation;
     
+    Pieza***                piezas;
+    
+    void inicializarPiezas();
 };
 
 #endif	/* ROBOT_H */

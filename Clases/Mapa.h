@@ -26,6 +26,7 @@ public:
     int** createColisiones(int, char**);
     sf::Sprite** crearMapa(int , char[] );
     sf::Sprite** sitiosMonedas(int, char[]);
+    sf::Sprite** sitiosPiezas(int, char[]);
     sf::Sprite** objetosAleatorios();
     sf::Sprite*  crearEsquema();
     sf::Sprite** crearFondo(int);
@@ -33,11 +34,13 @@ public:
     char** generarMapa(int, int);
     
     int**   getColisionesMonedas(int, char**);
+    int** getColisionesPiezas(int desplazamiento, char** nombreBloques);
     
     
 private:
     sf::Texture* texturaMapa;
     sf::Texture* texturaMoneda;
+    sf::Texture* texturaPieza;
     sf::Texture* texturaObjAleatorio;
     sf::Texture* texturaEsquema;
     
