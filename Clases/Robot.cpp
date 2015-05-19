@@ -326,17 +326,7 @@ void Robot::inicializarPiezas(){
     piezas[3][0]->iniciarPieza(6);
     piezas[3][0]->darVuelta();
 }
-void Robot::actualizaPiezas(){
-    
-    for(int i = 0; i<4; i++){
-        if(piezas[i][0]->getMuerta()){
-            if(!piezas[i][1]->getMuerta()){
-                piezas[i][0] = piezas[i][1];
-                piezas[i][1]->setMuerta(true); 
-            }   
-        }
-    }
-}
+
 
 void Robot::actualizaPiezas(sf::Time elapsedTime){
     

@@ -24,6 +24,7 @@ public:
     sf::Vector2f getLastPos() const {return playerPhysics->getLastPos();};
     sf::Vector2f getPos() const {return playerPhysics->getPos();};
     sf::Vector2f getVel()  {return playerPhysics->getVel();};
+    Hud* getHud(){return datos;};
     
     void Init(sf::Texture& tex, float pos_x, float pos_y,  float coeficiente, float vel_x=0.f, float vel_y=0.f);
     void Update(sf::Vector2f vel, sf::Time elapsedTime);
@@ -34,7 +35,7 @@ public:
     bool insertarPieza(Pieza* nueva);
     bool insertarBrazo(int);
     bool insertarPierna(int);
-    void actualizaPiezas(sf::Time);
+    void actualizaPiezas(sf::Time elapsedTime);
     
     float saltar();
     float getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);

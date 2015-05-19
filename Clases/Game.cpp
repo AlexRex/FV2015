@@ -191,19 +191,21 @@ void Game::update(sf::Time elapsedTime){
         hayColision = colision->comprobarColision();
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
+        
+        robot->actualizaPiezas(elapsedTime);
         //std::cout<<"En game"<<std::endl;
-        //hayColisionPieza = colision->comprobarPieza();
+        hayColisionPieza = colision->comprobarPieza();
         
         if(menuPuntoControl->enPuntoControl(cantidadBloques, robot->getPos().x)){
             status = 4;
-            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
             camara->setPos(sf::Vector2f (0,0), 1);
             tienda->setMonedas(monedasRecogidas);
             menuPuntoControl->setMonedas(monedasRecogidas);
         }
         
          if(status==3){
-            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+            robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
 
         }
         
@@ -228,7 +230,7 @@ void Game::update(sf::Time elapsedTime){
                 if(robot->getPos().y>555){
                    // pause=true;
                     muerto = true;
-                    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y));
+                    robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
                     status = 3;
                 }
                 //caer
@@ -666,7 +668,7 @@ void Game::pintarHud(){
         if(i<4){
             //Actualizamos la posicion de las barras
             Hud* nuevo= robot->getHud();
-+           barrasVida[i]=*nuevo->getVida(i);
+            barrasVida[i]=*nuevo->getVida(i);
              
             window->draw(barrasVida[i]);//Pintamos barras
         }
