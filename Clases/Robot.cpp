@@ -42,7 +42,7 @@ Robot::~Robot() {
 }
 
 
-void Robot::Init(sf::Texture &tex, float pos_x, float pos_y, float vel_x, float vel_y){
+void Robot::Init(sf::Texture &tex, float pos_x, float pos_y,float coeficiente, float vel_x, float vel_y ){
     
     
     render->SetTextura(tex);
@@ -58,6 +58,8 @@ void Robot::Init(sf::Texture &tex, float pos_x, float pos_y, float vel_x, float 
     
     playerPhysics->setPos(pos_x, pos_y);
     playerPhysics->setVel(vel_x, vel_y);
+    
+    coeficienteDesintegracion = coeficiente;
     
 }
 
@@ -298,6 +300,7 @@ void Robot::recibirCamara (Camara* micam){
     render->recibirCamara(micam);
 }
 void Robot::recibirHud(Hud* mihud){
+    datos = mihud;
     render->recibirHud(mihud);
 }
 void Robot::inicializarPiezas(){
@@ -331,6 +334,40 @@ void Robot::actualizaPiezas(){
                 piezas[i][0] = piezas[i][1];
                 piezas[i][1]->setMuerta(true); 
             }   
+        }
+    }
+}
+
+void Robot::actualizaPiezas(sf::Time elapsedTime){
+    
+    bool pierdePieza = false;
+    int vida=1;
+    
+  
+    //Actualizar vidas
+    for(int i = 0; i<4; i++){
+        //for(int j=0; j<2; j++){
+            if(!piezas[i][0]->getMuerta()){
+                vida=piezas[i][0]->actualizaVida(elapsedTime,coeficienteDesintegracion);
+                
+                if(vida<1 && !pierdePieza){
+                    pierdePieza = true;
+                }else{
+                    if(!piezas[i][0]->getMuerta()){
+                        datos->setVidaPieza(vida,i);
+                    }
+                }
+            }
+        //}
+    }
+    if(pierdePieza){
+        for(int i = 0; i<4; i++){
+            if(piezas[i][0]->getMuerta()){
+                if(!piezas[i][1]->getMuerta()){
+                    piezas[i][0] = piezas[i][1];
+                    piezas[i][1]->setMuerta(true); 
+                }   
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ public:
     sf::Vector2f getPos() const {return playerPhysics->getPos();};
     sf::Vector2f getVel()  {return playerPhysics->getVel();};
     
-    void Init(sf::Texture& tex, float pos_x, float pos_y, float vel_x=0.f, float vel_y=0.f);
+    void Init(sf::Texture& tex, float pos_x, float pos_y,  float coeficiente, float vel_x=0.f, float vel_y=0.f);
     void Update(sf::Vector2f vel, sf::Time elapsedTime);
     void Draw(sf::RenderWindow& window, float interpolacion);
     void mueveA(int y, int x);
@@ -34,7 +34,7 @@ public:
     bool insertarPieza(Pieza* nueva);
     bool insertarBrazo(int);
     bool insertarPierna(int);
-    void actualizaPiezas();
+    void actualizaPiezas(sf::Time);
     
     float saltar();
     float getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
@@ -59,6 +59,8 @@ private:
     Animation*              jumpingAnimation;
     Animation*              fallingAnimation;
     Animation*              currentAnimation;
+    
+    float                   coeficienteDesintegracion;
     
     Pieza***                piezas;
     
