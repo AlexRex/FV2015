@@ -322,6 +322,10 @@ void Game::render(float interpolacion){
             for(int a = 0; a<cantidadBloques; a++){
                 window->draw(spritesMonedas[a][i][j]);
             }
+            for(int a = 0; a<cantidadBloques; a++){
+                window->draw(spritesPiezas[a][i][j]);
+
+            }
             //window->draw(spritesObjetosAleatorios[i][j]);
             //window->draw(spritesMonedas[i][j]);
         }
@@ -410,19 +414,23 @@ sf::Sprite*** Game::construirMapas(){
     
     spritesBloques = new sf::Sprite**[cantidadBloques];
     spritesMonedas = new sf::Sprite**[cantidadBloques];
+    spritesPiezas =  new sf::Sprite**[cantidadBloques];
     
     for(int a = 0; a<cantidadBloques; a++){
         spritesMonedas[a] = new sf::Sprite*[windowHeight];
+        spritesPiezas[a]  = new sf::Sprite*[windowHeight];
         spritesBloques[a] = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
         for(int i = 0; i < windowHeight; i++){
             spritesBloques[a][i] = new sf::Sprite[windowWidth];
             spritesMonedas[a][i] = new sf::Sprite[windowWidth];
+            spritesPiezas[a][i]  = new sf::Sprite[windowWidth];
         }
     }
     std::cout<<"he"<<std::endl;
     for(int i = 0; i < cantidadBloques; i++){
         spritesBloques[i] = mapa->crearMapa(i, nombreBloques[i]);
         spritesMonedas[i] = mapa->sitiosMonedas(i, nombreBloques[i]);
+        spritesPiezas[i]  = mapa->sitiosPiezas(i, nombreBloques[i]);
     }
        
     return spritesBloques;

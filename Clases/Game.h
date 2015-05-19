@@ -56,6 +56,8 @@ private:
     sf::Sprite**            spritesObjetosAleatorios;
     sf::Sprite***           spritesMonedas;
     sf::Sprite***           spritesBloques;
+    sf::Sprite***           spritesPiezas;
+    
     sf::Sprite*             piezas;
     sf::RectangleShape*    barrasVida;
     

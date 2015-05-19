@@ -192,12 +192,12 @@ void Colisiones::quitarMoneda(sf::Sprite*** spriteMonedas, int posX, int posY){
     spriteX = (posX-(nBloque*29))-nBloque;
     spriteY = posY;
     
-    std::cout<<"nBloques: "<<nBloque<<" spriteXmoneda: "<<spriteX<<" spriteYmoneda: "<<spriteY<<std::endl;
+    //std::cout<<"nBloques: "<<nBloque<<" spriteXmoneda: "<<spriteX<<" spriteYmoneda: "<<spriteY<<std::endl;
     
-    std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
+    //std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
     
     float posM=spriteMonedas[nBloque][spriteY][spriteX].getPosition().x;
-    std::cout<<"PosM: "<<posM<<std::endl;
+   // std::cout<<"PosM: "<<posM<<std::endl;
     spriteMonedas[nBloque][spriteY][spriteX].setTextureRect(sf::IntRect(tamTile, 0*tamTile, tamTile, tamTile));
 
     
@@ -211,6 +211,8 @@ bool Colisiones::comprobarPieza(/* sf::Sprite*** spritesPiezas */){
     posActualMatrizPiezas = mapaPiezas[filaPieza+1][columnaPieza+1];
     posActualMatrizPiezasCabeza = mapaPiezas[filaPieza][columnaPieza+1];
     //std::cout<<"Antes primer if"<<std::endl;
+    
+    
     if((posActualMatrizPiezas != 0 || posActualMatrizPiezasCabeza !=0) && posActualMatrizPiezas<600){
         hayPieza = true;
         //std::cout<<"Dentro primer if"<<std::endl;
@@ -239,12 +241,12 @@ void Colisiones::quitarPieza(sf::Sprite*** spritePiezas, int posX, int posY){
     spriteX = (posX-(nBloque*29))-nBloque;
     spriteY = posY;
     
-    std::cout<<"nBloques: "<<nBloque<<" spriteXpieza: "<<spriteX<<" spriteYpieza: "<<spriteY<<std::endl;
+   // std::cout<<"nBloques: "<<nBloque<<" spriteXpieza: "<<spriteX<<" spriteYpieza: "<<spriteY<<std::endl;
     
-    std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
+    //std::cout<<"posX*tamTile: "<<posX*tamTile<<std::endl;
     
     float posM=spritePiezas[nBloque][spriteY][spriteX].getPosition().x;
-    std::cout<<"PosM: "<<posM<<std::endl;
+    //std::cout<<"PosM: "<<posM<<std::endl;
     spritePiezas[nBloque][spriteY][spriteX].setTextureRect(sf::IntRect(tamTile, 0*tamTile, tamTile, tamTile));
 
     
