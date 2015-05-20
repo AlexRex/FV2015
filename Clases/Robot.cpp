@@ -354,8 +354,11 @@ void Robot::actualizaPiezas(sf::Time elapsedTime){
         for(int i = 0; i<4; i++){
             if(piezas[i][0]->getMuerta()){
                 if(!piezas[i][1]->getMuerta()){
-                    piezas[i][0] = piezas[i][1];
+                    
+                    *piezas[i][0] = *piezas[i][1]; //Copia los valores de la pieza de repuesto
                     piezas[i][1]->setMuerta(true); 
+                    std::cout<<piezas[i][0]->getMuerta()<<std::endl;
+                    std::cout<<piezas[i][1]->getMuerta()<<std::endl;
                 }   
             }
         }
