@@ -195,7 +195,7 @@ void Game::update(sf::Time elapsedTime){
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
         
-        robot->actualizaPiezas(elapsedTime);
+        
         //std::cout<<"En game"<<std::endl;
         hayColisionPieza = colision->comprobarPieza();
         
@@ -206,7 +206,9 @@ void Game::update(sf::Time elapsedTime){
             tienda->setMonedas(monedasRecogidas);
             menuPuntoControl->setMonedas(monedasRecogidas);
         }
-        
+        if(status==0){
+            robot->actualizaPiezas(elapsedTime);
+        }
          if(status==3){
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
 
