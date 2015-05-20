@@ -203,7 +203,7 @@ void Colisiones::quitarMoneda(sf::Sprite*** spriteMonedas, int posX, int posY){
     
 }
 
-bool Colisiones::comprobarPieza(/* sf::Sprite*** spritesPiezas */){
+bool Colisiones::comprobarPieza( sf::Sprite*** spritesPiezas ){
     bool hayPieza = false;
     filaPieza = ((robot->getPos().y-0) / tamTile);
     columnaPieza = (robot->getPos().x / tamTile);
@@ -218,11 +218,11 @@ bool Colisiones::comprobarPieza(/* sf::Sprite*** spritesPiezas */){
         //std::cout<<"Dentro primer if"<<std::endl;
         if(posActualMatrizPiezas!=0){
             mapaPiezas[filaPieza+1][columnaPieza+1] = 0;
-           // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza+1));
+            this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza+1));
         }
         else{
             mapaPiezas[filaPieza][columnaPieza+1] = 0;
-           // this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza));
+            this->quitarPieza(spritesPiezas, (columnaPieza+1), (filaPieza));
         }
     }else{
         //std::cout<<"else"<<std::endl;

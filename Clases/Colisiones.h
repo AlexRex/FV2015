@@ -22,7 +22,7 @@ public:
     bool comprobarColision();
     bool comprobarColisionDcha();
     bool comprobarMoneda(sf::Sprite***spritesMonedas);
-    bool comprobarPieza(/* sf::Sprite***spritesPiezas */);
+    bool comprobarPieza( sf::Sprite***spritesPiezas );
     
     void quitarMoneda(sf::Sprite***spriteMonedas, int posX, int posY);
     void quitarPieza(sf::Sprite***spritePiezas, int posX, int posY);
