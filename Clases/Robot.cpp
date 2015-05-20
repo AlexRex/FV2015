@@ -253,13 +253,15 @@ bool Robot::insertarBrazo(int n){
             }
         }
     }
+    std::cout<<"Tipo Brazo 1:"<<piezas[0][0]->getTipo()<<std::endl;
+    std::cout<<"Tipo Brazo 2:"<<piezas[1][0]->getTipo()<<std::endl;
     return insertado;
     
 }
 
 bool Robot::insertarPierna(int n){
     bool insertado = true;
-    
+    std::cout<<"Tipo inicial:  "<<n<<std::endl;
     if(piezas[2][0]->getMuerta()){
         piezas[2][0]->iniciarPieza(n);
     }
@@ -281,6 +283,8 @@ bool Robot::insertarPierna(int n){
             }
         }
     }
+    std::cout<<"Tipo Pierna 1:"<<piezas[2][0]->getTipo()<<std::endl;
+    std::cout<<"Tipo Pierna 2:"<<piezas[3][0]->getTipo()<<std::endl;
     return insertado;
     
 }
