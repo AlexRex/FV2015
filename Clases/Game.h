@@ -111,6 +111,7 @@ private:
     char**                  nombreBloques;
     
     int                     monedasRecogidas;
+    int                     monedasTotales;
     float                   coeficienteDesintegracion;
     
     bool                    mDcha;

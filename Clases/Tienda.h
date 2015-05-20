@@ -16,7 +16,7 @@
 class Tienda {
     
 public:
-    Tienda(float width, float height);
+    Tienda(float width, float height, int monedasTotales);
     //Tienda(const Tienda& orig);
     virtual ~Tienda();
     

@@ -24,6 +24,7 @@ Game::Game() :
 , cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
+, monedasTotales(500)
 , coeficienteDesintegracion(75)
 , status(2) // 0 = Juego, 1 = Tienda, 2 = Menu Princ, 3 = Muerte, 4 = Pto Control
 {   
@@ -45,7 +46,7 @@ Game::Game() :
     menuPuntoControl = new MenuPuntoDeControl(ancho, alto);
     menuMuerte = new MenuMuerte(ancho, alto);
     menu  = new Menu(ancho, alto);
-    tienda = new Tienda(ancho, alto);
+    tienda = new Tienda(ancho, alto, monedasTotales);
     robot = new Robot();
     mapa = new Mapa();
     colision = new Colisiones();
@@ -203,7 +204,7 @@ void Game::update(sf::Time elapsedTime){
             status = 4;
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
             camara->setPos(sf::Vector2f (0,0), 1);
-            tienda->setMonedas(monedasRecogidas);
+            tienda->setMonedas(monedasTotales);
             menuPuntoControl->setMonedas(monedasRecogidas);
         }
         if(status==0){
@@ -472,6 +473,7 @@ void Game::controlarTienda(sf::Keyboard::Key key){
             break;
         
         case sf::Keyboard::Return:
+            
             switch(tienda->GetPressedItem()){
                 case 0:
                     status=2;
@@ -479,28 +481,84 @@ void Game::controlarTienda(sf::Keyboard::Key key){
                     
                 break;
                 case 1:
-                     std::cout<<"Pierna reforzada"<<std::endl;
                      
+                     if(monedasTotales >= 100){
+                         if(robot->insertarPierna(4)){
+                             monedasTotales -= 100;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Pierna reforzada"<<std::endl;
+                         }
+                         else{
+                             std::cout<<"No tienes espacio para la pieza"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Pierna reforzada"<<std::endl;
+                    }
                     
                     
                 break;
                 case 2:
-                    std::cout<<"Pierna boing"<<std::endl;
+                    
+                    if(monedasTotales >= 300){
+                         if(robot->insertarPierna(5)){
+                            monedasTotales -= 300;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Pierna boing"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Pierna boing"<<std::endl;
+                    }
                     
                     
                 break;
                 case 3:
-                    std::cout<<"Brazo midas"<<std::endl;
-                   
+                    
+                    if(monedasTotales >= 500){
+                         if(robot->insertarBrazo(9)){
+                            monedasTotales -= 500;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Brazo de midas"<<std::endl; 
+                         }
+                         
+                    }
+                    else{
+                        std::cout<<"No puedes comprar Brazo de midas"<<std::endl;
+                    }
                    
                 break;
                 case 4:
-                     std::cout<<"Brazo-pierna"<<std::endl;
+                     
+                     if(monedasTotales >= 200){
+                         if(robot->insertarBrazo(8)){
+                            monedasTotales -= 200;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Brazo-pierna"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Brazo-pierna"<<std::endl;
+                    }
                     
                     
                 break;
                 case 5:
-                    std::cout<<"Brazo de Chuck Norris"<<std::endl;
+                    
+                    if(monedasTotales >= 600){
+                         if(robot->insertarBrazo(7)){
+                            monedasTotales -= 600;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Brazo de Chuck Norris"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Brazo de Chuck Norris"<<std::endl;
+                    }
                     break;
             }
             break;

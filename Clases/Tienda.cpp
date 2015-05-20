@@ -7,14 +7,14 @@
 
 #include "Tienda.h"
 
-Tienda::Tienda(float width, float height) {
+Tienda::Tienda(float width, float height, int monedasTotales) {
     if(!fuentePUNK.loadFromFile("Resources/PUNK.ttf") || !fuenteMonedas.loadFromFile("Resources/OpenSans.ttf")){//cargando la fuente
         std::cout<<"No se carga la fuente"<<std::endl;
         //return 0;
     }
     
     
-    monedas = 0;
+    monedas = monedasTotales;
     
     monedasDisponibles.setScale(1.2, 1.2);
     monedasDisponibles.setFont(fuenteMonedas);
