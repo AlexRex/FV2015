@@ -13,6 +13,7 @@ Pieza::Pieza() {
     tipo = -1;
     debilidad = 1;
     velocidad = 1;
+    salto = 1;
     
     sprite = new sf::Sprite();
     texture = new sf::Texture();
@@ -95,6 +96,7 @@ int Pieza::iniciarPieza(int clase){
             //pierna-boing
             vida = 500;
             debilidad = 0.7;
+            salto = 1.5;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 6:
@@ -145,4 +147,7 @@ int Pieza::getVida(){
 }
 float Pieza::getVelocidad(){
     return velocidad;
+}
+float Pieza::getSalto(){
+    return salto;
 }

@@ -21,6 +21,9 @@ Robot::Robot()
     camara = new Camara();
     datos = new Hud();
     
+    modificadorSalto = 1;
+    modificadorVel = 0;
+    
     inicializarPiezas();
     
 
@@ -291,7 +294,8 @@ void Robot::mueveA(int x, int y){
     playerPhysics->setPos(x, y);
 }
 float Robot::saltar(){
-    return playerPhysics->saltar();
+    this->getModSalto();
+    return playerPhysics->saltar(modificadorSalto);
 }
 float Robot::caer(sf::Time tiempoCaida, sf::Time elapsedTime){
     return playerPhysics->caer(tiempoCaida, elapsedTime);
@@ -371,7 +375,6 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
         }
         
     }
-    std::cout<<"MUERTE: "<<muere<<std::endl;
     return muere;
 }
 Pieza*** Robot::getPiezas(){
@@ -387,7 +390,22 @@ float Robot::getModVel(){
         else
             modTotal += modPieza-1;
     }
+    modificadorVel=modTotal;
     return modTotal;
     
+}
+float Robot::getModSalto(){
+    float modPieza = 1;
+    float modTotal = 1;
+    for(int i = 0; i<4; i++){
+        modPieza=piezas[i][0]->getSalto();
+        std::cout<<"Mod Salto Pieza: "<<piezas[i][0]->getSalto()<<std::endl;
+        modTotal += modPieza-1;
+        std::cout<<"Modificador salto: "<<modTotal<<std::endl;
+        std::cout<<"Modificador pieza: "<<modPieza<<std::endl;
+    }
+    modificadorSalto=modTotal;
+    std::cout<<"Modificador salto: "<<modificadorSalto<<std::endl;
+    return modTotal;
 }
 

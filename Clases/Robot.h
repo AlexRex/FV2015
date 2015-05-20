@@ -25,6 +25,7 @@ public:
     sf::Vector2f getPos() const {return playerPhysics->getPos();};
     sf::Vector2f getVel()  {return playerPhysics->getVel();};
     float getModVel();
+    float getModSalto();
     Hud* getHud(){return datos;};
     
     void Init(sf::Texture& tex, float pos_x, float pos_y,  float coeficiente, float vel_x=0.f, float vel_y=0.f);
@@ -64,6 +65,7 @@ private:
     
     float                   coeficienteDesintegracion;
     float                   modificadorVel;
+    float                   modificadorSalto;
     
     Pieza***                piezas;
     

@@ -33,7 +33,7 @@ public:
     void Update(sf::Time elapsedTime);
     
     float caer(sf::Time tiempoCaida, sf::Time elapsedTime);
-    float saltar();
+    float saltar(float mod);
     float getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);
     
 private:

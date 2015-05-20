@@ -30,12 +30,14 @@ public:
     void setMuerta(bool);
     bool getMuerta();
     float getVelocidad();
+    float getSalto();
     
 private:
     int tipo;
     int vida;
     int debilidad;
     float velocidad;
+    float salto;
     bool muerta;
     sf::Sprite* sprite;
     sf::Texture* texture;
