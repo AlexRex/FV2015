@@ -328,10 +328,11 @@ void Robot::inicializarPiezas(){
 }
 
 
-void Robot::actualizaPiezas(sf::Time elapsedTime){
+bool Robot::actualizaPiezas(sf::Time elapsedTime){
     
     bool pierdePieza = false;
     int vida=1;
+    bool muere=false;
     
   
     //Actualizar vidas
@@ -359,10 +360,19 @@ void Robot::actualizaPiezas(sf::Time elapsedTime){
                     piezas[i][1]->setMuerta(true); 
                     std::cout<<piezas[i][0]->getMuerta()<<std::endl;
                     std::cout<<piezas[i][1]->getMuerta()<<std::endl;
-                }   
+                }
+                if(i>1){
+                    if(piezas[2][0]->getMuerta() && piezas[3][0]->getMuerta()){
+                        //Muere
+                        muere=true;
+                    }
+                }
             }
         }
+        
     }
+    std::cout<<"MUERTE: "<<muere<<std::endl;
+    return muere;
 }
 Pieza*** Robot::getPiezas(){
     return piezas; 

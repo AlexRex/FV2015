@@ -35,7 +35,7 @@ public:
     bool insertarPieza(Pieza* nueva);
     bool insertarBrazo(int);
     bool insertarPierna(int);
-    void actualizaPiezas(sf::Time elapsedTime);
+    bool actualizaPiezas(sf::Time elapsedTime);
     
     float saltar();
     float getPosSalto(int y, sf::Clock tiempoDesdeSalto, sf::Time elapsedTime);

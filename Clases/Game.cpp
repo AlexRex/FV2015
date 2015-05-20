@@ -208,7 +208,11 @@ void Game::update(sf::Time elapsedTime){
             menuPuntoControl->setMonedas(monedasRecogidas);
         }
         if(status==0){
-            robot->actualizaPiezas(elapsedTime);
+            muerto=robot->actualizaPiezas(elapsedTime);
+            if(muerto){
+                robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
+                status = 3;
+            }
         }
          if(status==3){
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);

@@ -34,6 +34,7 @@ private:
     int tipo;
     int vida;
     int debilidad;
+    float velocidad;
     bool muerta;
     sf::Sprite* sprite;
     sf::Texture* texture;

@@ -12,6 +12,7 @@ Pieza::Pieza() {
     muerta = true;
     tipo = -1;
     debilidad = 1;
+    velocidad = 1;
     
     sprite = new sf::Sprite();
     texture = new sf::Texture();
@@ -73,18 +74,21 @@ int Pieza::iniciarPieza(int clase){
             //pierna de atleta
             vida = 500;
             debilidad =1;
+            velocidad = 1.2;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 3: 
             //pierna de Usain Bolt
             vida = 500;
             debilidad = 0.7;
+            velocidad = 1.5;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 4:
             //pierna reforzada
             vida = 500;
             debilidad = 1.3;
+            velocidad = 0.7;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 5:
@@ -103,6 +107,7 @@ int Pieza::iniciarPieza(int clase){
             //brazo de Chuck Norris
             vida = 500;
             debilidad = 1.5;
+            velocidad = 1.2;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 8:
