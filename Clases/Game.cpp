@@ -197,7 +197,7 @@ void Game::update(sf::Time elapsedTime){
         
         robot->actualizaPiezas(elapsedTime);
         //std::cout<<"En game"<<std::endl;
-        hayColisionPieza = colision->comprobarPieza();
+        hayColisionPieza = colision->comprobarPieza(spritesPiezas);
         
         if(menuPuntoControl->enPuntoControl(cantidadBloques, robot->getPos().x)){
             status = 4;
