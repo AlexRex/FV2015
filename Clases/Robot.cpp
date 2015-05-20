@@ -341,6 +341,10 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
     bool pierdePieza = false;
     int vida=1;
     bool muere=false;
+    bool tengoBrazoPierna = false;
+    bool meFaltaPierna = false;
+    int posBrazoPierna;
+    int posPiernaRota;
     
   
     //Actualizar vidas
@@ -354,7 +358,19 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
                 }else{
                     if(!piezas[i][0]->getMuerta()){
                         datos->setVidaPieza(vida,i);
+                        if(i<2){
+                            if(piezas[i][0]->getTipo() == 8 && !tengoBrazoPierna){
+                                tengoBrazoPierna = true;
+                                posBrazoPierna = i;
+                            }
+                        }
                     }
+                }
+            }
+            if(i>1){
+                if(piezas[i][0]->getMuerta()){
+                    meFaltaPierna = true;
+                    posPiernaRota = i;
                 }
             }
         //}
@@ -370,6 +386,7 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
                     std::cout<<piezas[i][1]->getMuerta()<<std::endl;
                 }
                 if(i>1){
+                    
                     if(piezas[2][0]->getMuerta() && piezas[3][0]->getMuerta()){
                         //Muere
                         muere=true;
@@ -377,8 +394,17 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
                 }
             }
         }
-        
+
     }
+    if(tengoBrazoPierna && meFaltaPierna){
+         //sustituir pierna rota por brazo-pierna
+        int vidaBrazo= piezas[posBrazoPierna][0]->getVida();
+        piezas[posPiernaRota][0]->iniciarPieza(1);
+        piezas[posPiernaRota][0]->setVida(vidaBrazo);
+        
+        piezas[posBrazoPierna][0]->setVida(1);
+        muere=false;
+    } 
     return muere;
 }
 Pieza*** Robot::getPiezas(){
