@@ -47,10 +47,10 @@ Mapa::Mapa() {
     }
     
     texturaFondo = new sf::Texture();
-    if(!texturaFondo->loadFromFile("Resources/fondo2.png")){
+    /*if(!texturaFondo->loadFromFile("Resources/fondo2.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
-    }
+    }*/
 }
 
 Mapa::Mapa(const Mapa& orig) {
