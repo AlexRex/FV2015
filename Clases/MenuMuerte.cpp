@@ -8,8 +8,19 @@
 #include "MenuMuerte.h"
 
 MenuMuerte::MenuMuerte(float width, float height) {
-    if(!fuente.loadFromFile("Resources/PUNK.ttf")){//cargando la fuente
+    if(!fuente.loadFromFile("Resources/PUNK.ttf") || !fuenteNormal.loadFromFile("Resources/OpenSans.ttf")){//cargando la fuente
     }
+    
+    puntuacionConseguida.setFont(fuenteNormal);
+    puntuacionConseguida.setColor(sf::Color::White);
+    puntuacionConseguida.setString("200 Puntos");
+    puntuacionConseguida.setPosition(sf::Vector2f(width/10, height/(MAX_NUMBER_OF_ITEMS)*1.5));
+    
+    monedasConseguidas.setFont(fuenteNormal);
+    monedasConseguidas.setColor(sf::Color::White);
+    monedasConseguidas.setString("200 Monedas");
+    monedasConseguidas.setPosition(sf::Vector2f(width/10, height/(MAX_NUMBER_OF_ITEMS)*1.6));
+    
     //menu[0].setScale(0.6,0.6);
     menu[0].setFont(fuente);
     menu[0].setColor(sf::Color::Blue);
@@ -24,7 +35,12 @@ MenuMuerte::MenuMuerte(float width, float height) {
     
    
     
-    
+    for(int i = 0; i<5; i++){
+        rankingLabel[i].setFont(fuenteNormal);
+        rankingLabel[i].setColor(sf::Color::White);
+        rankingLabel[i].setString("rank");
+        rankingLabel[i].setPosition(sf::Vector2f(width-305.f, 500-(60.f)*i));
+    }
 
     selectedItemIndex=0;
     
@@ -46,6 +62,11 @@ void MenuMuerte::draw(sf::RenderWindow &window){
     for(int i=0; i<MAX_NUMBER_OF_ITEMS;i++){
         window.draw(menu[i]);
     }
+    for(int i = 0; i<5; i++){
+        window.draw(rankingLabel[i]);
+    }
+    window.draw(puntuacionConseguida);
+    window.draw(monedasConseguidas);
 }
 
 void MenuMuerte::MoveUp(){
@@ -63,3 +84,20 @@ void MenuMuerte::MoveDown(){
     }
 }
 
+void MenuMuerte::setMonedas(int mon){
+    monedas = mon;
+    monedasConseguidas.setString(std::to_string(monedas)+" Monedas");
+}
+
+void MenuMuerte::setPuntuacion(int punt){
+    puntuacion = punt;
+    puntuacionConseguida.setString(std::to_string(puntuacion)+" Puntos");
+
+}
+
+void MenuMuerte::setRanking(int *rank){
+    ranking = rank;
+    for(int i = 0;i<5; i++){
+        rankingLabel[i].setString(std::to_string(ranking[i+1])+" Puntos");
+    }
+}

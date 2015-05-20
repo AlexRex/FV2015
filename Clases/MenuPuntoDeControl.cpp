@@ -34,11 +34,18 @@ MenuPuntoDeControl::MenuPuntoDeControl(float width, float height) {
     menu[1].setString("Tienda");
     menu[1].setPosition(sf::Vector2f(width/10, height/(MAX_NUMBER_OF_ITEMS)*2.3));
     
-   menu[2].setFont(fuentePUNK);
-   menu[2].setColor(sf::Color::White);
-   menu[2].setString("Salir");
-   menu[2].setPosition(sf::Vector2f(width/10, height/(MAX_NUMBER_OF_ITEMS)*2.6));
+    menu[2].setFont(fuentePUNK);
+    menu[2].setColor(sf::Color::White);
+    menu[2].setString("Salir");
+    menu[2].setPosition(sf::Vector2f(width/10, height/(MAX_NUMBER_OF_ITEMS)*2.6));
     
+    
+    for(int i = 0; i<5; i++){
+        rankingLabel[i].setFont(fuenteNormal);
+        rankingLabel[i].setColor(sf::Color::White);
+        rankingLabel[i].setString("rank");
+        rankingLabel[i].setPosition(sf::Vector2f(width-305.f, 500-(60.f)*i));
+    }
     
 
     selectedItemIndex=0;
@@ -60,6 +67,10 @@ void MenuPuntoDeControl::draw(sf::RenderWindow &window){
     window.draw(spriteFondo);
     for(int i=0; i<MAX_NUMBER_OF_ITEMS;i++){
         window.draw(menu[i]);
+    }
+
+    for(int i = 0; i<5; i++){
+        window.draw(rankingLabel[i]);
     }
     window.draw(puntuacionConseguida);
     window.draw(monedasConseguidas);
@@ -102,4 +113,13 @@ void MenuPuntoDeControl::setMonedas(int mon){
 
 void MenuPuntoDeControl::setPuntuacion(int punt){
     puntuacion = punt;
+    puntuacionConseguida.setString(std::to_string(puntuacion)+" Puntos");
+
+}
+
+void MenuPuntoDeControl::setRanking(int *rank){
+    ranking = rank;
+    for(int i = 0;i<5; i++){
+        rankingLabel[i].setString(std::to_string(ranking[i+1])+" Puntos");
+    }
 }

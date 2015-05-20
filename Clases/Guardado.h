@@ -9,11 +9,13 @@
 #include <fstream>
 #include <string.h>
 #include <sstream>
+#include <algorithm>
 
 
 #ifndef GUARDADO_H
 #define	GUARDADO_H
 
+#define SIZE 6
 
 
 class Guardado {
@@ -23,7 +25,12 @@ public:
     virtual ~Guardado();
     
     void guardarPartida(int p, int m,int bD, int bI, int pD, int pI);
-    void restaurarPartida();
+    bool restaurarPartida();
+    
+    void guardarRanking(int punt);
+    
+    bool restaurarRanking();
+    
     
     int getPuntuacion() {return puntuacion;}
     int getMonedas() {return monedas;}
@@ -31,14 +38,19 @@ public:
     int getBDer() {return bDer;}
     int getPIzq() {return pIzq;}
     int getPDer() {return pDer;}
-private:
     
+    int* getRanking();
+    
+private:
+
     int puntuacion;
     int monedas;
     int bDer;
     int bIzq;
     int pDer;
     int pIzq;
+    
+    int* ranking;
     
     std::ifstream fRead;
     std::ofstream fSave;

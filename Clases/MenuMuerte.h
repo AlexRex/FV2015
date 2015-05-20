@@ -23,12 +23,28 @@ public:
     void MoveUp();
     void MoveDown();
     int GetPressedItem(){ return selectedItemIndex;}
+    
+    void setRanking(int* rank);
+    void setMonedas(int mon);
+    void setPuntuacion(int punt);
+
 private:
     int selectedItemIndex;
     sf::Font fuente;
+    sf::Font fuenteNormal;
     sf::Text menu[MAX_NUMBER_OF_ITEMS];
     sf::Texture texturaFondo;
     sf::Sprite spriteFondo;
+    
+    
+    sf::Text puntuacionConseguida;
+    sf::Text monedasConseguidas;
+    sf::Text rankingLabel[5];
+    
+    int* ranking;
+    int monedas;
+    int puntuacion;
+
 };
 
 #endif

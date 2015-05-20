@@ -24,6 +24,7 @@ Game::Game() :
 , cantidadBloques(2)
 , posiblesBloques(1)
 , monedasRecogidas(0)
+, puntuacion(500)
 , coeficienteDesintegracion(75)
 , status(2) // 0 = Juego, 1 = Tienda, 2 = Menu Princ, 3 = Muerte, 4 = Pto Control
 {   
@@ -64,7 +65,19 @@ Game::Game() :
     debugText = new sf::Text();
     
    
+    if(guardado->restaurarPartida()){
+        puntuacion = guardado->getPuntuacion();
+        monedasRecogidas = guardado->getMonedas();
+        tienda->setMonedas(monedasRecogidas);
+    }
     
+    guardado->guardarRanking(80);
+
+    if(guardado->restaurarRanking()){
+     ranking = guardado->getRanking();
+     menuPuntoControl->setRanking(ranking);
+     menuMuerte->setRanking(ranking);
+    }
     
     
     if(!debugFont->loadFromFile("Resources/OpenSans.ttf")){
@@ -108,8 +121,7 @@ Game::Game() :
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
     colision->init(robot, cantidadBloques, nombreBloques);
     
-    guardado->restaurarPartida();
-    guardado->guardarPartida(3,2,3,4,5,6);
+    
     
     
     camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto, cantidadBloques);
@@ -206,11 +218,13 @@ void Game::update(sf::Time elapsedTime){
             camara->setPos(sf::Vector2f (0,0), 1);
             tienda->setMonedas(monedasRecogidas);
             menuPuntoControl->setMonedas(monedasRecogidas);
+            menuPuntoControl->setPuntuacion(puntuacion);
+            guardado->guardarPartida(puntuacion, monedasRecogidas, 0, 0, 0, 0);
         }
         
          if(status==3){
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
-
+            monedasRecogidas = guardado->getMonedas();
         }
         
         if(!primeraVez){
@@ -242,6 +256,7 @@ void Game::update(sf::Time elapsedTime){
             //Coge moneda        
             if(hayColisionMoneda){
                 monedasRecogidas++;
+                puntuacion++;
                 std::cout<<"Monedas: "<<monedasRecogidas<<std::endl;
 
             }

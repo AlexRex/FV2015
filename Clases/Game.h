@@ -110,7 +110,10 @@ private:
     int                     posiblesBloques;    
     char**                  nombreBloques;
     
+    int                     puntuacion;
     int                     monedasRecogidas;
+    int*                    ranking;
+    
     float                   coeficienteDesintegracion;
     
     bool                    mDcha;

@@ -25,6 +25,7 @@ public:
     bool enPuntoControl(int cantidadBloques, float posX);
     int GetPressedItem(){ return selectedItemIndex;}
     
+    void setRanking(int* rank);
     void setMonedas(int mon);
     void setPuntuacion(int punt);
 
@@ -38,9 +39,12 @@ private:
     
     sf::Text puntuacionConseguida;
     sf::Text monedasConseguidas;
+    sf::Text rankingLabel[5];
     
     int monedas;
     int puntuacion;
+    
+    int* ranking;
 
     
 };
