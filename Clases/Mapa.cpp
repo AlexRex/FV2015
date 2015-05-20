@@ -36,7 +36,7 @@ Mapa::Mapa() {
         exit(0);
     }
     texturaPieza = new sf::Texture();
-    if (!texturaPieza->loadFromFile("Resources/piezaFalsa.png")){
+    if (!texturaPieza->loadFromFile("Resources/pierna.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
