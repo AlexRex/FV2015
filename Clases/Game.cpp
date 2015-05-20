@@ -90,7 +90,7 @@ Game::Game() :
     
     spriteFondo = new sf::Sprite();
     
-    if(!texturaFondo.loadFromFile("Resources/fondoG.png")){
+    if(!texturaFondo.loadFromFile("Resources/fondoG2.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
