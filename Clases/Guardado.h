@@ -40,8 +40,8 @@ private:
     int pDer;
     int pIzq;
     
-    std::ifstream fe;
-    std::ofstream fs;
+    std::ifstream fRead;
+    std::ofstream fSave;
 };
 
 #endif	/* GUARDADO_H */
