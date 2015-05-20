@@ -470,20 +470,38 @@ void Game::controlarTienda(sf::Keyboard::Key key){
         case sf::Keyboard::Escape:
             status=2;
             break;
+        
         case sf::Keyboard::Return:
             switch(tienda->GetPressedItem()){
                 case 0:
-                    std::cout<<"jugar"<<std::endl;
-                    status = 0;
+                    status=2;
+                   
+                    
                 break;
                 case 1:
-                    std::cout<<"tienda"<<std::endl;
-                    status = 1;
+                     std::cout<<"Pierna reforzada"<<std::endl;
+                     
+                    
+                    
                 break;
                 case 2:
-                    std::cout<<"Salir"<<std::endl;
-                    window->close();
+                    std::cout<<"Pierna boing"<<std::endl;
+                    
+                    
                 break;
+                case 3:
+                    std::cout<<"Brazo midas"<<std::endl;
+                   
+                   
+                break;
+                case 4:
+                     std::cout<<"Brazo-pierna"<<std::endl;
+                    
+                    
+                break;
+                case 5:
+                    std::cout<<"Brazo de Chuck Norris"<<std::endl;
+                    break;
             }
             break;
             
