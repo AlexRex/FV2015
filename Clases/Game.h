@@ -110,10 +110,8 @@ private:
     int                     posiblesBloques;    
     char**                  nombreBloques;
     
-    int                     puntuacion;
     int                     monedasRecogidas;
-    int*                    ranking;
-    
+    int                     monedasTotales;
     float                   coeficienteDesintegracion;
     
     bool                    mDcha;
@@ -127,4 +125,3 @@ private:
 };
 
 #endif	/* GAME_H */
-

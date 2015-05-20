@@ -21,10 +21,10 @@ Game::Game() :
 , pause(false)
 , windowHeight(20)
 , windowWidth(30)
-, cantidadBloques(5)
-, posiblesBloques(7)
+, cantidadBloques(2)
+, posiblesBloques(1)
 , monedasRecogidas(0)
-, puntuacion(500)
+, monedasTotales(500)
 , coeficienteDesintegracion(75)
 , status(2) // 0 = Juego, 1 = Tienda, 2 = Menu Princ, 3 = Muerte, 4 = Pto Control
 {   
@@ -46,7 +46,7 @@ Game::Game() :
     menuPuntoControl = new MenuPuntoDeControl(ancho, alto);
     menuMuerte = new MenuMuerte(ancho, alto);
     menu  = new Menu(ancho, alto);
-    tienda = new Tienda(ancho, alto);
+    tienda = new Tienda(ancho, alto, monedasTotales);
     robot = new Robot();
     mapa = new Mapa();
     colision = new Colisiones();
@@ -65,19 +65,7 @@ Game::Game() :
     debugText = new sf::Text();
     
    
-    if(guardado->restaurarPartida()){
-        puntuacion = guardado->getPuntuacion();
-        monedasRecogidas = guardado->getMonedas();
-        tienda->setMonedas(monedasRecogidas);
-    }
     
-    guardado->guardarRanking(80);
-
-    if(guardado->restaurarRanking()){
-     ranking = guardado->getRanking();
-     menuPuntoControl->setRanking(ranking);
-     menuMuerte->setRanking(ranking);
-    }
     
     
     if(!debugFont->loadFromFile("Resources/OpenSans.ttf")){
@@ -90,7 +78,7 @@ Game::Game() :
     
     spriteFondo = new sf::Sprite();
     
-    if(!texturaFondo.loadFromFile("Resources/fondoG2.png")){
+    if(!texturaFondo.loadFromFile("Resources/fondoG.png")){
         std::cerr << "Error cargando las texturas";
         exit(0);
     }
@@ -121,8 +109,8 @@ Game::Game() :
     robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
     colision->init(robot, cantidadBloques, nombreBloques);
     
-    
-    
+    guardado->guardarPartida(3,2,3,4,5,6);
+    guardado->restaurarPartida();
     
     camara->creaCamara(posInicial.x,posInicial.y-64,ancho,alto, cantidadBloques);
     camaraMenu->creaCamaraMenu(posInicial.x, posInicial.y-64, ancho, alto);
@@ -208,7 +196,7 @@ void Game::update(sf::Time elapsedTime){
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
         
-        robot->actualizaPiezas(elapsedTime);
+        
         //std::cout<<"En game"<<std::endl;
         hayColisionPieza = colision->comprobarPieza(spritesPiezas);
         
@@ -216,22 +204,26 @@ void Game::update(sf::Time elapsedTime){
             status = 4;
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
             camara->setPos(sf::Vector2f (0,0), 1);
-            tienda->setMonedas(monedasRecogidas);
+            tienda->setMonedas(monedasTotales);
             menuPuntoControl->setMonedas(monedasRecogidas);
-            menuPuntoControl->setPuntuacion(puntuacion);
-            guardado->guardarPartida(puntuacion, monedasRecogidas, 0, 0, 0, 0);
         }
-        
+        if(status==0){
+            muerto=robot->actualizaPiezas(elapsedTime);
+            if(muerto){
+                robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
+                status = 3;
+            }
+        }
          if(status==3){
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
-            monedasRecogidas = guardado->getMonedas();
+
         }
         
         if(!primeraVez){
             if(mIzq)
-                vel_x = -300.f;
+                vel_x = -300.f * (robot->getModVel());
             if(mDcha && !hayColisionDcha){
-                vel_x = 300.f;
+                vel_x = 300.f * (robot->getModVel());
             }
             if(caiendo){
                // std::cout<<robot.getPos().y<<std::endl;
@@ -256,7 +248,6 @@ void Game::update(sf::Time elapsedTime){
             //Coge moneda        
             if(hayColisionMoneda){
                 monedasRecogidas++;
-                puntuacion++;
                 std::cout<<"Monedas: "<<monedasRecogidas<<std::endl;
 
             }
@@ -484,20 +475,95 @@ void Game::controlarTienda(sf::Keyboard::Key key){
         case sf::Keyboard::Escape:
             status=2;
             break;
+        
         case sf::Keyboard::Return:
+            
             switch(tienda->GetPressedItem()){
                 case 0:
-                    std::cout<<"jugar"<<std::endl;
-                    status = 0;
+                    status=2;
+                   
+                    
                 break;
                 case 1:
-                    std::cout<<"tienda"<<std::endl;
-                    status = 1;
+                     
+                     if(monedasTotales >= 100){
+                         if(robot->insertarPierna(4)){
+                             monedasTotales -= 100;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Pierna reforzada"<<std::endl;
+                         }
+                         else{
+                             std::cout<<"No tienes espacio para la pieza"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Pierna reforzada"<<std::endl;
+                    }
+                    
+                    
                 break;
                 case 2:
-                    std::cout<<"Salir"<<std::endl;
-                    window->close();
+                    
+                    if(monedasTotales >= 300){
+                         if(robot->insertarPierna(5)){
+                            monedasTotales -= 300;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Pierna boing"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Pierna boing"<<std::endl;
+                    }
+                    
+                    
                 break;
+                case 3:
+                    
+                    if(monedasTotales >= 500){
+                         if(robot->insertarBrazo(9)){
+                            monedasTotales -= 500;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Brazo de midas"<<std::endl; 
+                         }
+                         
+                    }
+                    else{
+                        std::cout<<"No puedes comprar Brazo de midas"<<std::endl;
+                    }
+                   
+                break;
+                case 4:
+                     
+                     if(monedasTotales >= 200){
+                         if(robot->insertarBrazo(8)){
+                            monedasTotales -= 200;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Brazo-pierna"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Brazo-pierna"<<std::endl;
+                    }
+                    
+                    
+                break;
+                case 5:
+                    
+                    if(monedasTotales >= 600){
+                         if(robot->insertarBrazo(7)){
+                            monedasTotales -= 600;
+                            tienda->setMonedas(monedasTotales);
+                            std::cout<<"Has comprado Brazo de Chuck Norris"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Brazo de Chuck Norris"<<std::endl;
+                    }
+                    break;
             }
             break;
             
@@ -519,14 +585,6 @@ void Game::controlarPuntoControl(sf::Keyboard::Key key){
             switch(menuPuntoControl->GetPressedItem()){
                 case 0:
                     std::cout<<"jugar"<<std::endl;
-                    delete nombreBloques;
-                    delete spritesBloques;
-                    delete spritesMonedas;
-                    delete spritesPiezas;
-                    this->construirMapas();
-                    this->construirFondos();
-                    colision->init(robot, cantidadBloques, nombreBloques);
-                    
                     status = 0;
                 break;
                 case 1:
