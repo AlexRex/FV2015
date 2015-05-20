@@ -21,8 +21,8 @@ Game::Game() :
 , pause(false)
 , windowHeight(20)
 , windowWidth(30)
-, cantidadBloques(2)
-, posiblesBloques(1)
+, cantidadBloques(5)
+, posiblesBloques(7)
 , monedasRecogidas(0)
 , puntuacion(500)
 , coeficienteDesintegracion(75)
@@ -519,6 +519,14 @@ void Game::controlarPuntoControl(sf::Keyboard::Key key){
             switch(menuPuntoControl->GetPressedItem()){
                 case 0:
                     std::cout<<"jugar"<<std::endl;
+                    delete nombreBloques;
+                    delete spritesBloques;
+                    delete spritesMonedas;
+                    delete spritesPiezas;
+                    this->construirMapas();
+                    this->construirFondos();
+                    colision->init(robot, cantidadBloques, nombreBloques);
+                    
                     status = 0;
                 break;
                 case 1:

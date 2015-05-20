@@ -546,7 +546,7 @@
    <tile gid="38"/>
    <tile gid="28"/>
    <tile gid="0"/>
-   <tile gid="37"/>
+   <tile gid="25"/>
    <tile gid="40"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1088,9 +1088,9 @@
    <tile gid="14"/>
    <tile gid="14"/>
    <tile gid="14"/>
-   <tile gid="14"/>
+   <tile gid="16"/>
    <tile gid="0"/>
-   <tile gid="15"/>
+   <tile gid="13"/>
    <tile gid="16"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1118,9 +1118,9 @@
    <tile gid="38"/>
    <tile gid="38"/>
    <tile gid="38"/>
-   <tile gid="38"/>
+   <tile gid="28"/>
    <tile gid="0"/>
-   <tile gid="38"/>
+   <tile gid="25"/>
    <tile gid="40"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1148,9 +1148,9 @@
    <tile gid="38"/>
    <tile gid="38"/>
    <tile gid="38"/>
-   <tile gid="38"/>
+   <tile gid="28"/>
    <tile gid="0"/>
-   <tile gid="93"/>
+   <tile gid="25"/>
    <tile gid="40"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1178,9 +1178,9 @@
    <tile gid="38"/>
    <tile gid="38"/>
    <tile gid="38"/>
-   <tile gid="38"/>
+   <tile gid="28"/>
    <tile gid="0"/>
-   <tile gid="50"/>
+   <tile gid="49"/>
    <tile gid="52"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1208,7 +1208,7 @@
    <tile gid="50"/>
    <tile gid="50"/>
    <tile gid="50"/>
-   <tile gid="50"/>
+   <tile gid="52"/>
   </data>
  </layer>
  <layer name="Monedas" width="30" height="20">
