@@ -221,9 +221,9 @@ void Game::update(sf::Time elapsedTime){
         
         if(!primeraVez){
             if(mIzq)
-                vel_x = -300.f;
+                vel_x = -300.f * (robot->getModVel());
             if(mDcha && !hayColisionDcha){
-                vel_x = 300.f;
+                vel_x = 300.f * (robot->getModVel());
             }
             if(caiendo){
                // std::cout<<robot.getPos().y<<std::endl;

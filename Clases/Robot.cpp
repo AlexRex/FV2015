@@ -377,4 +377,17 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
 Pieza*** Robot::getPiezas(){
     return piezas; 
 }
+float Robot::getModVel(){
+    float modPieza = 1;
+    float modTotal = 1;
+    for(int i = 0; i<4; i++){
+        modPieza=piezas[i][0]->getVelocidad();
+        if(modPieza<1)
+            modTotal -= .25;
+        else
+            modTotal += modPieza-1;
+    }
+    return modTotal;
+    
+}
 

@@ -143,3 +143,6 @@ int Pieza::actualizaVida(sf::Time elapsedTime, float coeficiente){
 int Pieza::getVida(){
     return vida;
 }
+float Pieza::getVelocidad(){
+    return velocidad;
+}

@@ -29,6 +29,7 @@ public:
     sf::Sprite* getSprite();
     void setMuerta(bool);
     bool getMuerta();
+    float getVelocidad();
     
 private:
     int tipo;
