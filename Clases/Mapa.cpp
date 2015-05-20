@@ -58,6 +58,11 @@ Mapa::Mapa(const Mapa& orig) {
 
 Mapa::~Mapa() {
     delete texturaMapa;
+    delete texturaMoneda;
+    delete texturaPieza;
+    delete texturaObjAleatorio;
+    delete texturaEsquema;
+    delete texturaFondo;
     std::cout<<"Libero memoria"<<std::endl;
 }
 

@@ -10,8 +10,10 @@
 Pieza::Pieza() {
     vida = 0;
     muerta = true;
-    tipo = -1;
+    tipo = 0;
     debilidad = 1;
+    velocidad = 1;
+    salto = 1;
     
     sprite = new sf::Sprite();
     texture = new sf::Texture();
@@ -30,6 +32,8 @@ Pieza::Pieza(const Pieza& orig) {
 }
 
 Pieza::~Pieza() {
+    delete sprite;
+    delete texture;
 }
 
 int Pieza::getTipo(){
@@ -54,7 +58,7 @@ int Pieza::iniciarPieza(int clase){
     if(clase == -1){
         //random
         srand (time(NULL));
-        tipo = rand() % 10;
+        tipo = rand() % 10 + 1;
     }
     else{
         tipo = clase;
@@ -68,29 +72,34 @@ int Pieza::iniciarPieza(int clase){
             vida = 500;
             debilidad =1;
             sprite->setTextureRect(sf::IntRect(0,0,1,1)); //aquÃ­ hay que ajustar la pieza del jugador
+            std::cout<<"clase: "<<clase<<std::endl;
             break;
         case 2:
             //pierna de atleta
             vida = 500;
             debilidad =1;
+            velocidad = 1.2;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 3: 
             //pierna de Usain Bolt
             vida = 500;
             debilidad = 0.7;
+            velocidad = 1.5;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 4:
             //pierna reforzada
             vida = 500;
             debilidad = 1.3;
+            velocidad = 0.7;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 5:
             //pierna-boing
             vida = 500;
             debilidad = 0.7;
+            salto = 1.5;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 6:
@@ -103,6 +112,8 @@ int Pieza::iniciarPieza(int clase){
             //brazo de Chuck Norris
             vida = 500;
             debilidad = 1.5;
+            velocidad = 1.2;
+            salto = 1.2;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 8:
@@ -119,13 +130,13 @@ int Pieza::iniciarPieza(int clase){
             break;
         default:
             //brazo de algarroba
+            tipo = 10;
             vida = 500;
             debilidad = 1.3;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
     }
     muerta = false;
-    std::cout<<"Muerta iniciaPieza: "<<muerta<<std::endl;
     return tipo;
 }
 int Pieza::actualizaVida(sf::Time elapsedTime, float coeficiente){
@@ -137,4 +148,13 @@ int Pieza::actualizaVida(sf::Time elapsedTime, float coeficiente){
 }
 int Pieza::getVida(){
     return vida;
+}
+float Pieza::getVelocidad(){
+    return velocidad;
+}
+float Pieza::getSalto(){
+    return salto;
+}
+void Pieza::setVida(int nuevaVida){
+    vida=nuevaVida;
 }

@@ -67,4 +67,6 @@ Camara::~Camara() {
     delete vistaMenu;
 }
 
-
+void Camara::setCantBloques(int bq){
+    cantBloques = bq;
+}

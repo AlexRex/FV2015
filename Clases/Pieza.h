@@ -27,17 +27,23 @@ public:
     int getVida();
     int getTipo();
     sf::Sprite* getSprite();
+    
     void setMuerta(bool);
+    void setVida(int);
+    
     bool getMuerta();
+    float getVelocidad();
+    float getSalto();
     
 private:
     int tipo;
     int vida;
     int debilidad;
+    float velocidad;
+    float salto;
     bool muerta;
     sf::Sprite* sprite;
     sf::Texture* texture;
 };
 
 #endif	/* PIEZA_H */
-

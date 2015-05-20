@@ -29,6 +29,12 @@ Colisiones::Colisiones(const Colisiones& orig) {
 }
 
 Colisiones::~Colisiones() {
+    delete mapa;
+    delete mapaColision;
+    delete mapaMonedas;
+    delete mapaPiezas;
+    delete robot;
+   
 }
 
 void Colisiones::init(Robot* roby, int bloques, char** nombreBloques){

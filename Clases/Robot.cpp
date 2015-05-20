@@ -21,6 +21,9 @@ Robot::Robot()
     camara = new Camara();
     datos = new Hud();
     
+    modificadorSalto = 1;
+    modificadorVel = 0;
+    
     inicializarPiezas();
     
 
@@ -39,6 +42,8 @@ Robot::~Robot() {
     delete camara;
     delete datos;
     delete piezas;
+    delete fallingAnimation;
+   
 }
 
 
@@ -239,10 +244,12 @@ bool Robot::insertarBrazo(int n){
         else{
             if(piezas[0][1]->getMuerta()){
                 piezas[0][1]->iniciarPieza(n);
+                datos->setVidaRepuesto(0,piezas[0][1]->getVida());
             }
             else{
                 if(piezas[1][1]->getMuerta()){
                     piezas[1][1]->iniciarPieza(n);
+                    datos->setVidaRepuesto(1,piezas[1][1]->getVida());
                 }
                 else{
                     return false;
@@ -250,13 +257,15 @@ bool Robot::insertarBrazo(int n){
             }
         }
     }
+    std::cout<<"Tipo Brazo 1:"<<piezas[0][0]->getTipo()<<std::endl;
+    std::cout<<"Tipo Brazo 2:"<<piezas[1][0]->getTipo()<<std::endl;
     return insertado;
     
 }
 
 bool Robot::insertarPierna(int n){
     bool insertado = true;
-    
+    std::cout<<"Tipo inicial:  "<<n<<std::endl;
     if(piezas[2][0]->getMuerta()){
         piezas[2][0]->iniciarPieza(n);
     }
@@ -267,10 +276,14 @@ bool Robot::insertarPierna(int n){
         else{
             if(piezas[2][1]->getMuerta()){
                 piezas[2][1]->iniciarPieza(n);
+                std::cout<<"Vida barra: "<<piezas[2][1]->getVida()<<std::endl;
+                datos->setVidaRepuesto(2,50);
             }
             else{
                 if(piezas[3][1]->getMuerta()){
                     piezas[3][1]->iniciarPieza(n);
+                    std::cout<<"Vida barra: "<<piezas[3][1]->getVida()<<std::endl;
+                    datos->setVidaRepuesto(3,piezas[3][1]->getVida());
                 }
                 else{
                     return false;
@@ -278,6 +291,8 @@ bool Robot::insertarPierna(int n){
             }
         }
     }
+    std::cout<<"Tipo Pierna 1:"<<piezas[2][0]->getTipo()<<std::endl;
+    std::cout<<"Tipo Pierna 2:"<<piezas[3][0]->getTipo()<<std::endl;
     return insertado;
     
 }
@@ -291,7 +306,8 @@ void Robot::mueveA(int x, int y){
     playerPhysics->setPos(x, y);
 }
 float Robot::saltar(){
-    return playerPhysics->saltar();
+    this->getModSalto();
+    return playerPhysics->saltar(modificadorSalto);
 }
 float Robot::caer(sf::Time tiempoCaida, sf::Time elapsedTime){
     return playerPhysics->caer(tiempoCaida, elapsedTime);
@@ -328,10 +344,15 @@ void Robot::inicializarPiezas(){
 }
 
 
-void Robot::actualizaPiezas(sf::Time elapsedTime){
+bool Robot::actualizaPiezas(sf::Time elapsedTime){
     
     bool pierdePieza = false;
     int vida=1;
+    bool muere=false;
+    bool tengoBrazoPierna = false;
+    bool meFaltaPierna = false;
+    int posBrazoPierna;
+    int posPiernaRota;
     
   
     //Actualizar vidas
@@ -339,13 +360,30 @@ void Robot::actualizaPiezas(sf::Time elapsedTime){
         //for(int j=0; j<2; j++){
             if(!piezas[i][0]->getMuerta()){
                 vida=piezas[i][0]->actualizaVida(elapsedTime,coeficienteDesintegracion);
+                //datos->setVidaPieza(i,vida);
+                //datos->setVidaRepuesto(i,vida);
                 
                 if(vida<1 && !pierdePieza){
                     pierdePieza = true;
                 }else{
                     if(!piezas[i][0]->getMuerta()){
                         datos->setVidaPieza(vida,i);
+                        if(i<2){
+                            if(piezas[i][0]->getTipo() == 8 && !tengoBrazoPierna){
+                                tengoBrazoPierna = true;
+                                posBrazoPierna = i;
+                            }
+                        }
                     }
+                    if(!piezas[i][1]->getMuerta()){
+                        datos->setVidaRepuesto(i,50);
+                    }
+                }
+            }
+            if(i>1){
+                if(piezas[i][0]->getMuerta()){
+                    meFaltaPierna = true;
+                    posPiernaRota = i;
                 }
             }
         //}
@@ -354,14 +392,68 @@ void Robot::actualizaPiezas(sf::Time elapsedTime){
         for(int i = 0; i<4; i++){
             if(piezas[i][0]->getMuerta()){
                 if(!piezas[i][1]->getMuerta()){
-                    piezas[i][0] = piezas[i][1];
-                    piezas[i][1]->setMuerta(true); 
-                }   
+                    
+                    *piezas[i][0] = *piezas[i][1]; //Copia los valores de la pieza de repuesto
+                    
+                    piezas[i][1]->setVida(1);
+                    datos->setVidaRepuesto(i,0);
+                    piezas[i][1]->setMuerta(true);
+                    std::cout<<piezas[i][0]->getMuerta()<<std::endl;
+                    std::cout<<piezas[i][1]->getMuerta()<<std::endl;
+                }
+                if(i>1){
+                    
+                    if(piezas[2][0]->getMuerta() && piezas[3][0]->getMuerta()){
+                        //Muere
+                        muere=true;
+                    }
+                }
             }
+            
         }
+
     }
+    if(tengoBrazoPierna && meFaltaPierna){
+         //sustituir pierna rota por brazo-pierna
+        int vidaBrazo= piezas[posBrazoPierna][0]->getVida();
+        piezas[posPiernaRota][0]->iniciarPieza(1);
+        piezas[posPiernaRota][0]->setVida(vidaBrazo);
+        
+        datos->setVidaRepuesto(posPiernaRota,vidaBrazo);
+        datos->setVidaRepuesto(posBrazoPierna,1);
+        piezas[posBrazoPierna][0]->setVida(1);
+        muere=false;
+    } 
+    return muere;
 }
 Pieza*** Robot::getPiezas(){
     return piezas; 
 }
-
+float Robot::getModVel(){
+    float modPieza = 1;
+    float modTotal = 1;
+    for(int i = 0; i<4; i++){
+        modPieza=piezas[i][0]->getVelocidad();
+        if(modPieza<1)
+            modTotal -= .25;
+        else
+            modTotal += modPieza-1;
+    }
+    modificadorVel=modTotal;
+    return modTotal;
+    
+}
+float Robot::getModSalto(){
+    float modPieza = 1;
+    float modTotal = 1;
+    for(int i = 0; i<4; i++){
+        modPieza=piezas[i][0]->getSalto();
+        std::cout<<"Mod Salto Pieza: "<<piezas[i][0]->getSalto()<<std::endl;
+        modTotal += modPieza-1;
+        std::cout<<"Modificador salto: "<<modTotal<<std::endl;
+        std::cout<<"Modificador pieza: "<<modPieza<<std::endl;
+    }
+    modificadorSalto=modTotal;
+    std::cout<<"Modificador salto: "<<modificadorSalto<<std::endl;
+    return modTotal;
+}

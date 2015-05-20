@@ -21,6 +21,10 @@ Render::~Render() {
     std::cout<<"Liberar memoria render"<<std::endl;
     delete renderPos;
     delete walkingAnimation;
+    delete hud;
+    delete camara;
+    delete jumpingAnimation;
+    delete fallingAnimation;
 }
 
 void Render::SetTextura(sf::Texture &tex){
