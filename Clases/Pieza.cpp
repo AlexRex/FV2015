@@ -32,6 +32,8 @@ Pieza::Pieza(const Pieza& orig) {
 }
 
 Pieza::~Pieza() {
+    delete sprite;
+    delete texture;
 }
 
 int Pieza::getTipo(){

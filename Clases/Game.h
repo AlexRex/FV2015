@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 
 #include <iostream>
 #include <ctime>
@@ -47,7 +48,7 @@ public:
 
     void             mostrarMenuMuerte();
     sf::Sprite***    construirMapas();
-    sf::Sprite***    construirFondos();
+    void             construirFondos();
     
     
 private:
@@ -57,6 +58,10 @@ private:
     int                     windowHeight;
     int                     windowWidth;
     int                     status;
+    
+    sf::SoundBuffer         buffer;
+    sf::Sound               sound;
+    sf::Music               musica;
     
     sf::Font*               debugFont;
     sf::Text*               debugText;

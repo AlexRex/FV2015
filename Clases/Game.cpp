@@ -21,8 +21,8 @@ Game::Game() :
 , pause(false)
 , windowHeight(20)
 , windowWidth(30)
-, cantidadBloques(5)
-, posiblesBloques(7)
+, cantidadBloques(1)
+, posiblesBloques(1)
 , monedasRecogidas(0)
 , puntuacion(500)
 , coeficienteDesintegracion(75)
@@ -95,16 +95,23 @@ Game::Game() :
         exit(0);
     }
     
+    if(!buffer.loadFromFile("Resources/boton.ogg")){
+        std::cout<<"no puede leer el sonido"<<std::endl;
+    }
     
+    sound.setBuffer(buffer);
+    if(!musica.openFromFile("Resources/cancionVideojuego.ogg")){
+        std::cout<<"no se puede leer la musica"<<std::endl;
+    }
+    else{
+        musica.setLoop(true);
+        musica.play();
+    }
     spriteFondo->setTexture(texturaFondo);
     spriteFondo->setOrigin(0, 0);
     
-    fondo = new sf::Sprite[cantidadBloques];
-    for(int i=0; i<cantidadBloques; i++){
-        spriteFondo->setPosition(i*ancho, 0); 
-        fondo[i] = *spriteFondo;
-    }
-
+    
+    this->construirFondos();
     this->construirMapas();
     //spritesMonedas = mapa->sitiosMonedas();
     //spritesObjetosAleatorios = mapa->objetosAleatorios();
@@ -150,6 +157,26 @@ Game::~Game(){
     delete tienda;
     delete menu;
     delete menuMuerte;
+    delete tiempoPartida;
+    delete spritesObjetosAleatorios;
+    delete spritesMonedas;
+    delete spritesBloques;
+    delete spritesPiezas;
+    delete piezas;
+    delete barrasVida;
+    delete barrasVidaRepuesto;
+    delete spritesFondos;
+    delete texturaRobot;
+    delete vida1;
+    delete vida2;
+    delete vida3;
+    delete vida4;
+    delete mapa;
+    delete colision;
+    delete hud;
+    delete menuPuntoControl;
+    delete nombreBloques;
+    delete ranking;
 }
 
 bool Game::run() {
@@ -220,6 +247,7 @@ void Game::update(sf::Time elapsedTime){
             menuPuntoControl->setMonedas(monedasRecogidas);
             menuPuntoControl->setPuntuacion(puntuacion);
             guardado->guardarPartida(puntuacion, monedasRecogidas, 0, 0, 0, 0);
+            guardado->guardarRanking(monedasRecogidas);
         }
         
         if(status==0){
@@ -236,9 +264,11 @@ void Game::update(sf::Time elapsedTime){
         }
         
         if(!primeraVez){
-            if(mIzq)
+            /*
+             * if(mIzq)
                 vel_x = -300.f * (robot->getModVel());;
-            if(mDcha && !hayColisionDcha){
+             * */
+            if(!hayColisionDcha){
                 vel_x = 300.f * (robot->getModVel());;
             }
             if(caiendo){
@@ -468,9 +498,11 @@ void Game::controlarTienda(sf::Keyboard::Key key){
     switch(key){
         case sf::Keyboard::Up:
             tienda->MoveUp();
+            sound.play();
             break;
         case sf::Keyboard::Down:
             tienda->MoveDown();
+            sound.play();
             break;
         case sf::Keyboard::Escape:
             status=2;
@@ -575,9 +607,13 @@ void Game::controlarPuntoControl(sf::Keyboard::Key key){
     switch(key){
         case sf::Keyboard::Up:
             menuPuntoControl->MoveUp();
+            sound.play();
+
             break;
         case sf::Keyboard::Down:
             menuPuntoControl->MoveDown();
+            sound.play();
+
             break;
         case sf::Keyboard::Escape:
             status=2;
@@ -586,10 +622,16 @@ void Game::controlarPuntoControl(sf::Keyboard::Key key){
             switch(menuPuntoControl->GetPressedItem()){
                 case 0:
                     std::cout<<"jugar"<<std::endl;
+                    cantidadBloques++;
+                    posiblesBloques++;
+                    menuPuntoControl->setRanking(guardado->getRanking());
                     delete nombreBloques;
                     delete spritesBloques;
                     delete spritesMonedas;
                     delete spritesPiezas;
+                    hud->setCantBloques(cantidadBloques);
+                    camara->setCantBloques(cantidadBloques);
+                    this->construirFondos();
                     this->construirMapas();
                     this->construirFondos();
                     colision->init(robot, cantidadBloques, nombreBloques);
@@ -614,9 +656,13 @@ void Game::controlarMenuMuerte(sf::Keyboard::Key key){
     switch(key){
         case sf::Keyboard::Up:
             menuMuerte->MoveUp();
+            sound.play();
+
             break;
         case sf::Keyboard::Down:
-            menuMuerte->MoveDown();
+            menuMuerte->MoveDown();  
+            sound.play();
+
             break;
         case sf::Keyboard::Escape:
             status=2;
@@ -625,6 +671,14 @@ void Game::controlarMenuMuerte(sf::Keyboard::Key key){
             switch(menuMuerte->GetPressedItem()){
                 case 0:
                     std::cout<<"jugar"<<std::endl;
+                    delete nombreBloques;
+                    delete spritesBloques;
+                    delete spritesMonedas;
+                    delete spritesPiezas;
+                    this->construirFondos();
+                    this->construirMapas();
+                    this->construirFondos();
+                    colision->init(robot, cantidadBloques, nombreBloques);
                     status = 0;
                     muerto = false;
                 break;
@@ -647,14 +701,27 @@ void Game::controlarMenus(sf::Keyboard::Key key){
     switch(key){
         case sf::Keyboard::Up:
             menu->MoveUp();
+                        sound.play();
+
             break;
         case sf::Keyboard::Down:
             menu->MoveDown();
+                        sound.play();
+
             break;
         case sf::Keyboard::Return:
             switch(menu->GetPressedItem()){
                 case 0:
                     std::cout<<"jugar"<<std::endl;
+                    delete nombreBloques;
+                    delete spritesBloques;
+                    delete spritesMonedas;
+                    delete spritesPiezas;
+                    this->construirFondos();
+
+                    this->construirMapas();
+                    this->construirFondos();
+                    colision->init(robot, cantidadBloques, nombreBloques);
                     status = 0;
                 break;
                 case 1:
@@ -703,6 +770,7 @@ void Game::controlarJuego(sf::Keyboard::Key key){
 
 sf::Sprite*** Game::construirMapas(){
     /*PRUEBA GEN MAPA*/
+    
     nombreBloques = new char*[cantidadBloques];
     for(int i=0; i < cantidadBloques; i++){
         nombreBloques[i] = new char[13];
@@ -736,21 +804,15 @@ sf::Sprite*** Game::construirMapas(){
     return spritesBloques;
 }
 
-sf::Sprite*** Game::construirFondos(){
+void Game::construirFondos(){
     
-    spritesFondos = new sf::Sprite**[cantidadBloques];
     
-    for(int a = 0; a<cantidadBloques; a++){
-        spritesFondos[a] = new sf::Sprite*[windowHeight]; //Reservamos memoria para el mapa
-        for(int i = 0; i < windowHeight; i++){
-            spritesFondos[a][i] = new sf::Sprite[windowWidth];
-        }
-    }
-    for(int i = 0; i < cantidadBloques; i++){
-        spritesFondos[i] = mapa->crearFondo(i);
+    fondo = new sf::Sprite[cantidadBloques];
+    for(int i=0; i<cantidadBloques; i++){
+        spriteFondo->setPosition(i*ancho, 0); 
+        fondo[i] = *spriteFondo;
     }
        
-    return spritesFondos;
 }
 
 void Game::pintarHud(){

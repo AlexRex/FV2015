@@ -26,6 +26,8 @@ public:
     void recibirPiezas(sf::Sprite* esquema);
     void setPos(sf::Vector2f pos);
     
+    void setCantBloques(int bq);
+    
     void setVidaPieza(int vida, int i);
     void setVidaRepuesto(int i, int vida);
     

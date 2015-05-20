@@ -42,6 +42,8 @@ Robot::~Robot() {
     delete camara;
     delete datos;
     delete piezas;
+    delete fallingAnimation;
+   
 }
 
 

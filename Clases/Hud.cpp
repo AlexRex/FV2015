@@ -14,6 +14,19 @@ Hud::Hud(const Hud& orig) {
 }
 
 Hud::~Hud() {
+    delete tiempo;
+    delete mtiempo;
+    delete fuente;
+    delete vidaBrIzq;
+    delete vidaBrDer;
+    delete vidaPieIzq;
+    delete vidaPieDer;
+    delete vidaBrIzqRepuesto;
+    delete vidaBrDerRepuesto;
+    delete vidaPieIzqRepuesto;
+    delete vidaPieDerRepuesto;
+    
+    delete piezas;
 }
 
 void Hud::crearHud(sf::Font* font, int cantidBloques){
@@ -32,8 +45,8 @@ void Hud::crearHud(sf::Font* font, int cantidBloques){
     
     mtiempo->setFont(*fuente);
     mtiempo->setPosition(lastPos.x,lastPos.y);
-    mtiempo->setCharacterSize(13);
-    mtiempo->setColor(sf::Color::Black);
+    mtiempo->setCharacterSize(20);
+    mtiempo->setColor(sf::Color::Yellow);
     
     cantBloques = cantidBloques;
     
@@ -389,4 +402,8 @@ sf::Sprite Hud::getPieza(int n){
     sf::Sprite sprite;
     sprite=this->piezas[n];
     return sprite;
+}
+
+void Hud::setCantBloques(int bq){
+    cantBloques = bq;
 }

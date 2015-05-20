@@ -16,6 +16,9 @@ public:
     virtual ~Camara();
     void creaCamara(int c1, int c2, int tamx, int tamy, int cantidBloques);
     void creaCamaraMenu(int c1, int c2, int tamx, int tamy);
+    
+    
+    void setCantBloques(int bq);
 
     sf::View* getView(){return vistaCamara;};
     sf::View* getMenuView(){return vistaMenu;}
