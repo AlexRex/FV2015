@@ -31,7 +31,7 @@ void Guardado::guardarPartida(int p, int m,int bD, int bI, int pD, int pI){
     fs.close();
 }
 
-
+//
 void Guardado::restaurarPartida(){
     char cadena[3128];
     char linea[50][3000];
