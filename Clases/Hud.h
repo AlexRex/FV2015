@@ -27,10 +27,12 @@ public:
     void setPos(sf::Vector2f pos);
     
     void setVidaPieza(int vida, int i);
+    void setVidaRepuesto(int i, int vida);
     
     sf::Sprite getPieza(int n);
     sf::Text* getTiempo();
     sf::RectangleShape* getVida(int n);
+    sf::RectangleShape* getVidaRepuesto(int n);
 private:
     
     sf::Clock* tiempo;
@@ -44,6 +46,11 @@ private:
     sf::RectangleShape* vidaPieIzq;
     sf::RectangleShape* vidaPieDer;
     
+    sf::RectangleShape* vidaBrIzqRepuesto;
+    sf::RectangleShape* vidaBrDerRepuesto;
+    sf::RectangleShape* vidaPieIzqRepuesto;
+    sf::RectangleShape* vidaPieDerRepuesto;
+    
     sf::Sprite*         piezas;
     
     int                 cantBloques;
@@ -53,8 +60,12 @@ private:
     sf::RectangleShape* getVidaPieIzq();
     sf::RectangleShape* getVidaPieDer();
     
+    sf::RectangleShape* getVidaBrIzqRepuesto();
+    sf::RectangleShape* getVidaBrDerRepuesto();
+    sf::RectangleShape* getVidaPieIzqRepuesto();
+    sf::RectangleShape* getVidaPieDerRepuesto();
+    
     void inicializarVidas();
 };
 
 #endif	/* HUD_H */
-

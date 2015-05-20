@@ -22,37 +22,42 @@ Tienda::Tienda(float width, float height) {
     monedasDisponibles.setString(std::to_string(monedas)+ " Monedas");
     monedasDisponibles.setPosition(sf::Vector2f(width-300.f, 10.f));
     
-    tiendaLabel[0].setScale(0.6,0.6);
-    tiendaLabel[0].setFont(fuentePUNK);
+     tiendaLabel[0].setFont(fuentePUNK);
     tiendaLabel[0].setColor(sf::Color::Blue);
-    tiendaLabel[0].setString("Pierna reforzada");
-    tiendaLabel[0].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS + 0)*1));
+    tiendaLabel[0].setString("Salir");
+    tiendaLabel[0].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS + 5)));
     
     tiendaLabel[1].setScale(0.6,0.6);
     tiendaLabel[1].setFont(fuentePUNK);
     tiendaLabel[1].setColor(sf::Color::White);
-    tiendaLabel[1].setString("Pierna boing");
-    tiendaLabel[1].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*1.5));
+    tiendaLabel[1].setString("Pierna reforzada");
+    tiendaLabel[1].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS + 0)*1.2));
     
     tiendaLabel[2].setScale(0.6,0.6);
     tiendaLabel[2].setFont(fuentePUNK);
     tiendaLabel[2].setColor(sf::Color::White);
-    tiendaLabel[2].setString("Brazo de midas");
-    tiendaLabel[2].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*2.1));
+    tiendaLabel[2].setString("Pierna boing");
+    tiendaLabel[2].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*1.8));
     
     tiendaLabel[3].setScale(0.6,0.6);
     tiendaLabel[3].setFont(fuentePUNK);
     tiendaLabel[3].setColor(sf::Color::White);
-    tiendaLabel[3].setString("Brazo-Pierna");
-    tiendaLabel[3].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS -1)*2.8));
+    tiendaLabel[3].setString("Brazo de midas");
+    tiendaLabel[3].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*2.7));
     
     tiendaLabel[4].setScale(0.6,0.6);
     tiendaLabel[4].setFont(fuentePUNK);
     tiendaLabel[4].setColor(sf::Color::White);
-    tiendaLabel[4].setString("Brazo de Chuck Norris");
-    tiendaLabel[4].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*3.5));
+    tiendaLabel[4].setString("Brazo-Pierna");
+    tiendaLabel[4].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS -1)*3.5));
     
+    tiendaLabel[5].setScale(0.6,0.6);
+    tiendaLabel[5].setFont(fuentePUNK);
+    tiendaLabel[5].setColor(sf::Color::White);
+    tiendaLabel[5].setString("Brazo de Chuck Norris");
+    tiendaLabel[5].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS - 1)*4.5));
     
+  
 
     selectedItemIndex=0;
     

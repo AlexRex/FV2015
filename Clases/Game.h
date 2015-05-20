@@ -71,6 +71,7 @@ private:
     
     sf::Sprite*             piezas;
     sf::RectangleShape*     barrasVida;
+    sf::RectangleShape*     barrasVidaRepuesto;
     
     
     sf::Sprite***           spritesFondos;

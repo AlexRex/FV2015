@@ -39,13 +39,16 @@ void PlayerPhysics::Update(sf::Time elapsedTime){
     pos.y += velocidad.y * elapsedTime.asSeconds();
 }
 
-float PlayerPhysics::saltar(){
+float PlayerPhysics::saltar(float modificador){
     float velY,velX;
     //obtenemos el vector V actual y le anyadimos la velocidad de salto inicial (negativo porque va hacia arriba)
+    std::cout<<"mod salto: "<<modificador<<std::endl;
+    velIniSalto *= modificador;
     velY = this->getVel().y - velIniSalto;
     velX = this->getVel().x;
     
     this->setVel(velX, velY);
+    velIniSalto = 260;
     return velY;
 }
 float PlayerPhysics::caer(sf::Time tiempoCaida, sf::Time elapsedTime){

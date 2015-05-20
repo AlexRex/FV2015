@@ -110,8 +110,8 @@ Game::Game() :
     //spritesObjetosAleatorios = mapa->objetosAleatorios();
     piezas = mapa->crearEsquema();
     
-    barrasVida = new sf::RectangleShape[4];
-
+    barrasVida = new sf::RectangleShape[8];
+    barrasVidaRepuesto = new sf::RectangleShape[4];
     //AQUI
     
     posInicial.x = 16*32;
@@ -208,7 +208,7 @@ void Game::update(sf::Time elapsedTime){
         hayColisionDcha = colision->comprobarColisionDcha();
         hayColisionMoneda = colision->comprobarMoneda(spritesMonedas);
         
-        robot->actualizaPiezas(elapsedTime);
+        //robot->actualizaPiezas(elapsedTime);
         //std::cout<<"En game"<<std::endl;
         hayColisionPieza = colision->comprobarPieza(spritesPiezas);
         
@@ -222,16 +222,24 @@ void Game::update(sf::Time elapsedTime){
             guardado->guardarPartida(puntuacion, monedasRecogidas, 0, 0, 0, 0);
         }
         
-         if(status==3){
+        if(status==0){
+            muerto=robot->actualizaPiezas(elapsedTime);
+            if(muerto){
+                robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
+                status = 3;
+            }
+        }
+        
+        if(status==3){
             robot->Init(*texturaRobot, (posInicial.x), (posInicial.y), coeficienteDesintegracion);
             monedasRecogidas = guardado->getMonedas();
         }
         
         if(!primeraVez){
             if(mIzq)
-                vel_x = -300.f;
+                vel_x = -300.f * (robot->getModVel());;
             if(mDcha && !hayColisionDcha){
-                vel_x = 300.f;
+                vel_x = 300.f * (robot->getModVel());;
             }
             if(caiendo){
                // std::cout<<robot.getPos().y<<std::endl;
@@ -255,14 +263,35 @@ void Game::update(sf::Time elapsedTime){
             }
             //Coge moneda        
             if(hayColisionMoneda){
-                monedasRecogidas++;
-                puntuacion++;
-                std::cout<<"Monedas: "<<monedasRecogidas<<std::endl;
-
+                Pieza* aux = new Pieza();
+                Pieza* aux2 = new Pieza();
+                aux = robot->getPiezas()[0][0];
+                aux2 = robot->getPiezas()[1][0];
+                if(aux->getTipo() == 9 || aux2->getTipo() == 9){
+                     monedasRecogidas+=10;
+                     //std::cout<<"Monedas + 10: "<<monedasRecogidas<<std::endl;
+                }   
+                else{
+                    if((!aux->getMuerta() && !aux2->getMuerta()) && (aux->getTipo()!=10 && aux2->getTipo()!=10)){
+                        monedasRecogidas+=5;
+                        //std::cout<<"Monedas + 5: "<<monedasRecogidas<<std::endl;
+                    }
+                    else{
+                        if((aux->getMuerta() || aux->getTipo()==10) || (aux2->getMuerta() || aux2->getTipo()==10)){
+                            
+                            if((aux->getMuerta() || aux->getTipo()==10) && (aux2->getMuerta() || aux2->getTipo()==10)){
+                                //std::cout<<"No cojo monedas"<<std::endl;
+                            }
+                            else{
+                                monedasRecogidas += 3;
+                                //std::cout<<"Monedas + 3: "<<monedasRecogidas<<std::endl;
+                            }
+                        }        
+                    }
+                }
             }
             if(hayColisionPieza){
                 
-                std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
                 Pieza*** piezasRobot = new Pieza**[4];
                 piezasRobot = new Pieza**[4];
                 for(int i = 0; i < 4; i++){
@@ -309,45 +338,7 @@ void Game::update(sf::Time elapsedTime){
                 
                 std::cout<<std::endl;
                 std::cout<<std::endl;
-                
-                
-                
-                /*
-                std::cout<<"Piezaaaaaaaaaaaaaaaaaaaaa"<<std::endl;
-                //Crear pieza random
-                int tipoPieza = -1;
-                tipoPieza = nuevaPieza->iniciarPieza(-1);
-                //Comprobar casillas robot
-                
-                
-                
-
-                Pieza*** piezasRobot = new Pieza**[4];
-                piezasRobot = new Pieza**[4];
-                for(int i = 0; i < 4; i++){
-                    piezasRobot[i] = new Pieza*[2];
-                    for(int j = 0; j < 2; j++){
-                        piezasRobot[i][j] = new Pieza();
-                    }
-                }
-                piezasRobot = robot->getPiezas();
-                for(int i=0; i<4; i++){
-                    //for(int j=0; j<2; j++){
-                        std::cout<<"Pieza robot["<<i<<"]["<<0<<"]: "<<piezasRobot[i][0]->getTipo()<<std::endl;
-                    //}
-                }
-                std::cout<<std::endl;
-                std::cout<<std::endl;
-                robot->insertarPieza(nuevaPieza);
-                std::cout<<"Tipo pieza nueva: "<<tipoPieza<<std::endl;
-                piezasRobot = robot->getPiezas();
-                std::cout<<std::endl;
-                for(int i=0; i<4; i++){
-                    //for(int j=0; j<2; j++){
-                        std::cout<<"Pieza robot["<<i<<"]["<<0<<"]: "<<piezasRobot[i][0]->getTipo()<<std::endl;
-                    //}
-                }
-                */
+               
             }
 
 
@@ -484,20 +475,96 @@ void Game::controlarTienda(sf::Keyboard::Key key){
         case sf::Keyboard::Escape:
             status=2;
             break;
+        
         case sf::Keyboard::Return:
+            
             switch(tienda->GetPressedItem()){
                 case 0:
-                    std::cout<<"jugar"<<std::endl;
-                    status = 0;
+                    status=2;
+                   
+                    
                 break;
                 case 1:
-                    std::cout<<"tienda"<<std::endl;
-                    status = 1;
+                     
+
+                    if(monedasRecogidas >= 100){
+                         if(robot->insertarPierna(4)){
+                             monedasRecogidas -= 100;
+                            tienda->setMonedas(monedasRecogidas);
+                            std::cout<<"Has comprado Pierna reforzada"<<std::endl;
+                         }
+                         else{
+                             std::cout<<"No tienes espacio para la pieza"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Pierna reforzada"<<std::endl;
+                    }
+                    
+                    
                 break;
                 case 2:
-                    std::cout<<"Salir"<<std::endl;
-                    window->close();
+                    
+                    if(monedasRecogidas >= 300){
+                         if(robot->insertarPierna(5)){
+                            monedasRecogidas -= 300;
+                            tienda->setMonedas(monedasRecogidas);
+                            std::cout<<"Has comprado Pierna boing"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Pierna boing"<<std::endl;
+                    }
+                    
+                    
                 break;
+                case 3:
+                    
+                    if(monedasRecogidas >= 500){
+                         if(robot->insertarBrazo(9)){
+                            monedasRecogidas -= 500;
+                            tienda->setMonedas(monedasRecogidas);
+                            std::cout<<"Has comprado Brazo de midas"<<std::endl; 
+                         }
+                         
+                    }
+                    else{
+                        std::cout<<"No puedes comprar Brazo de midas"<<std::endl;
+                    }
+                   
+                break;
+                case 4:
+                     
+                     if(monedasRecogidas >= 200){
+                         if(robot->insertarBrazo(8)){
+                            monedasRecogidas -= 200;
+                            tienda->setMonedas(monedasRecogidas);
+                            std::cout<<"Has comprado Brazo-pierna"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Brazo-pierna"<<std::endl;
+                    }
+                    
+                    
+                break;
+                case 5:
+                    
+                    if(monedasRecogidas >= 600){
+                         if(robot->insertarBrazo(7)){
+                            monedasRecogidas -= 600;
+                            tienda->setMonedas(monedasRecogidas);
+                            std::cout<<"Has comprado Brazo de Chuck Norris"<<std::endl;
+                         }
+                         
+                     }
+                    else{
+                        std::cout<<"No puedes comprar Brazo de Chuck Norris"<<std::endl;
+                    }
+                    break;
             }
             break;
             
@@ -690,16 +757,24 @@ void Game::pintarHud(){
     sf::Text textoHud;
     textoHud = *hud->getTiempo();
     window->draw(textoHud);
-        
+       
     for (int i = 0; i < 5; i++){
         if(i<4){
-            //Actualizamos la posicion de las barras
+            //Actualizamos la posicion de las barLLego aqui??ras
             Hud* nuevo= robot->getHud();
             barrasVida[i]=*nuevo->getVida(i);
+            barrasVidaRepuesto[i] = *nuevo->getVidaRepuesto(i);
+            std::cout<<"Barra: "<<i<<"  Vida: "<<barrasVidaRepuesto[i].getPosition().x<<std::endl;
              
             window->draw(barrasVida[i]);//Pintamos barras
+            window->draw(barrasVidaRepuesto[i]);
+            std::cout<<"Segmentation RULEESSS"<<std::endl;
         }
-        piezas[i] = hud->getPieza(i); //Actualizamos la posicion de los sprites del esquema
-        window->draw(piezas[i]); //Pintamos sprite del esquema
+        if(i<5){
+           piezas[i] = hud->getPieza(i); //Actualizamos la posicion de los sprites del esquema
+            window->draw(piezas[i]); //Pintamos sprite del esquema
+        }
+        
     }
+      
 }

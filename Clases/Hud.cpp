@@ -61,6 +61,11 @@ void Hud::setPos(sf::Vector2f pos){
         this->vidaBrDer->setPosition(lastPos.x -25,90);
         this->vidaPieIzq->setPosition(lastPos.x -150,120);
         this->vidaPieDer->setPosition(lastPos.x -25,120);
+        
+        this->vidaBrIzqRepuesto->setPosition(lastPos.x -150,100);
+        this->vidaBrDerRepuesto->setPosition(lastPos.x -25,100);
+        this->vidaPieIzqRepuesto->setPosition(lastPos.x -150,130);
+        this->vidaPieDerRepuesto->setPosition(lastPos.x -25,130);
 
         this->piezas[0].setPosition(lastPos.x -100, 124);
         this->piezas[1].setPosition(lastPos.x -95, 32);
@@ -110,6 +115,25 @@ sf::RectangleShape* Hud::getVida(int n){
     
     return barrita;
 }
+
+sf::RectangleShape* Hud::getVidaRepuesto(int n){
+    sf::RectangleShape* barrita = new sf::RectangleShape();
+    switch(n){
+        case 0:
+            barrita = this->getVidaBrIzqRepuesto();
+            break;
+        case 1:barrita = this->getVidaBrDerRepuesto();
+        break;
+        case 2: barrita = this->getVidaPieIzqRepuesto();
+        break;
+        case 3: barrita = this->getVidaPieDerRepuesto();
+        break;
+        default: barrita = this->getVidaBrIzqRepuesto();
+        break;
+    }
+    
+    return barrita;
+}
 void Hud::recibirDatos(sf::Clock* tiempo){
     
     float t = tiempo->getElapsedTime().asSeconds();
@@ -135,17 +159,6 @@ void Hud::setVidaPieza(int vida, int i){
     if(vidaBrIzq != NULL)
         switch(i){
             case 0:
-                /*
-                std::cout<<vida<<" pieza: 0"<<std::endl;
-                nuevo=*getVida(0);
-                std::cout<<vida<<"muerte en switch"<<std::endl;
-                nuevo.setSize(mivector);
-                *vidaBrIzq = nuevo;
-                std::cout<<vida<<"rica hamburguesa"<<std::endl;
-                 *              * 
-                
-                
-                 * */
                 vidaBrIzq->setSize(sf::Vector2f(vidaGrafica, 10));
                 if(vidaGrafica<20){
                         nuevoColor = sf::Color(255, 0, 0);
@@ -223,12 +236,103 @@ void Hud::setVidaPieza(int vida, int i){
         }
     
 }
+
+void Hud::setVidaRepuesto(int vida, int i){
+    
+    float vidaGrafica = vida*0.3*0.2;
+    sf::Color nuevoColor= sf::Color(170,50,170);
+    
+    if(vidaBrIzqRepuesto != NULL)
+        switch(i){
+            case 0:
+                vidaBrIzqRepuesto->setSize(sf::Vector2f(vidaGrafica, 5));
+                if(vidaGrafica<10){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaBrIzqRepuesto->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<30){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaBrIzqRepuesto->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(170,50,170);
+                    vidaBrIzqRepuesto->setFillColor(nuevoColor);
+                    }
+                } 
+                break;
+            case 1:
+                //std::cout<<vida<<" pieza: 1"<<std::endl;
+                vidaBrDerRepuesto->setSize(sf::Vector2f(vidaGrafica,5));
+                if(vidaGrafica<10){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaBrDerRepuesto->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<30){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaBrDerRepuesto->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(170,50,170);
+                        vidaBrDerRepuesto->setFillColor(nuevoColor);
+                    }
+                }  
+
+                break;
+            case 2:
+                //std::cout<<vida<<" pieza: 2"<<std::endl;
+                vidaPieIzqRepuesto->setSize(sf::Vector2f(vidaGrafica,5));
+                if(vidaGrafica<10){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaPieIzqRepuesto->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<30){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaPieIzqRepuesto->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(170,50,170);
+                    vidaPieIzqRepuesto->setFillColor(nuevoColor);
+                    }
+                }       
+                   
+                break;
+            case 3:
+                //std::cout<<vida<<" pieza: 3"<<std::endl;
+                vidaPieDerRepuesto->setSize(sf::Vector2f(vidaGrafica,5));
+                if(vidaGrafica<10){
+                        nuevoColor = sf::Color(255, 0, 0);
+                        vidaPieDerRepuesto->setFillColor(nuevoColor);
+                }
+                else{
+                    if(vidaGrafica<30){
+                        nuevoColor= sf::Color(255, 255, 51);
+                        vidaPieDerRepuesto->setFillColor(nuevoColor);
+                    }
+                    else{
+                        nuevoColor= sf::Color(170,50,170);
+                        vidaPieDerRepuesto->setFillColor(nuevoColor);
+                    }
+                } 
+                    
+                break;
+               // std::cout<<"implosion"<<std::endl;
+        }
+    
+}
 void Hud::inicializarVidas(){
     
     vidaBrIzq = new sf::RectangleShape(sf::Vector2f(60, 10));
     vidaBrDer = new sf::RectangleShape(sf::Vector2f(60, 10));
     vidaPieIzq = new sf::RectangleShape(sf::Vector2f(60, 10));
     vidaPieDer = new sf::RectangleShape(sf::Vector2f(60, 10));
+    
+    vidaBrIzqRepuesto = new sf::RectangleShape(sf::Vector2f(0, 5));
+    vidaBrDerRepuesto = new sf::RectangleShape(sf::Vector2f(0, 5));
+    vidaPieIzqRepuesto = new sf::RectangleShape(sf::Vector2f(0, 5));
+    vidaPieDerRepuesto = new sf::RectangleShape(sf::Vector2f(0, 5));
     
     vidaBrIzq->setFillColor(sf::Color(0, 255, 0));
     vidaBrIzq->setPosition(40,90);
@@ -241,6 +345,18 @@ void Hud::inicializarVidas(){
     
     vidaPieDer->setFillColor(sf::Color(0, 255, 0));
     vidaPieDer->setPosition(165,120);
+    
+    vidaBrIzqRepuesto->setFillColor(sf::Color(170, 50, 170));
+    vidaBrIzqRepuesto->setPosition(40,90);
+    
+    vidaBrDerRepuesto->setFillColor(sf::Color(170, 50, 170));
+    vidaBrDerRepuesto->setPosition(165,90);
+    
+    vidaPieIzqRepuesto->setFillColor(sf::Color(170, 50, 170));
+    vidaPieIzqRepuesto->setPosition(40,120);
+    
+    vidaPieDerRepuesto->setFillColor(sf::Color(170, 50, 170));
+    vidaPieDerRepuesto->setPosition(165,120);
 }
 sf::RectangleShape* Hud::getVidaBrIzq(){
     return this->vidaBrIzq;
@@ -253,6 +369,18 @@ sf::RectangleShape* Hud::getVidaPieIzq(){
 }
 sf::RectangleShape* Hud::getVidaPieDer(){
     return this->vidaPieDer;
+}
+sf::RectangleShape* Hud::getVidaBrIzqRepuesto(){
+    return this->vidaBrIzqRepuesto;
+}
+sf::RectangleShape* Hud::getVidaBrDerRepuesto(){
+    return this->vidaBrDerRepuesto;
+}
+sf::RectangleShape* Hud::getVidaPieIzqRepuesto(){
+    return this->vidaPieIzqRepuesto;
+}
+sf::RectangleShape* Hud::getVidaPieDerRepuesto(){
+    return this->vidaPieDerRepuesto;
 }
 sf::Text* Hud::getTiempo(){
     return mtiempo;
