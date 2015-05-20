@@ -242,10 +242,12 @@ bool Robot::insertarBrazo(int n){
         else{
             if(piezas[0][1]->getMuerta()){
                 piezas[0][1]->iniciarPieza(n);
+                datos->setVidaRepuesto(0,piezas[0][1]->getVida());
             }
             else{
                 if(piezas[1][1]->getMuerta()){
                     piezas[1][1]->iniciarPieza(n);
+                    datos->setVidaRepuesto(1,piezas[1][1]->getVida());
                 }
                 else{
                     return false;
@@ -272,10 +274,14 @@ bool Robot::insertarPierna(int n){
         else{
             if(piezas[2][1]->getMuerta()){
                 piezas[2][1]->iniciarPieza(n);
+                std::cout<<"Vida barra: "<<piezas[2][1]->getVida()<<std::endl;
+                datos->setVidaRepuesto(2,50);
             }
             else{
                 if(piezas[3][1]->getMuerta()){
                     piezas[3][1]->iniciarPieza(n);
+                    std::cout<<"Vida barra: "<<piezas[3][1]->getVida()<<std::endl;
+                    datos->setVidaRepuesto(3,piezas[3][1]->getVida());
                 }
                 else{
                     return false;
@@ -352,6 +358,8 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
         //for(int j=0; j<2; j++){
             if(!piezas[i][0]->getMuerta()){
                 vida=piezas[i][0]->actualizaVida(elapsedTime,coeficienteDesintegracion);
+                //datos->setVidaPieza(i,vida);
+                //datos->setVidaRepuesto(i,vida);
                 
                 if(vida<1 && !pierdePieza){
                     pierdePieza = true;
@@ -364,6 +372,9 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
                                 posBrazoPierna = i;
                             }
                         }
+                    }
+                    if(!piezas[i][1]->getMuerta()){
+                        datos->setVidaRepuesto(i,50);
                     }
                 }
             }
@@ -381,7 +392,10 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
                 if(!piezas[i][1]->getMuerta()){
                     
                     *piezas[i][0] = *piezas[i][1]; //Copia los valores de la pieza de repuesto
-                    piezas[i][1]->setMuerta(true); 
+                    
+                    piezas[i][1]->setVida(1);
+                    datos->setVidaRepuesto(i,0);
+                    piezas[i][1]->setMuerta(true);
                     std::cout<<piezas[i][0]->getMuerta()<<std::endl;
                     std::cout<<piezas[i][1]->getMuerta()<<std::endl;
                 }
@@ -393,6 +407,7 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
                     }
                 }
             }
+            
         }
 
     }
@@ -402,6 +417,8 @@ bool Robot::actualizaPiezas(sf::Time elapsedTime){
         piezas[posPiernaRota][0]->iniciarPieza(1);
         piezas[posPiernaRota][0]->setVida(vidaBrazo);
         
+        datos->setVidaRepuesto(posPiernaRota,vidaBrazo);
+        datos->setVidaRepuesto(posBrazoPierna,1);
         piezas[posBrazoPierna][0]->setVida(1);
         muere=false;
     } 

@@ -23,13 +23,13 @@ Tienda::Tienda(float width, float height, int monedasTotales) {
     monedasDisponibles.setPosition(sf::Vector2f(width-300.f, 10.f));
     //tiendaLabel[5].setScale(0.6,0.6);
     tiendaLabel[0].setFont(fuentePUNK);
-    tiendaLabel[0].setColor(sf::Color::White);
+    tiendaLabel[0].setColor(sf::Color::Blue);
     tiendaLabel[0].setString("Salir");
     tiendaLabel[0].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS + 5)));
     
     tiendaLabel[1].setScale(0.6,0.6);
     tiendaLabel[1].setFont(fuentePUNK);
-    tiendaLabel[1].setColor(sf::Color::Blue);
+    tiendaLabel[1].setColor(sf::Color::White);
     tiendaLabel[1].setString("Pierna reforzada");
     tiendaLabel[1].setPosition(sf::Vector2f(width/25, height/(MAX_NUMBER_OF_ITEMS + 0)*1.2));
     

@@ -153,3 +153,6 @@ float Pieza::getVelocidad(){
 float Pieza::getSalto(){
     return salto;
 }
+void Pieza::setVida(int nuevaVida){
+    vida=nuevaVida;
+}

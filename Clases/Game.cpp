@@ -730,7 +730,7 @@ void Game::pintarHud(){
     sf::Text textoHud;
     textoHud = *hud->getTiempo();
     window->draw(textoHud);
-        
+       
     for (int i = 0; i < 5; i++){
         if(i<4){
             //Actualizamos la posicion de las barLLego aqui??ras
@@ -749,4 +749,5 @@ void Game::pintarHud(){
         }
         
     }
+      
 }
