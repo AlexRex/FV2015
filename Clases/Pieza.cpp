@@ -10,7 +10,7 @@
 Pieza::Pieza() {
     vida = 0;
     muerta = true;
-    tipo = -1;
+    tipo = 0;
     debilidad = 1;
     velocidad = 1;
     salto = 1;
@@ -56,7 +56,7 @@ int Pieza::iniciarPieza(int clase){
     if(clase == -1){
         //random
         srand (time(NULL));
-        tipo = rand() % 10;
+        tipo = rand() % 10 + 1;
     }
     else{
         tipo = clase;
@@ -70,6 +70,7 @@ int Pieza::iniciarPieza(int clase){
             vida = 500;
             debilidad =1;
             sprite->setTextureRect(sf::IntRect(0,0,1,1)); //aquÃ­ hay que ajustar la pieza del jugador
+            std::cout<<"clase: "<<clase<<std::endl;
             break;
         case 2:
             //pierna de atleta
@@ -110,6 +111,7 @@ int Pieza::iniciarPieza(int clase){
             vida = 500;
             debilidad = 1.5;
             velocidad = 1.2;
+            salto = 1.2;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
         case 8:
@@ -126,13 +128,13 @@ int Pieza::iniciarPieza(int clase){
             break;
         default:
             //brazo de algarroba
+            tipo = 10;
             vida = 500;
             debilidad = 1.3;
             sprite->setTextureRect(sf::IntRect(0,0,1,1));
             break;
     }
     muerta = false;
-    std::cout<<"Muerta iniciaPieza: "<<muerta<<std::endl;
     return tipo;
 }
 int Pieza::actualizaVida(sf::Time elapsedTime, float coeficiente){
